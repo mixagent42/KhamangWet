@@ -18,8 +18,8 @@
 
 | สถานะ | จำนวนรายการ (ตาราง §3) |
 |---|---|
-| Implemented | 5 (เอกสาร 2 รายการ + git repository + `CLAUDE.md` + `.claude/rules/` · ยังไม่มีโค้ด) |
-| Partial | 5 |
+| Implemented | 6 (เอกสาร 2 รายการ + git repository + `CLAUDE.md` + `.claude/rules/` + pnpm workspace · ยังไม่มีโค้ดเกม) |
+| Partial | 4 |
 | Missing | 27 (infrastructure 4 + game systems 22 + art assets 1) |
 | Unknown | 4 |
 
@@ -97,9 +97,20 @@
 | ขนาด `%LOCALAPPDATA%\node\corepack` หลังดาวน์โหลด | 451 ไฟล์, 56,684,425 bytes (`v1\pnpm\12.15.0` + `lastKnownGood.json` 160 bytes) · ตรงกับ registry: `pnpm` 4.2 MB + `@pnpm/exe.win32-x64` 52.5 MB · ไม่มี store, `node_modules` หรือโฟลเดอร์ pnpm อื่นถูกสร้าง · `pnpm-cache` ไม่เปลี่ยน (424 ไฟล์) |
 | ผลนอกแผน: `pnpm --version` สร้าง `pnpm-lock.yaml` | 158 บรรทัด มีเฉพาะส่วน `packageManagerDependencies` (integrity 15 ตัว) · `cmp` 157 บรรทัดแรกกับ lockfile ของ spike set-b ใน tag `spike/m0-t06` แล้ว **IDENTICAL** · integrity ของ `pnpm@12.15.0` ตรงกับ registry และกับ sha512 ใน `packageManager` · ผู้พัฒนาอนุมัติให้ commit |
 | `git commit` บน branch `m0/t07-pnpm` | `d72e0cf` (4 files) · ผู้พัฒนาอนุมัติ diff ก่อน commit |
+| **(M0-T08, 2026-10-26)** `pnpm install` | exit 0 · 7 workspace projects · `Packages: +18` (resolved 18, downloaded 18) · store `E:\.pnpm-store\v11` แบบ hardlink · 616 ms |
+| เทียบ lockfile กับ spike (`closure.mjs` ใน scratchpad ของเซสชัน + `cmp`) | closure ของ win32-x64 ตรงกับ lockfile ของ spike set-b **ทุกตัว** (18 package; ไม่มี `jiti` ตามที่คาด) · ส่วน pnpm (157 บรรทัดแรก) ไม่เปลี่ยนจาก T07 · lockfile +521 −0 |
+| `pnpm -r build` และ `pnpm build` (script ที่ root) | exit 0 ทั้งสองคำสั่ง · 6 package: `tsc` ×5 และ `vite build` ของ web (29 ms, `dist/assets/index-*.js` 0.67 kB) · script ที่เรียก `pnpm` หา pnpm เจอผ่าน shim |
+| AC (1) สำเนาใหม่: tree ชั่วคราว `360ac0f` (index แยก + `git add -A`) → `git archive` ไปที่ `E:\KhamangWet\kw-clone-test` | ไม่มี `node_modules` และ `dist` · `pnpm install --frozen-lockfile` exit 0 (reused 18, downloaded 0, พิมพ์ "Lockfile passes supply-chain policies") · `pnpm -r build` exit 0 · lockfile หลัง install `cmp` = IDENTICAL |
+| ทดสอบกลับ: เพิ่ม `picocolors` ใน `apps/web/package.json` ของสำเนาโดยไม่อัปเดต lockfile | `pnpm install --frozen-lockfile` **exit 1** พร้อมคำแนะนำให้สร้าง lockfile ใหม่ ซึ่งเป็นผลที่ต้องการ |
+| ลบสำเนาทดสอบ | `rm -rf` ลบเนื้อหาได้ แต่ตัวโฟลเดอร์ถูก lock เพราะ `cd` ของ Claude ย้าย working directory ของเซสชันเข้าไป · ย้ายกลับมาที่ repo แล้ว `rmdir` สำเร็จ · `E:\KhamangWet\` เหลือแค่ `KhamangWet_FullSystem` |
+| AC (3) ขอบเขต (`ls`, `pnpm -r ls --depth -1`, รวม dependency ตรง) | โฟลเดอร์: `apps/{web,game-server}`, `packages/{config,shared-contracts,game-rules,game-data}` เท่านั้น · dependency ตรง: `typescript`, `@types/node`, `vite` (ผ่าน `catalog:`) และ `@kw/config` (`workspace:*`) |
+| ไฟล์ระดับผู้ใช้หลัง install | `E:\.pnpm-store` 512 ไฟล์ 62,879,008 bytes · `pnpm-cache` +1,444 bytes · `pnpm-store-operation-locks` 2 ไฟล์ 0 bytes · นอกแผน: `pnpm-state\pnpm-state.json` 51 bytes (`lastUpdateCheck`) และ `pnpm-dir-locks\` (โฟลเดอร์ว่าง) |
+| `git diff --stat 360ac0f HEAD` | ต่างกันแค่ `CLAUDE.md` (แก้หลังทดสอบ) · ไฟล์อื่นตรงกับ tree ที่ทดสอบทุกไฟล์ |
+| `git commit` บน branch `m0/t08-monorepo-skeleton` | `00c3378` (24 files, +738 −1) · ผู้พัฒนาอนุมัติ diff ก่อน commit |
 
 ### 2.2 Build / Typecheck / Lint / Test
 > **[F] ไม่มีคำสั่ง build, typecheck, lint หรือ test ใน repository** ผลด้านล่างคือการลองรันจริง ซึ่ง**ล้มเหลวทั้งหมด** ไม่มีผลสำเร็จใดที่จะรายงานได้
+> **อัปเดต M0-T08 (2026-10-26):** มี `pnpm build` (= `pnpm -r build`) และผ่านแล้ว (§2.1 M0-T08) · typecheck, lint และ test ยังไม่มี (M0-T09, M0-T10) · ตารางด้านล่างคือผลตอน onboarding
 
 | คำสั่ง | Exit code | Output สำคัญ |
 |---|---|---|
@@ -178,7 +189,7 @@ ec7a390099d9467f1cada7beedbdad10  prompts/06_TEST_PLAN.md
 | `CLAUDE.md` | **Implemented** | 66 บรรทัด สร้างจาก template และผู้พัฒนาอนุมัติเนื้อหาแล้ว · ไม่มี `@import` · ยังไม่มีส่วน Commands เพราะยังไม่มีคำสั่ง (§2.1 M0-T04) | M0-T04 ✔ |
 | `.claude/settings.json`, skills, agents, hooks | **Partial** | `settings.json` (deny 11, ask 9, ยังไม่มี allow), hook `guard-files.mjs`, subagent `reviewer` และ skill `implement-task` · pipe-test ผ่าน 14/14 แต่ยังไม่เห็น hook บล็อกจริงในเซสชัน · ขาด skill `verify` และ allow list ซึ่งรอ M0-T10 (§2.1 M0-T14 part 1) | M0-T14 (part 1 ✔) |
 | `docs/adr/` | **Partial** | มี ADR-001 (stack และเวอร์ชัน) จากผล spike M0-T06 · ADR-003 ถึง 007 ยังไม่ได้เขียน (M0-T12) · ADR-002 เลื่อนไปหลัง VP0-c | M0-T06 ✔, M0-T12 |
-| pnpm workspace + lockfile | **Partial** | root `package.json` (`packageManager` pnpm 12.15.0 + sha512) และ `pnpm-lock.yaml` ที่มีแค่ส่วนของ pnpm เอง (§2.1 M0-T07) · ยังไม่มี `pnpm-workspace.yaml` และ package | M0-T07 ✔, M0-T08 |
+| pnpm workspace + lockfile | **Implemented** | `pnpm-workspace.yaml` (catalog + `engineStrict`), 7 workspace projects (`@kw/*`) ที่มีแค่ entry point ว่าง, `pnpm-lock.yaml` · `pnpm install --frozen-lockfile` และ `pnpm -r build` ผ่านบนสำเนาใหม่ (§2.1 M0-T08) · ยังไม่มีโค้ดเกม | M0-T07 ✔, M0-T08 ✔ |
 | Lint / format / import boundary | **Missing** | §2.2 | M0-T09 |
 | `pnpm verify` (typecheck + lint + test + build) | **Missing** | §2.2 | M0-T10 |
 | CI pipeline | **Missing** | ไม่พบ `.github` หรือ `.gitlab-ci.yml` | M0-T11 |
@@ -239,3 +250,4 @@ ec7a390099d9467f1cada7beedbdad10  prompts/06_TEST_PLAN.md
 | 2026-10-26 | DEC-060 = B: ลบ `pnpm-store-operation-locks`, `biomejs` และ `prisma-nodejs` · เก็บ `pnpm-cache` · ไม่แตะ `vitest` | §2.1 (DEC-060) |
 | 2026-10-26 | M0-T14 part 1: `.claude/settings.json`, guard hook, `reviewer` และ `implement-task` = Partial · รอทดสอบ hook จริงในเซสชันใหม่ และรอ skill `verify` หลัง T10 | §2.1 (M0-T14 part 1) |
 | 2026-10-26 | M0-T07 Done: pnpm 12.15.0 ผ่าน corepack shim · root `package.json` + `pnpm-lock.yaml` (ส่วนของ pnpm) · pnpm workspace + lockfile = Partial | §2.1 (M0-T07), §2.3 |
+| 2026-10-26 | M0-T08 Done: pnpm workspace + lockfile = Implemented (7 projects, 18 packages) · มี `pnpm build` แล้ว · convention 4–6 ใน ADR-001 | §2.1 (M0-T08), §2.2 |

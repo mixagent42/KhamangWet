@@ -1,0 +1,15 @@
+{
+  "name": "@kw/web",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Browser client (Vite).",
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json && vite build"
+  },
+  "devDependencies": {
+    "@kw/config": "workspace:*",
+    "typescript": "catalog:",
+    "vite": "catalog:"
+  }
+}

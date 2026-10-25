@@ -1,0 +1,12 @@
+# pnpm workspace for Khamang Wet. Versions and settings follow docs/adr/001-stack-and-versions.md.
+packages:
+  - apps/*
+  - packages/*
+
+# Exact versions shared across workspace packages; packages reference them as "catalog:" (DEC-003).
+catalog:
+  "@types/node": 24.19.2
+  typescript: 6.0.3
+  vite: 8.3.5
+
+engineStrict: true

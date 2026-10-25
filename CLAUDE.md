@@ -4,11 +4,12 @@
 Thai Occult & Sorcery MMORPG for Web PC. Art direction is locked to 2.5D HD-2D: 2D HD characters on a 3D isometric world (DEC-040). Combat is hybrid: target lock plus directional/area attacks. Solo developer with AI assistance. Planned architecture: TypeScript monorepo, modular monolith, authoritative server.
 
 ## Current state — verify, never assume
-- There is no application code yet: only docs and a git repo. Check `docs/IMPLEMENTATION_STATUS.md` before claiming anything exists.
+- There is no game code yet: docs, a git repo and an empty pnpm workspace skeleton (M0-T08). Check `docs/IMPLEMENTATION_STATUS.md` before claiming anything exists.
 - Current milestone is M0 (repository foundation). The next task is in `docs/IMPLEMENTATION_BACKLOG.md`.
 - There is no git remote yet. Never push or create a remote without explicit approval.
 
 ## Where things are
+- Workspace packages (`@kw/*`): `apps/web` (Vite client), `apps/game-server` (Node server), `packages/shared-contracts`, `packages/game-rules` and `packages/game-data` (run in both browser and Node), `packages/config` (shared tsconfig). Exact shared versions are in the `catalog` of `pnpm-workspace.yaml`; packages reference them as `"catalog:"`.
 - `docs/DECISIONS.md`: decision register. Accepted entries are binding; Open entries must not be decided silently.
 - `docs/IMPLEMENTATION_BACKLOG.md`: milestone tasks with dependencies and acceptance criteria.
 - `docs/IMPLEMENTATION_STATUS.md`: what actually exists, with evidence (commands and results).
@@ -23,6 +24,8 @@ Thai Occult & Sorcery MMORPG for Web PC. Art direction is locked to 2.5D HD-2D: 
 ## Commands
 - One-time setup per machine: `corepack enable pnpm --install-directory "%APPDATA%\npm"` (corepack ships with Node 24). The `pnpm` shim runs the version pinned in `packageManager`, and corepack downloads it on first use.
 - `pnpm --version`: prints `12.15.0`.
+- `pnpm install`: install workspace dependencies. On a fresh clone and in CI use `pnpm install --frozen-lockfile`, which fails if `pnpm-lock.yaml` is out of date.
+- `pnpm build`: build every workspace package (runs `pnpm -r build`).
 
 Add a command here only after it has run successfully (planned: `pnpm verify` in M0-T10). Never claim a build, typecheck, lint or test passed unless it was actually run.
 

@@ -93,7 +93,7 @@ M4  T01(DB) ─► T02(auth) ─► T03(lease) ─► T04(loot txn) ─► T05(X
 - **AC:** `pnpm --version` ตรงกับ `packageManager` ใน root `package.json` และวิธีติดตั้งมีบันทึกใน README หรือ CLAUDE.md
 
 #### M0-T08 — Monorepo skeleton
-- **Type:** infra · **Size:** M · **Depends:** T07
+- **Type:** infra · **Size:** M · **Depends:** T07 ✔ · **Status:** ✔ **Done (2026-10-26)** ทำบน branch `m0/t08-monorepo-skeleton` แล้ว squash merge เข้า `main` · ผู้พัฒนาอนุมัติแผน (scope `@kw`, catalog, ติดตั้งแค่ TypeScript + `@types/node` + Vite, store ที่ `E:\.pnpm-store`) และ diff ก่อน commit · AC ผ่านทั้ง 3 ข้อ รวมการทดสอบกลับที่ `--frozen-lockfile` ต้อง fail (`IMPLEMENTATION_STATUS.md §2.1 M0-T08`) · convention 4–6 อยู่ใน ADR-001
 - **ขอบเขต:** root `package.json`, `pnpm-workspace.yaml`, tsconfig base, `packages/{config,shared-contracts,game-rules,game-data}`, `apps/{web,game-server}` ที่มีแค่ entry point ว่างที่ build ได้ **ไม่มีโค้ดฟีเจอร์**
 - **AC:** (1) `pnpm install --frozen-lockfile` บน clone ใหม่สำเร็จ (2) `pnpm -r build` ผ่าน (3) ไม่มี package หรือโฟลเดอร์ที่ M1 ยังไม่ได้ใช้ ยกเว้นที่ระบุไว้ข้างบน
 

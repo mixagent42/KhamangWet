@@ -1,0 +1,15 @@
+{
+  "name": "@kw/game-server",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Authoritative game server (Node).",
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "devDependencies": {
+    "@kw/config": "workspace:*",
+    "@types/node": "catalog:",
+    "typescript": "catalog:"
+  }
+}

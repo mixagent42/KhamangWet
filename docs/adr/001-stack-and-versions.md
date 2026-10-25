@@ -56,6 +56,15 @@
 2. **Babylon.js import ทีละ module** (เช่น `@babylonjs/core/scene`) ไม่ใช้ `import * from "@babylonjs/core"`: bundle gzip 315 KB เทียบกับ 1.63 MB (≈ 5.2×)
 3. **tsconfig ฐาน:** `strict`, `noUncheckedIndexedAccess`, `isolatedModules`, `verbatimModuleSyntax`, `moduleResolution: "bundler"` (สำหรับ web) และ `skipLibCheck: true` (เพราะ `.d.ts` ของ Colyseus อ้างถึง `@types/express` และ `@types/debug` ซึ่งทำให้มี 7 error ถ้าปิด skipLibCheck)
 
+### Conventions ของ workspace (M0-T08, ✔ ผู้พัฒนาอนุมัติในแผน 2026-10-26)
+4. **ชื่อ package ใช้ scope `@kw/*`** (เช่น `@kw/game-rules`) ทุกตัวเป็น `private` และอ้างกันด้วย `workspace:*` จึงไม่ดึงจาก npm registry
+5. **เวอร์ชันที่ใช้ร่วมกันอยู่ใน `catalog` ของ `pnpm-workspace.yaml`** เป็น exact version (DEC-003) และ package อ้างด้วย `"catalog:"` · เพิ่ม dependency ใหม่ให้เพิ่มใน catalog ก่อน
+6. **tsconfig 3 ชั้นใน `packages/config`:**
+   - `tsconfig.base.json`: flag ตามข้อ 3 + target และ lib = ES2023 (ไม่มี DOM)
+   - `tsconfig.lib.json`: สำหรับ runtime packages และ `apps/game-server` · `module`/`moduleResolution: "nodenext"`, ออก `.d.ts` และ source map, `types: []` จึงไม่มี Node types ถ้าไม่ประกาศเอง
+   - `tsconfig.web.json`: สำหรับ `apps/web` · เพิ่ม DOM, `moduleResolution: "bundler"`, `noEmit` (Vite เป็นคน build)
+   - `rootDir`, `outDir` และ `types` ตั้งใน tsconfig ของแต่ละ package เพราะ path ใน config ที่ extends จะ resolve จากตำแหน่งของไฟล์ config ต้นทาง
+
 ## หลักฐานจาก spike (สรุป)
 | Test | TS 7.0.2 (เทียบ) | **TS 6.0.3 (เลือก)** |
 |---|---|---|
