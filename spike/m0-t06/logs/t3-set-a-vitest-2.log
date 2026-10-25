@@ -1,0 +1,44 @@
+
+ RUN  v5.0.5 E:/KhamangWet/KhamangWet_FullSystem/spike/m0-t06/set-a
+
+ ✓ src/schema.test.ts > T2a round-trips schema() state through Encoder/Decoder 3ms
+ ✓ src/zod.test.ts > T7 accepts a valid move 2ms
+ ✓ src/zod.test.ts > T7 rejects out-of-range, non-finite, unknown fields and wrong types 0ms
+ ✓ src/zod.test.ts > T7 rejects oversized payloads 0ms
+stdout | src/babylon.test.ts > T5 renders an orthographic isometric scene on NullEngine
+BJS - [01:31:17]: Babylon.js v9.32.0 - Null engine
+
+ ✓ src/babylon.test.ts > T5 renders an orthographic isometric scene on NullEngine 10ms
+ ✓ src/babylon.test.ts > T5 registers the glTF loader for .glb 151ms
+stderr | src/room.test.ts > T3b built-in validation disconnects the sender; the room keeps serving others
+Error: [
+  {
+    "origin": "number",
+    "code": "too_big",
+    "maximum": 1,
+    "inclusive": true,
+    "path": [
+      "dx"
+    ],
+    "message": "Too big: expected number to be <=1"
+  }
+]
+    at standardValidate (file:///E:/KhamangWet/KhamangWet_FullSystem/spike/m0-t06/set-a/node_modules/.pnpm/@colyseus+core@0.18.23_@col_ec1ac2e0d30bbdd1b47c3c9f390c3c60/node_modules/@colyseus/core/build/utils/StandardSchema.mjs:8:11)
+    at RoomMessages.onData (file:///E:/KhamangWet/KhamangWet_FullSystem/spike/m0-t06/set-a/node_modules/.pnpm/@colyseus+core@0.18.23_@col_ec1ac2e0d30bbdd1b47c3c9f390c3c60/node_modules/@colyseus/core/build/RoomMessages.mjs:125:19)
+    at TestRoom._onMessage (file:///E:/KhamangWet/KhamangWet_FullSystem/spike/m0-t06/set-a/node_modules/.pnpm/@colyseus+core@0.18.23_@col_ec1ac2e0d30bbdd1b47c3c9f390c3c60/node_modules/@colyseus/core/build/Room.mjs:1413:23)
+    at WebSocket.emit (node:events:509:28)
+    at Receiver.receiverOnMessage (E:\KhamangWet\KhamangWet_FullSystem\spike\m0-t06\set-a\node_modules\.pnpm\ws@8.22.0\node_modules\ws\lib\websocket.js:1253:20)
+    at Receiver.emit (node:events:509:28)
+    at Receiver.dataMessage (E:\KhamangWet\KhamangWet_FullSystem\spike\m0-t06\set-a\node_modules\.pnpm\ws@8.22.0\node_modules\ws\lib\receiver.js:606:14)
+    at Receiver.getData (E:\KhamangWet\KhamangWet_FullSystem\spike\m0-t06\set-a\node_modules\.pnpm\ws@8.22.0\node_modules\ws\lib\receiver.js:532:10)
+    at Receiver.startLoop (E:\KhamangWet\KhamangWet_FullSystem\spike\m0-t06\set-a\node_modules\.pnpm\ws@8.22.0\node_modules\ws\lib\receiver.js:190:16)
+    at Receiver._write (E:\KhamangWet\KhamangWet_FullSystem\spike\m0-t06\set-a\node_modules\.pnpm\ws@8.22.0\node_modules\ws\lib\receiver.js:117:10)
+
+ ✓ src/room.test.ts > T3a syncs state; manual safeParse drops invalid input without disconnecting 146ms
+ ✓ src/room.test.ts > T3b built-in validation disconnects the sender; the room keeps serving others 92ms
+
+ Test Files  4 passed (4)
+      Tests  8 passed (8)
+   Start at  01:31:17
+   Duration  590ms (tests 51%, import 40%, transform 7%, worker 1%)
+

@@ -1,0 +1,18 @@
+
+E:\KhamangWet\KhamangWet_FullSystem\spike\m0-t06\set-b\src\room.test.ts
+  37:20  error  Unsafe return of a value of type `any`           @typescript-eslint/no-unsafe-return
+  37:20  error  Unsafe call of an `any` typed value              @typescript-eslint/no-unsafe-call
+  37:31  error  Unsafe member access .players on an `any` value  @typescript-eslint/no-unsafe-member-access
+  41:29  error  Unsafe member access .x on an `any` value        @typescript-eslint/no-unsafe-member-access
+  47:29  error  Unsafe member access .x on an `any` value        @typescript-eslint/no-unsafe-member-access
+  49:16  error  Unsafe member access .x on an `any` value        @typescript-eslint/no-unsafe-member-access
+  63:21  error  Unsafe return of a value of type `any`           @typescript-eslint/no-unsafe-return
+  63:21  error  Unsafe call of an `any` typed value              @typescript-eslint/no-unsafe-call
+  63:29  error  Unsafe member access .players on an `any` value  @typescript-eslint/no-unsafe-member-access
+  71:30  error  Unsafe member access .x on an `any` value        @typescript-eslint/no-unsafe-member-access
+  72:17  error  Unsafe member access .x on an `any` value        @typescript-eslint/no-unsafe-member-access
+  73:10  error  Unsafe call of an `any` typed value              @typescript-eslint/no-unsafe-call
+  73:18  error  Unsafe member access .players on an `any` value  @typescript-eslint/no-unsafe-member-access
+
+✖ 13 problems (13 errors, 0 warnings)
+

@@ -1,0 +1,23 @@
+E:\KhamangWet\KhamangWet_FullSystem\spike\m0-t06\set-a\biome.json:5:13 deserialize  DEPRECATED  ━━━━━━━━━━
+
+  i The use of the recommended field has been deprecated, and will removed in the next major version of Biome. Use preset instead.
+  
+     3 │     "includes": ["src/**", "web/**"]
+     4 │   },
+   > 5 │   "linter": {
+       │             ^
+   > 6 │     "enabled": true,
+   > 7 │     "rules": {
+   > 8 │       "recommended": true
+   > 9 │     }
+  > 10 │   },
+       │   ^
+    11 │   "formatter": {
+    12 │     "enabled": true,
+  
+  i Migrate the configuration with the proper command
+  
+  $ biome migrate
+  
+
+Checked 14 files in 6ms. No fixes applied.
