@@ -72,7 +72,7 @@ M4  T01(DB) ─► T02(auth) ─► T03(lease) ─► T04(loot txn) ─► T05(X
 - **Risks:** CLAUDE.md ยาวเกินไปจะทำให้ AI ทำตามน้อยลง
 
 #### M0-T05 — ปรับ rules
-- **Type:** doc · **Size:** S · **Depends:** T04 · **Decisions:** DEC-033, DEC-008 (ส่วน database glob)
+- **Type:** doc · **Size:** S · **Depends:** T04 · **Decisions:** DEC-033 ✔, DEC-008 ✔ (ส่วน database glob) · **Status:** ✔ **Done (2026-10-26)** ทำบน branch `m0/t05-rules` แล้ว squash merge เข้า `main` · ผู้พัฒนาอนุมัติเนื้อหาก่อน commit · เพิ่ม `shared.md` และ `docs.md` · rule เดิม 3 ไฟล์ไม่ได้แก้ · **glob ของ `database.md` ไม่ต้องแก้** เพราะครอบคลุม `database/schema.prisma` อยู่แล้ว (`IMPLEMENTATION_STATUS.md §2.1 M0-T05`)
 - **AC:** เพิ่ม `shared.md` (`packages/**/*`) และ `docs.md` (`docs/**/*`) ตาม DECISIONS ภาคผนวก A.2 ไม่แก้เนื้อหาของ 3 ไฟล์เดิม ยกเว้น glob ของ database หลัง DEC-008 (ต้องแสดง diff ก่อน)
 - **Risks:** C-19
 

@@ -58,7 +58,7 @@
 | DEC-030 | รูปแบบ game-data และ content versioning | Proposed | M2 | D-26, R-14 |
 | DEC-031 | React ↔ Babylon state bridge และ in-world UI | Proposed | M1 | D-25 |
 | DEC-032 | การแสดงผลภาษาไทยและ font | Open | M1 | D-10 |
-| DEC-033 | การตั้งค่า Claude Code สำหรับ M0–M1 | **Accepted (delegated)** · A.1 `CLAUDE.md` ทำแล้วใน M0-T04 · A.2 ถึง A.5 รอ M0-T05 และ T14 | M0 | C-19, C-20, C-21 |
+| DEC-033 | การตั้งค่า Claude Code สำหรับ M0–M1 | **Accepted (delegated)** · A.1 `CLAUDE.md` ทำแล้วใน M0-T04 · A.2 rules ทำแล้วใน M0-T05 · A.3 ถึง A.5 รอ M0-T14 | M0 | C-19, C-20, C-21 |
 | DEC-034 | ลำดับชั้นเอกสาร Definition of Done | **Accepted (delegated)** | M0 | ภาคผนวก B |
 | DEC-035 | Asset provenance รวมถึง asset ที่ AI สร้าง | Open | M1 (placeholder), M6 | D-24 |
 | DEC-036 | Browser support matrix | Proposed | M1 | D-31 |
@@ -501,7 +501,8 @@
 | C-16 | sprite 4 ทิศกับ aim อิสระ | DEC-027, DEC-014 |
 | C-17 | definition อยู่ใน DB หรือ git | DEC-030 |
 | C-18 | path ของ Prisma กับ rule | DEC-008 ✔ ตัดสินแล้ว (schema อยู่ใต้ `database/`) และรอทำ M4-T01 |
-| C-19, C-20 | rules และ skills | DEC-033 (รอ M0-T05 และ M0-T14) |
+| ~~C-19~~ | `.claude/rules` ไม่ครอบคลุม `packages/**` | **ปิดแล้ว 2026-10-26:** เพิ่ม `shared.md` ใน M0-T05 |
+| C-20 | skills ซ้ำกับ prompts | DEC-033 (รอ M0-T14) |
 | ~~C-21~~ | prompts/01 และ 02 อ้างถึง `CLAUDE.md` ที่ยังไม่มี | **ปิดแล้ว 2026-10-26:** สร้าง `CLAUDE.md` ใน M0-T04 |
 | C-22 | offline sandbox ขัดกับ authority | backlog M2-T09 (local sim) |
 | C-23 | ต้นฉบับของข้อมูลที่มีมูลค่า | DEC-019 |

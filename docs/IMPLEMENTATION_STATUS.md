@@ -18,8 +18,8 @@
 
 | สถานะ | จำนวนรายการ (ตาราง §3) |
 |---|---|
-| Implemented | 4 (เอกสาร 2 รายการ + git repository + `CLAUDE.md` · ยังไม่มีโค้ด) |
-| Partial | 3 |
+| Implemented | 5 (เอกสาร 2 รายการ + git repository + `CLAUDE.md` + `.claude/rules/` · ยังไม่มีโค้ด) |
+| Partial | 2 |
 | Missing | 30 (infrastructure 7 + game systems 22 + art assets 1) |
 | Unknown | 4 |
 
@@ -60,6 +60,12 @@
 | ตรวจ path, section และ DEC ที่อ้างใน `CLAUDE.md` | path มีจริงทุกตัว ยกเว้น `database/` ที่วางแผนไว้ใน M4 · GDD §7, ART_BIBLE §3.4, DoD §8 และ TECH L117 ตรงกับที่อ้าง · DEC ที่อ้างทั้ง 10 ตัวมีในทะเบียน |
 | เทียบกับ `.claude/rules/*` | ไม่ขัดกัน · rule 10 ปรับให้ตรงกับ `database.md` (migration ที่ทำลายข้อมูลต้องได้รับอนุมัติ + มี backup) |
 | `git commit` บน branch `m0/t04-claude-md` | `fd3749a` · ผู้พัฒนาอนุมัติเนื้อหาก่อน commit |
+| **(M0-T05, 2026-10-26)** ตรวจโครงสร้าง frontmatter ของ `shared.md` และ `docs.md` | บรรทัดที่ 1 = `---`, บรรทัดที่ 2 = `paths:`, ปิดที่บรรทัดที่ 4 · glob = `"packages/**/*"` และ `"docs/**/*"` (รูปแบบเดียวกับ rule เดิม) |
+| md5 ของ `client.md`, `server.md`, `database.md` เทียบกับ §2.4 | ตรงทั้ง 3 ไฟล์ (ไม่ได้แก้) |
+| path ของ schema ตาม DEC-008 (`database/schema.prisma`) เทียบกับ glob ของ `database.md` | match ทั้ง `database/**/*` และ `**/*schema.prisma` **จึงไม่ต้องแก้** `database.md` |
+| ตรวจการอ้างอิงใน rule ใหม่ | DEC-013, `docs/DECISIONS.md`, `docs/IMPLEMENTATION_STATUS.md` และชื่อเอกสารต้นฉบับทั้ง 10 มีอยู่จริง |
+| `wc -l` และ `git ls-files --eol .claude/rules/` | `shared.md` 13 บรรทัด, `docs.md` 12 บรรทัด · ทั้ง 5 ไฟล์เป็น `i/lf` |
+| `git commit` บน branch `m0/t05-rules` | `52c44ac` · ผู้พัฒนาอนุมัติเนื้อหาก่อน commit |
 
 ### 2.2 Build / Typecheck / Lint / Test
 > **[F] ไม่มีคำสั่ง build, typecheck, lint หรือ test ใน repository** ผลด้านล่างคือการลองรันจริง ซึ่ง**ล้มเหลวทั้งหมด** ไม่มีผลสำเร็จใดที่จะรายงานได้
@@ -133,7 +139,7 @@ ec7a390099d9467f1cada7beedbdad10  prompts/06_TEST_PLAN.md
 |---|---|---|---|
 | เอกสาร design, spec และ roadmap | **Implemented** (เอกสาร) | 10 ไฟล์ใน `docs/` + README + CLAUDE_TEMPLATE · ไม่มีไฟล์ซ้ำแล้ว (M0-T03) | M0-T03 ✔ |
 | Prompt library `prompts/00–08` | **Implemented** (เอกสาร) | 9 ไฟล์ | — |
-| `.claude/rules/` | **Partial** | 3 ไฟล์ รูปแบบ `paths:` ถูกต้องตามเอกสาร Claude Code ปัจจุบัน แต่ path ที่ระบุยังไม่มีอยู่จริง และไม่มี rule สำหรับ `packages/**` | M0-T05 |
+| `.claude/rules/` | **Implemented** | 5 ไฟล์: `client.md` (`apps/web/**`), `server.md` (`apps/game-server/**`), `database.md` (`database/**`, `**/*schema.prisma`), `shared.md` (`packages/**`) และ `docs.md` (`docs/**`) · รูปแบบ `paths:` ถูกต้องตามเอกสาร Claude Code · rule ของ `apps/`, `packages/` และ `database/` จะเริ่มทำงานเมื่อมี path นั้นจริง (§2.1 M0-T05) | M0-T05 ✔ |
 | Foundation docs (`DECISIONS`, `IMPLEMENTATION_STATUS`, `DEFINITION_OF_DONE`, `IMPLEMENTATION_BACKLOG`) | **Partial** | สร้างแล้ว 2026-10-26 แต่ยังเป็น Draft ที่รอผู้พัฒนาอนุมัติ | M0-T01 |
 | Art docs (`ART_BIBLE`, `ASSET_PIPELINE`, `VISUAL_PROTOTYPE_PLAN`) | **Partial** | Draft (ART_BIBLE v0.2, ASSET_PIPELINE v0.4, VISUAL_PROTOTYPE_PLAN v0.4, 2026-10-26) · มาตรฐานตัวเลขรอ VP0 · Art Direction (DEC-040) และ paper-doll (DEC-045) เป็น Accepted · ไม่มีโค้ดหรือ asset ที่ทำตามเอกสารนี้ | M1 (VP0) |
 | Art assets (ตัวละคร, ฉาก, VFX, UI) | **Missing** | ไม่พบไฟล์ asset ใด (§2.1 รอบ 2) · ภาพอ้างอิง 2 ภาพอยู่ในโฟลเดอร์ชั่วคราวนอก repo และยังไม่ได้คัดลอกเข้า repo | M1-T03, T13–T16 |
@@ -195,3 +201,4 @@ ec7a390099d9467f1cada7beedbdad10  prompts/06_TEST_PLAN.md
 | 2026-10-26 | M0-T02 Done: git repository = Implemented (`ce6117d`, `c8cbe36`) แล้วบันทึกหลักฐานใน commit ถัดไป | §2.1 (M0-T02) |
 | 2026-10-26 | M0-T03 Done: `docs/` เป็นต้นฉบับเดียวและลบไฟล์ซ้ำแล้ว แล้ว squash merge เข้า `main` | §2.1 (M0-T03) |
 | 2026-10-26 | M0-T04 Done: `CLAUDE.md` = Implemented (66 บรรทัด) แล้ว squash merge เข้า `main` | §2.1 (M0-T04) |
+| 2026-10-26 | M0-T05 Done: `.claude/rules/` = Implemented (5 ไฟล์) แล้ว squash merge เข้า `main` | §2.1 (M0-T05) |
