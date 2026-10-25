@@ -1,0 +1,66 @@
+# Khamang Wet — Project Instructions
+
+## Project
+Thai Occult & Sorcery MMORPG for Web PC. Art direction is locked to 2.5D HD-2D: 2D HD characters on a 3D isometric world (DEC-040). Combat is hybrid: target lock plus directional/area attacks. Solo developer with AI assistance. Planned architecture: TypeScript monorepo, modular monolith, authoritative server.
+
+## Current state — verify, never assume
+- There is no application code yet: only docs and a git repo. Check `docs/IMPLEMENTATION_STATUS.md` before claiming anything exists.
+- Current milestone is M0 (repository foundation). The next task is in `docs/IMPLEMENTATION_BACKLOG.md`.
+- There is no git remote yet. Never push or create a remote without explicit approval.
+
+## Where things are
+- `docs/DECISIONS.md`: decision register. Accepted entries are binding; Open entries must not be decided silently.
+- `docs/IMPLEMENTATION_BACKLOG.md`: milestone tasks with dependencies and acceptance criteria.
+- `docs/IMPLEMENTATION_STATUS.md`: what actually exists, with evidence (commands and results).
+- `docs/DEFINITION_OF_DONE.md`: done criteria, required tests, CI tiers, rollback, completion report.
+- Design specs in `docs/`: `GAME_VISION_GDD.md`, `TECHNICAL_ARCHITECTURE.md`, `COMBAT_SPEC.md`, `NETWORK_PROTOCOL.md`, `DATABASE_AND_ECONOMY.md`, `SECURITY_THREAT_MODEL.md`, `TEST_STRATEGY.md`, `ROADMAP.md`, `AI_WORKFLOW.md`.
+- Art: `docs/ART_BIBLE.md`, `docs/ASSET_PIPELINE.md`, `docs/VISUAL_PROTOTYPE_PLAN.md`.
+- `prompts/`: task prompts (02 implement, 03 code review, 04 security, 05 art tech, 06 test plan, 07 release, 08 doc sync).
+- `.claude/rules/`: path-scoped rules for client, server and database code.
+- `CLAUDE_TEMPLATE.md` is the original template this file was derived from; this file takes precedence.
+
+## Commands
+None yet: there is no `package.json`. Add a command here only after it has run successfully (planned: `pnpm verify` in M0-T10). Never claim a build, typecheck, lint or test passed unless it was actually run.
+
+## Key decisions (summary; `docs/DECISIONS.md` wins on any conflict)
+- Exact version pins and a committed lockfile. Never install from the `latest` tag: Prisma's `latest` CLI tag points to a release candidate (DEC-003).
+- Node 24 LTS (DEC-004). Final versions of pnpm, TypeScript and Colyseus come from the M0-T06 spike and are recorded in ADR-001 (DEC-005..007).
+- Prisma 7.x stable, with the CLI and client on the same exact version; schema lives in `database/` (DEC-008).
+- Art is 2.5D HD-2D only: no pixel art, chibi or full 3D realistic style without approval (DEC-040). Character appearance changes with equipment (paper-doll, DEC-045).
+- The animation runtime is undecided: VP0-c compares Blender → glTF (A3-B) with layered frames (A1-L). Spine is deferred (DEC-014, DEC-058).
+
+## Engineering rules
+1. Check `git status` and read the relevant files before editing. Never overwrite or delete user work without approval.
+2. One backlog task per branch (`m<N>/t<NN>-<slug>`), squash-merged into `main` after approval (DEC-012). Do not commit directly to `main`.
+3. Make the smallest coherent change that meets the acceptance criteria. Do not scaffold for future features.
+4. Keep rendering, game rules, network and persistence separate. Game rules are pure functions with injected RNG and clock (DEC-013).
+5. The client is untrusted. The server owns movement validation, combat, status, loot, inventory, currency and progression. Never accept client-sent damage, loot, currency or final position.
+6. Validate every inbound network/API message at runtime and enforce size and rate limits.
+7. Use transactions and idempotency for anything that grants, consumes or transfers value.
+8. Add no dependency without a reason, a compatibility and license check, and approval.
+9. Do not change shared contracts, the database schema or the architecture silently; record the change in `docs/DECISIONS.md`.
+10. Change the schema only through migrations. Never run a destructive migration without explicit approval and a verified backup (`.claude/rules/database.md`).
+11. Never commit secrets, tokens, credentials or production data.
+12. Add tests for bug fixes and important logic. Keep game content data-driven.
+13. Do not implement deferred features (`docs/GAME_VISION_GDD.md` §7) without explicit approval.
+14. Thai occult content is fictional and respectful: invented glyphs and yantra, no real ritual instructions (`docs/ART_BIBLE.md` §3.4).
+
+## Decisions, conflicts and approvals
+- If docs conflict or a decision is Open: stop, record it in `docs/DECISIONS.md` with options, and ask. Do not pick silently.
+- Ask the developer before installing software, creating remotes or pushing, deleting files, buying licenses, or changing an Accepted decision.
+- Original design docs: show the diff before committing an edit. Many docs cite line numbers (for example `TECHNICAL_ARCHITECTURE.md` L117), so prefer in-place edits or update the citations.
+
+## Workflow per task
+1. Read the task in the backlog and the docs it references; check `git status`.
+2. State a short plan and the acceptance criteria.
+3. Create the task branch and implement in small steps.
+4. Run the relevant checks (once they exist) and report the actual output.
+5. Review the diff for unrelated changes, secrets and contract breaks.
+6. Record evidence in `docs/IMPLEMENTATION_STATUS.md` and mark the task in the backlog.
+7. Squash-merge into `main` after approval, then delete the task branch.
+
+## Completion report
+Use the template in `docs/DEFINITION_OF_DONE.md` §8: commands actually run and their results, files changed, risks, follow-ups.
+
+## Communication
+Talk with the developer in Thai. Keep code, identifiers, file names and commit messages in English.

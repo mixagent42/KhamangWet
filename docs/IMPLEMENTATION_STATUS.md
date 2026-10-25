@@ -18,9 +18,9 @@
 
 | สถานะ | จำนวนรายการ (ตาราง §3) |
 |---|---|
-| Implemented | 3 (เอกสาร 2 รายการ + git repository · ยังไม่มีโค้ด) |
+| Implemented | 4 (เอกสาร 2 รายการ + git repository + `CLAUDE.md` · ยังไม่มีโค้ด) |
 | Partial | 3 |
-| Missing | 31 (infrastructure 8 + game systems 22 + art assets 1) |
+| Missing | 30 (infrastructure 7 + game systems 22 + art assets 1) |
 | Unknown | 4 |
 
 **[F]** ยังไม่มีโค้ดเกม, ยังไม่มี build system และยังไม่มี test · เอกสารทั้งหมดเป็นแผนและข้อเสนอ ไม่ใช่สิ่งที่ทำไปแล้ว (README L5)
@@ -54,6 +54,12 @@
 | md5 ของไฟล์ต้นฉบับที่ไม่ได้ตั้งใจแก้ | `docs/` 9 ไฟล์ + prompts + rules + CLAUDE_TEMPLATE ตรง baseline · ที่เปลี่ยนตามที่อนุมัติคือ `README.md` และ `docs/TECHNICAL_ARCHITECTURE.md` (ยังมี 147 บรรทัด) |
 | `git log --follow docs/PROJECT_ONBOARDING_REPORT.md` | ประวัติตามมาครบ (`c8cbe36` ถึง `da1c627`) |
 | สแกนการอ้างอิง `*.md` ทุกไฟล์ | ไม่มีการอ้างอิงที่เสีย ที่หาไม่เจอเป็นไฟล์ที่ยังไม่ได้สร้างตามแผน (`CLAUDE.md`, rule `shared.md` และ `docs.md`, ADR, `QUEST_AND_INTERACTION_SPEC.md`) |
+| **(M0-T04, 2026-10-26)** `wc -l` / `wc -c` ของ `CLAUDE.md` | 66 บรรทัด, 5,724 bytes (เกณฑ์ ≤ 200 บรรทัด) · `git ls-files --eol` = `i/lf` |
+| ค้นหา `@` นอก code span (ตัด `` `…` `` ออกก่อนแล้ว grep) | ไม่พบ จึงไม่มี `@import` ที่จะโหลดไฟล์ใหญ่เข้า context |
+| ค้นหาบรรทัดคำสั่ง (`pnpm`, `npm`, `npx`, `node`, `git`) และ `package.json` | ไม่มีบรรทัดคำสั่ง · ไม่มี `package.json` (ส่วน Commands จึงเขียนว่ายังไม่มี) |
+| ตรวจ path, section และ DEC ที่อ้างใน `CLAUDE.md` | path มีจริงทุกตัว ยกเว้น `database/` ที่วางแผนไว้ใน M4 · GDD §7, ART_BIBLE §3.4, DoD §8 และ TECH L117 ตรงกับที่อ้าง · DEC ที่อ้างทั้ง 10 ตัวมีในทะเบียน |
+| เทียบกับ `.claude/rules/*` | ไม่ขัดกัน · rule 10 ปรับให้ตรงกับ `database.md` (migration ที่ทำลายข้อมูลต้องได้รับอนุมัติ + มี backup) |
+| `git commit` บน branch `m0/t04-claude-md` | `fd3749a` · ผู้พัฒนาอนุมัติเนื้อหาก่อน commit |
 
 ### 2.2 Build / Typecheck / Lint / Test
 > **[F] ไม่มีคำสั่ง build, typecheck, lint หรือ test ใน repository** ผลด้านล่างคือการลองรันจริง ซึ่ง**ล้มเหลวทั้งหมด** ไม่มีผลสำเร็จใดที่จะรายงานได้
@@ -132,7 +138,7 @@ ec7a390099d9467f1cada7beedbdad10  prompts/06_TEST_PLAN.md
 | Art docs (`ART_BIBLE`, `ASSET_PIPELINE`, `VISUAL_PROTOTYPE_PLAN`) | **Partial** | Draft (ART_BIBLE v0.2, ASSET_PIPELINE v0.4, VISUAL_PROTOTYPE_PLAN v0.4, 2026-10-26) · มาตรฐานตัวเลขรอ VP0 · Art Direction (DEC-040) และ paper-doll (DEC-045) เป็น Accepted · ไม่มีโค้ดหรือ asset ที่ทำตามเอกสารนี้ | M1 (VP0) |
 | Art assets (ตัวละคร, ฉาก, VFX, UI) | **Missing** | ไม่พบไฟล์ asset ใด (§2.1 รอบ 2) · ภาพอ้างอิง 2 ภาพอยู่ในโฟลเดอร์ชั่วคราวนอก repo และยังไม่ได้คัดลอกเข้า repo | M1-T03, T13–T16 |
 | Git repository, `.gitignore`, `.gitattributes` | **Implemented** | `ce6117d` (baseline 34 ไฟล์ md5 ตรงครบ) + `c8cbe36` (docs + `.gitattributes` + `.gitignore`) · clean · LF ทุกไฟล์ (§2.1, M0-T02) · ยังไม่มี remote | M0-T02 ✔ |
-| `CLAUDE.md` | **Missing** | มีแค่ template | M0-T04 |
+| `CLAUDE.md` | **Implemented** | 66 บรรทัด สร้างจาก template และผู้พัฒนาอนุมัติเนื้อหาแล้ว · ไม่มี `@import` · ยังไม่มีส่วน Commands เพราะยังไม่มีคำสั่ง (§2.1 M0-T04) | M0-T04 ✔ |
 | `.claude/settings.json`, skills, agents, hooks | **Missing** | §2.1 | M0-T14 |
 | `docs/adr/` | **Missing** | — | M0-T12 |
 | pnpm workspace + lockfile | **Missing** | §2.2 | M0-T08 |
@@ -188,3 +194,4 @@ ec7a390099d9467f1cada7beedbdad10  prompts/06_TEST_PLAN.md
 | 2026-10-26 | M0-T01 Done: ผู้พัฒนามอบอำนาจ และ DEC-001 ถึง 008, 011, 012, 013, 033, 034, 039 เป็น Accepted (delegated) · สถานะ implementation ไม่เปลี่ยน (ยังไม่มี git หรือโค้ด) | `DECISIONS.md §4.0` |
 | 2026-10-26 | M0-T02 Done: git repository = Implemented (`ce6117d`, `c8cbe36`) แล้วบันทึกหลักฐานใน commit ถัดไป | §2.1 (M0-T02) |
 | 2026-10-26 | M0-T03 Done: `docs/` เป็นต้นฉบับเดียวและลบไฟล์ซ้ำแล้ว แล้ว squash merge เข้า `main` | §2.1 (M0-T03) |
+| 2026-10-26 | M0-T04 Done: `CLAUDE.md` = Implemented (66 บรรทัด) แล้ว squash merge เข้า `main` | §2.1 (M0-T04) |

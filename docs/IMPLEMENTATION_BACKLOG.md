@@ -67,7 +67,7 @@ M4  T01(DB) ─► T02(auth) ─► T03(lease) ─► T04(loot txn) ─► T05(X
 - **Risks:** สูญเสียการแก้ไขถ้าสำเนาเริ่มต่างกันแล้ว ซึ่งป้องกันได้ด้วยการตรวจ md5
 
 #### M0-T04 — สร้าง `CLAUDE.md`
-- **Type:** doc · **Size:** S · **Depends:** T02 (แนะนำให้ทำหลัง T03) · **Decisions:** DEC-033
+- **Type:** doc · **Size:** S · **Depends:** T02 (แนะนำให้ทำหลัง T03) · **Decisions:** DEC-033 ✔ · **Status:** ✔ **Done (2026-10-26)** ทำบน branch `m0/t04-claude-md` แล้ว squash merge เข้า `main` · ผู้พัฒนาอนุมัติเนื้อหาก่อน commit · AC ทั้ง 4 ข้อผ่าน (66 บรรทัด, ไม่มีคำสั่งที่ยังรันไม่ได้, ไม่มี `@import`, ไม่ขัดกับ rules) ตาม `IMPLEMENTATION_STATUS.md §2.1 (M0-T04)`
 - **AC:** (1) ไม่เกิน 200 บรรทัด (เป้า ~120) ตามคำแนะนำในเอกสาร Claude Code (2) ไม่มีคำสั่งที่ยังรันไม่ได้ (คำสั่งเพิ่มหลัง T10) (3) อ้าง path ด้วย backtick ไม่ใช้ `@import` เอกสารใหญ่ (4) ไม่ขัดกับ `.claude/rules/*`
 - **Risks:** CLAUDE.md ยาวเกินไปจะทำให้ AI ทำตามน้อยลง
 
