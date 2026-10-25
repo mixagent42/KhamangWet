@@ -1,0 +1,16 @@
+// T6: minimal schema in database/ (DEC-008 layout). Generate only, no database.
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Character {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  level     Int      @default(1)
+  createdAt DateTime @default(now())
+}

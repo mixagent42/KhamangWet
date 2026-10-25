@@ -1,0 +1,5 @@
+# Spike-local caches and build output (root .gitignore already covers node_modules/ and .pnpm-store/)
+.corepack/
+dist/
+dist-*/
+generated/

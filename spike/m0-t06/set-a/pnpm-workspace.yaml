@@ -1,0 +1,10 @@
+# M0-T06 spike settings (pnpm 12). Build scripts are denied on purpose:
+# - @prisma/engines: postinstall downloads the Schema Engine from binaries.prisma.sh (outside the approved npm-only plan)
+# - prisma: preinstall check, not needed for `prisma generate`
+# - msgpackr-extract: optional native accelerator; prebuilt platform package is installed anyway
+allowBuilds:
+  "@prisma/engines": false
+  msgpackr-extract: false
+  prisma: false
+engineStrict: true
+storeDir: ../.pnpm-store
