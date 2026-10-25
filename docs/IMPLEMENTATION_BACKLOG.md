@@ -56,7 +56,7 @@ M4  T01(DB) ─► T02(auth) ─► T03(lease) ─► T04(loot txn) ─► T05(X
 - **Risks:** R-20
 
 #### M0-T02 — Git init และ baseline commit
-- **Type:** infra · **Size:** S · **Depends:** T01 ✔ · **Decisions:** DEC-001 ✔ · **Status:** Todo (รอ git identity และคำสั่งเริ่ม)
+- **Type:** infra · **Size:** S · **Depends:** T01 ✔ · **Decisions:** DEC-001 ✔ · **Status:** ✔ **Done (2026-10-26)** · commit `ce6117d` (baseline) + `c8cbe36` (docs) + commit บันทึกหลักฐาน · AC ทั้ง 4 ข้อผ่านตาม `IMPLEMENTATION_STATUS.md §2.1` · **ข้อยกเว้นของ DEC-012:** task นี้ commit ตรงเข้า `main` เพราะเป็นการสร้าง branch แรกของ repo ส่วน task ถัดไปใช้ 1 branch ต่อ task
 - **ขั้นตอน:** ตั้ง git identity (ผู้พัฒนาตั้งเอง หรือให้ค่ามาเพื่อตั้งแบบ local ใน repo) → `git init -b main` → `.gitattributes` (LF) + `.gitignore` → commit 1 = 34 ไฟล์ต้นฉบับโดยไม่แก้ไข → commit 2 = onboarding report + foundation docs + `.gitattributes` + `.gitignore`
 - **AC:** (1) `git log --oneline` แสดง 2 commit (2) md5 ของทุกไฟล์ใน commit 1 ตรงกับ baseline (3) `git status` สะอาด (4) `git ls-files --eol` แสดงว่าทุกไฟล์ใน index เป็น LF
 - **Risks:** `core.autocrlf=true` อาจแปลง line ending ซึ่งป้องกันได้ด้วย `.gitattributes`

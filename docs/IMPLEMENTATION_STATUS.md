@@ -1,7 +1,7 @@
 # IMPLEMENTATION STATUS — Khamang Wet
 
 - **Snapshot:** 2026-10-26 · **ตรวจโดย:** Claude Code (read-only checks)
-- **Repository state:** ยังไม่ใช่ git repository จึงไม่มี commit hash ให้อ้างอิง
+- **Repository state:** เป็น git repository ตั้งแต่ 2026-10-26 (M0-T02) · branch `main` · baseline commit `ce6117d` · ยังไม่มี remote (DEC-039 รอผู้พัฒนาสร้าง repo)
 - **กฎของไฟล์นี้:** อัปเดตได้เฉพาะเมื่อมี**หลักฐานจริง** (คำสั่งที่รัน + ผลลัพธ์ + วันที่ หรือ path ของไฟล์และ test) ห้ามเปลี่ยนสถานะเป็น Implemented ตามที่เอกสารออกแบบเขียนไว้ หรือตามที่ AI รายงานโดยไม่มีผลรันประกอบ
 
 ### นิยามสถานะ
@@ -18,9 +18,9 @@
 
 | สถานะ | จำนวนรายการ (ตาราง §3) |
 |---|---|
-| Implemented | 2 (เป็นเอกสารเท่านั้น ไม่มีโค้ด) |
+| Implemented | 3 (เอกสาร 2 รายการ + git repository · ยังไม่มีโค้ด) |
 | Partial | 3 |
-| Missing | 32 (infrastructure 9 + game systems 22 + art assets 1) |
+| Missing | 31 (infrastructure 8 + game systems 22 + art assets 1) |
 | Unknown | 4 |
 
 **[F]** ยังไม่มีโค้ดเกม, ยังไม่มี build system และยังไม่มี test · เอกสารทั้งหมดเป็นแผนและข้อเสนอ ไม่ใช่สิ่งที่ทำไปแล้ว (README L5)
@@ -43,6 +43,11 @@
 | นับ CR bytes ทุกไฟล์ (`tr -cd '\r' \| wc -c`) | 0 = ทุกไฟล์ใช้ LF |
 | `ls .claude/` | มีแค่ `rules/` ไม่มี `settings.json`, `skills/`, `agents/` หรือ `hooks/` |
 | (รอบ 2, 2026-10-26) `find` หาไฟล์ที่ไม่ใช่ `.md` และไฟล์ asset (png, jpg, webp, psd, blend, glb, gltf, spine, json, ktx2) | ไม่พบ · `git status` ยังเป็น `fatal: not a git repository` · md5 ของไฟล์ต้นฉบับ 34/34 OK |
+| **(M0-T02, 2026-10-26)** `git init -b main` + `git config --local user.name/user.email` | สร้าง repo ที่ `E:/KhamangWet/KhamangWet_FullSystem/.git/` · `HEAD` = `refs/heads/main` · identity แบบ local = `mixza <[redacted]>` |
+| `git rev-list --count HEAD` + `git log` | 2 commit: `ce6117d` chore: import baseline design docs (unchanged) · `c8cbe36` docs: add onboarding report, foundation and art planning docs |
+| `git show ce6117d:<path> \| md5sum` เทียบกับ §2.4 ทั้ง 34 ไฟล์ | match=34, mismatch=0 · ใน commit มี 34 ไฟล์ · 1,882 insertions (เท่ากับจำนวนบรรทัดของไฟล์ต้นฉบับ) |
+| `git status --porcelain` (หลัง commit 2) | ว่าง = clean |
+| `git ls-files --eol` | 44 ไฟล์ทั้งหมดเป็น `i/lf` · `git check-attr` ได้ `eol: lf` |
 
 ### 2.2 Build / Typecheck / Lint / Test
 > **[F] ไม่มีคำสั่ง build, typecheck, lint หรือ test ใน repository** ผลด้านล่างคือการลองรันจริง ซึ่ง**ล้มเหลวทั้งหมด** ไม่มีผลสำเร็จใดที่จะรายงานได้
@@ -119,7 +124,7 @@ ec7a390099d9467f1cada7beedbdad10  prompts/06_TEST_PLAN.md
 | Foundation docs (`DECISIONS`, `IMPLEMENTATION_STATUS`, `DEFINITION_OF_DONE`, `IMPLEMENTATION_BACKLOG`) | **Partial** | สร้างแล้ว 2026-10-26 แต่ยังเป็น Draft ที่รอผู้พัฒนาอนุมัติ | M0-T01 |
 | Art docs (`ART_BIBLE`, `ASSET_PIPELINE`, `VISUAL_PROTOTYPE_PLAN`) | **Partial** | Draft (ART_BIBLE v0.2, ASSET_PIPELINE v0.4, VISUAL_PROTOTYPE_PLAN v0.4, 2026-10-26) · มาตรฐานตัวเลขรอ VP0 · Art Direction (DEC-040) และ paper-doll (DEC-045) เป็น Accepted · ไม่มีโค้ดหรือ asset ที่ทำตามเอกสารนี้ | M1 (VP0) |
 | Art assets (ตัวละคร, ฉาก, VFX, UI) | **Missing** | ไม่พบไฟล์ asset ใด (§2.1 รอบ 2) · ภาพอ้างอิง 2 ภาพอยู่ในโฟลเดอร์ชั่วคราวนอก repo และยังไม่ได้คัดลอกเข้า repo | M1-T03, T13–T16 |
-| Git repository, `.gitignore`, `.gitattributes` | **Missing** | §2.1 | M0-T02 |
+| Git repository, `.gitignore`, `.gitattributes` | **Implemented** | `ce6117d` (baseline 34 ไฟล์ md5 ตรงครบ) + `c8cbe36` (docs + `.gitattributes` + `.gitignore`) · clean · LF ทุกไฟล์ (§2.1, M0-T02) · ยังไม่มี remote | M0-T02 ✔ |
 | `CLAUDE.md` | **Missing** | มีแค่ template | M0-T04 |
 | `.claude/settings.json`, skills, agents, hooks | **Missing** | §2.1 | M0-T14 |
 | `docs/adr/` | **Missing** | — | M0-T12 |
@@ -174,3 +179,4 @@ ec7a390099d9467f1cada7beedbdad10  prompts/06_TEST_PLAN.md
 | 2026-10-26 | เพิ่ม A3-B ใน VP0-c และบันทึกผลตรวจ license ของ Spine, PixelLab และ Blender (`DECISIONS.md` ภาคผนวก C) · สถานะ implementation ไม่เปลี่ยน | — |
 | 2026-10-26 | DEC-058: VP0-c เทียบ A3-B กับ A1-L และพัก A3-S ไว้ · สถานะ implementation ไม่เปลี่ยน | — |
 | 2026-10-26 | M0-T01 Done: ผู้พัฒนามอบอำนาจ และ DEC-001 ถึง 008, 011, 012, 013, 033, 034, 039 เป็น Accepted (delegated) · สถานะ implementation ไม่เปลี่ยน (ยังไม่มี git หรือโค้ด) | `DECISIONS.md §4.0` |
+| 2026-10-26 | M0-T02 Done: git repository = Implemented (`ce6117d`, `c8cbe36`) แล้วบันทึกหลักฐานใน commit ถัดไป | §2.1 (M0-T02) |

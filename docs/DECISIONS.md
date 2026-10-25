@@ -26,7 +26,7 @@
 | ID | เรื่อง | สถานะ | ต้องปิดก่อน | อ้างอิงรายงาน |
 |---|---|---|---|---|
 | DEC-L1…L7 | Product direction ที่ล็อกแล้ว | Locked | — | prompts/01 L9–16 |
-| DEC-001 | Repo root และการเริ่ม Git | **Accepted (delegated)** | M0 | C-03, C-24, D-13 |
+| DEC-001 | Repo root และการเริ่ม Git | **Accepted (delegated)** · ✔ ทำแล้วใน M0-T02 (`ce6117d`, `c8cbe36`) | M0 | C-03, C-24, D-13 |
 | DEC-002 | ตำแหน่งเอกสารต้นฉบับ (ลบไฟล์ซ้ำ) | **Accepted (delegated)** | M0 | C-01, C-02, D-32 |
 | DEC-003 | นโยบาย pin เวอร์ชัน dependency | **Accepted (delegated)** | M0 | D-14, R-17, R-18 |
 | DEC-004 | Node.js runtime line | **Accepted (delegated)** | M0 | หัวข้อ 8 ของรายงาน |
@@ -487,7 +487,7 @@
 | Conflict | สรุป | รอ |
 |---|---|---|
 | C-01, C-02 | เอกสารซ้ำและชื่อไฟล์ไม่ตรง | DEC-002 ✔ ตัดสินแล้ว และรอทำ M0-T03 |
-| C-03, C-24 | repo root และไม่มี git | DEC-001 ✔ ตัดสินแล้ว และรอทำ M0-T02 |
+| ~~C-03, C-24~~ | repo root และไม่มี git | **ปิดแล้ว 2026-10-26:** DEC-001 ทำแล้วใน M0-T02 |
 | C-04 | auth อยู่ใน M4 แต่ M3 ต้องใช้ | DEC-020 |
 | C-05 | co-op โดยไม่มี party | DEC-022 |
 | C-06 | สถานะ PvP | DEC-021 |
