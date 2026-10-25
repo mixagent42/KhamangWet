@@ -58,7 +58,7 @@
 | DEC-030 | รูปแบบ game-data และ content versioning | Proposed | M2 | D-26, R-14 |
 | DEC-031 | React ↔ Babylon state bridge และ in-world UI | Proposed | M1 | D-25 |
 | DEC-032 | การแสดงผลภาษาไทยและ font | Open | M1 | D-10 |
-| DEC-033 | การตั้งค่า Claude Code สำหรับ M0–M1 | **Accepted (delegated)** · A.1 `CLAUDE.md` ทำแล้วใน M0-T04 · A.2 rules ทำแล้วใน M0-T05 · A.3 ถึง A.5 รอ M0-T14 | M0 | C-19, C-20, C-21 |
+| DEC-033 | การตั้งค่า Claude Code สำหรับ M0–M1 | **Accepted (delegated)** · A.1 `CLAUDE.md` ทำแล้วใน M0-T04 · A.2 rules ทำแล้วใน M0-T05 · A.3 ถึง A.5 ทำส่วนแรกแล้วใน M0-T14 (ต่างจาก A.5 ใน 6 ข้อที่ผู้พัฒนาอนุมัติ) · skill `verify` และ allow list รอ M0-T10 | M0 | C-19, C-20, C-21 |
 | DEC-034 | ลำดับชั้นเอกสาร Definition of Done | **Accepted (delegated)** | M0 | ภาคผนวก B |
 | DEC-035 | Asset provenance รวมถึง asset ที่ AI สร้าง | Open | M1 (placeholder), M6 | D-24 |
 | DEC-036 | Browser support matrix | Proposed | M1 | D-31 |
@@ -421,6 +421,7 @@
 
 ### DEC-033 — การตั้งค่า Claude Code สำหรับ M0–M1
 - **Status:** **Accepted (delegated, 2026-10-26)** → ดู §4.0 · ~~Proposed~~ · รายละเอียดอยู่ใน**ภาคผนวก A** · **[F]** รูปแบบไฟล์ตรวจกับเอกสารทางการ `code.claude.com/docs` (หน้า memory, skills, sub-agents, hooks, permissions) เมื่อ 2026-10-26
+- **อัปเดต 2026-10-26 (M0-T14 part 1):** ทำ A.3 (`implement-task`), A.4 (`reviewer`) และ A.5 (settings + hook) แล้ว โดยต่างจาก A.5 ใน 6 ข้อที่ผู้พัฒนาอนุมัติ ดูหมายเหตุใต้ A.5 · skill `verify` และ allow list รอ M0-T10
 
 ### DEC-034 — ลำดับชั้นเอกสาร Definition of Done
 - **Status:** **Accepted (delegated, 2026-10-26)** → ดู §4.0 · ~~Proposed~~ · **Context [F]:** มีเกณฑ์ done หรือรายงานปิดงานที่ซ้อนกัน 5 แหล่ง ดูภาคผนวก B
@@ -540,7 +541,7 @@
 | C-17 | definition อยู่ใน DB หรือ git | DEC-030 |
 | C-18 | path ของ Prisma กับ rule | DEC-008 ✔ ตัดสินแล้ว (schema อยู่ใต้ `database/`) และรอทำ M4-T01 |
 | ~~C-19~~ | `.claude/rules` ไม่ครอบคลุม `packages/**` | **ปิดแล้ว 2026-10-26:** เพิ่ม `shared.md` ใน M0-T05 |
-| C-20 | skills ซ้ำกับ prompts | DEC-033 (รอ M0-T14) |
+| ~~C-20~~ | skills ซ้ำกับ prompts | **ปิดแล้ว 2026-10-26:** skill `implement-task` เป็น wrapper บางที่ชี้ไปที่ `prompts/02` และ DoD โดยไม่คัดลอกเนื้อหา (M0-T14) · skill `verify` จะทำแบบเดียวกันหลัง T10 |
 | ~~C-21~~ | prompts/01 และ 02 อ้างถึง `CLAUDE.md` ที่ยังไม่มี | **ปิดแล้ว 2026-10-26:** สร้าง `CLAUDE.md` ใน M0-T04 |
 | C-22 | offline sandbox ขัดกับ authority | backlog M2-T09 (local sim) |
 | C-23 | ต้นฉบับของข้อมูลที่มีมูลค่า | DEC-019 |
@@ -553,7 +554,7 @@
 
 ## ภาคผนวก A — ข้อเสนอการตั้งค่า Claude Code สำหรับ M0–M1 (DEC-033)
 
-> **ยังไม่ได้สร้างไฟล์ใดในภาคผนวกนี้** ทั้งหมดเป็นข้อเสนอ **[R]** และเลือกเฉพาะสิ่งที่จำเป็นต่อ M0–M1 ตาม AI_WORKFLOW §5 L39–40 ("Hooks… only after commands are verified" และ "Use current official Claude Code documentation…")
+> ~~**ยังไม่ได้สร้างไฟล์ใดในภาคผนวกนี้**~~ **อัปเดต 2026-10-26:** สร้างแล้วตาม A.1 (M0-T04), A.2 (M0-T05) และ A.3 บางส่วน, A.4, A.5 (M0-T14 part 1) · เนื้อหาด้านล่างคงไว้ตามข้อเสนอเดิม ซึ่งทั้งหมดเป็น **[R]** และเลือกเฉพาะสิ่งที่จำเป็นต่อ M0–M1 ตาม AI_WORKFLOW §5 L39–40 ("Hooks… only after commands are verified" และ "Use current official Claude Code documentation…")
 > **[F] ข้อเท็จจริงจากเอกสารทางการ (2026-10-26):**
 > - project CLAUDE.md อยู่ที่ `./CLAUDE.md` หรือ `./.claude/CLAUDE.md` และควรสั้นกว่า 200 บรรทัด
 > - `@path` import โหลดไฟล์ทั้งไฟล์เข้า context จึงไม่ช่วยลดขนาด context
@@ -604,6 +605,14 @@
   - `ask`: `Bash(git push *)`, `Bash(pnpm add *)`, `Bash(pnpm remove *)`, `Bash(pnpm update *)`, `Bash(pnpm prisma migrate *)`
   - `allow` (หลังคำสั่งมีจริง): `Bash(pnpm verify)`, `Bash(pnpm typecheck)`, `Bash(pnpm lint)`, `Bash(pnpm test *)`, `Bash(git status)`, `Bash(git diff *)`, `Bash(git log *)`
   - **หมายเหตุ [F]:** rule เหล่านี้ไม่ครอบคลุมทุกรูปแบบของคำสั่ง (เช่น `git -C . push`) จึงต้องมี branch protection บน remote ด้วย (DEC-011, DEC-039)
+- **ผลจริงใน M0-T14 part 1 (2026-10-26, ผู้พัฒนาอนุมัติทั้ง 6 ข้อ):** `.claude/settings.json` และ `.claude/hooks/guard-files.mjs` (commit `2235350`) ต่างจากข้อเสนอด้านบนดังนี้
+  1. `Bash(rm -rf *)` อยู่ใน **ask** แทน deny เพราะ deny บล็อกแม้ผู้พัฒนาอนุมัติในแชตแล้ว และหลบได้ด้วย `rm -r -f` อยู่ดี · **[F]** ask rule ยังถามแม้อยู่ใน auto mode (code.claude.com/docs/en/permissions, ตรวจ 2026-10-26)
+  2. ใช้ `Read(.env)` และ `Read(.env.*)` แทน `Read(./.env)` และ `Read(./.env.*)` เพราะ **[F]** ชื่อไฟล์เปล่า match ทุกระดับโฟลเดอร์ ส่วน `./` match เฉพาะโฟลเดอร์ปัจจุบัน (แหล่งเดียวกัน)
+  3. เพิ่ม `Read(!.env.example)` ต่อจาก `Read(.env.*)` เพื่อให้อ่านไฟล์ตัวอย่างได้
+  4. เพิ่ม rule: deny `git push --force-with-lease *`, ask `pnpm exec prisma migrate *` และ rule `PowerShell(...)` คู่กับ `Bash(...)` ทุกตัว รวมถึง ask `PowerShell(Remove-Item *)` เพราะเครื่องนี้มีเครื่องมือ PowerShell ด้วย
+  5. สร้าง skill `implement-task` ก่อน T10 (ต่างจาก A.3) เพราะ skill อ่าน Commands จาก `CLAUDE.md` จึงใช้ได้ก่อนจะมี `pnpm verify`
+  6. ยังไม่ใส่ `allow` (รอ T10) และไม่กำหนด `model` ของ `reviewer` (ใช้ model ของเซสชัน) ข้อ Open ใน A.4 จึงยังเปิดอยู่
+  - **[F] ข้อจำกัด:** hook ดูแลเฉพาะเครื่องมือ Edit และ Write จึงไม่ครอบคลุมการเขียนผ่าน Bash หรือ PowerShell และ `Read(...)` ไม่ครอบคลุม `cat` ใน shell · hook จะ fail-open (exit 0) เมื่ออ่าน input ไม่ได้ · settings โหลดตอนเริ่มเซสชัน จึงต้องทดสอบ hook จริงในเซสชันใหม่ (`IMPLEMENTATION_STATUS.md §2.1 M0-T14 part 1`)
 
 ---
 

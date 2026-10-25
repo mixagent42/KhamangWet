@@ -19,8 +19,8 @@
 | สถานะ | จำนวนรายการ (ตาราง §3) |
 |---|---|
 | Implemented | 5 (เอกสาร 2 รายการ + git repository + `CLAUDE.md` + `.claude/rules/` · ยังไม่มีโค้ด) |
-| Partial | 3 |
-| Missing | 29 (infrastructure 6 + game systems 22 + art assets 1) |
+| Partial | 4 |
+| Missing | 28 (infrastructure 5 + game systems 22 + art assets 1) |
 | Unknown | 4 |
 
 **[F]** ยังไม่มีโค้ดเกม, ยังไม่มี build system และยังไม่มี test · เอกสารทั้งหมดเป็นแผนและข้อเสนอ ไม่ใช่สิ่งที่ทำไปแล้ว (README L5)
@@ -84,6 +84,13 @@
 | **(DEC-060 = B, 2026-10-26)** ตรวจซ้ำก่อนลบ (`Get-ChildItem -Recurse`, `Get-Process`) | `pnpm-store-operation-locks` (2 ไฟล์ .lock, 0 bytes), `biomejs` (โฟลเดอร์ว่าง `biome/cache`), `prisma-nodejs` (`Config/commands.json` 52 bytes) · ทุก entry สร้างระหว่าง 01:24 ถึง 01:31 · ไม่มี process ของ pnpm, Biome หรือ Prisma ทำงานอยู่ |
 | `Remove-Item -Recurse -Force` 3 รายการ | `Test-Path` = False ทั้ง 3 รายการ · `%APPDATA%\prisma` ยังไม่มี (ลบแล้วจาก DEC-059 (1)) |
 | snapshot ของโฟลเดอร์ที่เก็บไว้ ก่อนและหลังลบ | `pnpm-cache`: 424 ไฟล์ / 335,190,585 bytes / เขียนล่าสุด 01:26:07 (ก่อน = หลัง) · `vitest`: 1 ไฟล์ / 37 bytes / 2026-09-28 (ก่อน = หลัง) |
+| **(M0-T14 part 1, 2026-10-26)** pipe-test `.claude/hooks/guard-files.mjs` ด้วย payload 14 แบบที่สร้างด้วย `JSON.stringify` (script อยู่ใน scratchpad ของเซสชัน ไม่อยู่ใน repo) | ผ่าน 14/14 · exit 2: `.env`, `.env.local`, `.env.production`, `pnpm-lock.yaml` (path แบบ Windows และ posix ทั้งที่ root และโฟลเดอร์ย่อย) · exit 0: `.env.example`, `.envrc`, `env.ts`, `pnpm-workspace.yaml`, `docs\DECISIONS.md`, ไม่มี `file_path`, JSON เสีย, stdin ว่าง |
+| pipe-test รอบแรก (ส่ง JSON ผ่าน shell) | FAIL 2 กรณี: path แบบ Windows ของ `.env` และ `pnpm-lock.yaml` ได้ exit 0 · สาเหตุคือ shell ยุบ `\\` เหลือ `\` ทำให้ JSON ไม่ถูกต้อง (`Bad escaped character`) hook จึง fail-open ตามที่ออกแบบ · ไม่ใช่ bug ของ hook จึงทดสอบใหม่ด้วยแถวบน |
+| `node -e` อ่าน `.claude/settings.json` ด้วย `JSON.parse` แล้วตรวจโครงสร้าง | JSON ถูกต้อง · `hooks.PreToolUse[0].matcher` = `Edit\|Write` · deny 11 rule, ask 9 rule, ไม่มี allow · `Read(!.env.example)` อยู่หลัง `Read(.env.*)` |
+| ตรวจ path ที่ skill และ agent อ้างถึง, `git check-ignore`, นับ CR bytes, `wc -l CLAUDE.md` | path มีจริง 8/8 · `.claude/settings.local.json` ถูก ignore (`.gitignore:33`) ส่วนไฟล์ใหม่ 4 ไฟล์ไม่ถูก ignore · CR = 0 ทุกไฟล์ · `CLAUDE.md` 68 บรรทัด |
+| ทดสอบจริง: Write `.env` ลงใน scratchpad ของเซสชัน | **ไม่ถูกบล็อก** (ลบไฟล์ทดสอบแล้ว) เพราะเซสชันนี้เริ่มก่อนจะมี `.claude/settings.json` · **ยังไม่ผ่าน AC ข้อ hook** ต้องทดสอบซ้ำในเซสชันใหม่ที่เปิดที่ `E:\KhamangWet\KhamangWet_FullSystem` |
+| อ่านเอกสาร `code.claude.com/docs/en/permissions` (ตรวจ 2026-10-26) | ชื่อไฟล์เปล่าใช้ gitignore semantics และ match ทุกระดับ (`Read(.env)` = `Read(**/.env)`) ส่วน `./.env` match เฉพาะโฟลเดอร์ปัจจุบัน · `!` carve-out มีผลกับ rule ที่อยู่ก่อนหน้าใน list เดียวกัน · ask rule ยังถามแม้อยู่ใน auto mode |
+| `git commit` บน branch `m0/t14-claude-config` | `2235350` (5 files, +111 −1) · ผู้พัฒนาอนุมัติเนื้อหาและจุดที่ต่างจาก DECISIONS ภาคผนวก A.5 ทั้ง 6 ข้อก่อน commit |
 
 ### 2.2 Build / Typecheck / Lint / Test
 > **[F] ไม่มีคำสั่ง build, typecheck, lint หรือ test ใน repository** ผลด้านล่างคือการลองรันจริง ซึ่ง**ล้มเหลวทั้งหมด** ไม่มีผลสำเร็จใดที่จะรายงานได้
@@ -163,7 +170,7 @@ ec7a390099d9467f1cada7beedbdad10  prompts/06_TEST_PLAN.md
 | Art assets (ตัวละคร, ฉาก, VFX, UI) | **Missing** | ไม่พบไฟล์ asset ใด (§2.1 รอบ 2) · ภาพอ้างอิง 2 ภาพอยู่ในโฟลเดอร์ชั่วคราวนอก repo และยังไม่ได้คัดลอกเข้า repo | M1-T03, T13–T16 |
 | Git repository, `.gitignore`, `.gitattributes` | **Implemented** | `ce6117d` (baseline 34 ไฟล์ md5 ตรงครบ) + `c8cbe36` (docs + `.gitattributes` + `.gitignore`) · clean · LF ทุกไฟล์ (§2.1, M0-T02) · ยังไม่มี remote | M0-T02 ✔ |
 | `CLAUDE.md` | **Implemented** | 66 บรรทัด สร้างจาก template และผู้พัฒนาอนุมัติเนื้อหาแล้ว · ไม่มี `@import` · ยังไม่มีส่วน Commands เพราะยังไม่มีคำสั่ง (§2.1 M0-T04) | M0-T04 ✔ |
-| `.claude/settings.json`, skills, agents, hooks | **Missing** | §2.1 | M0-T14 |
+| `.claude/settings.json`, skills, agents, hooks | **Partial** | `settings.json` (deny 11, ask 9, ยังไม่มี allow), hook `guard-files.mjs`, subagent `reviewer` และ skill `implement-task` · pipe-test ผ่าน 14/14 แต่ยังไม่เห็น hook บล็อกจริงในเซสชัน · ขาด skill `verify` และ allow list ซึ่งรอ M0-T10 (§2.1 M0-T14 part 1) | M0-T14 (part 1 ✔) |
 | `docs/adr/` | **Partial** | มี ADR-001 (stack และเวอร์ชัน) จากผล spike M0-T06 · ADR-003 ถึง 007 ยังไม่ได้เขียน (M0-T12) · ADR-002 เลื่อนไปหลัง VP0-c | M0-T06 ✔, M0-T12 |
 | pnpm workspace + lockfile | **Missing** | §2.2 | M0-T08 |
 | Lint / format / import boundary | **Missing** | §2.2 | M0-T09 |
@@ -224,3 +231,4 @@ ec7a390099d9467f1cada7beedbdad10  prompts/06_TEST_PLAN.md
 | 2026-10-26 | M0-T06 cleanup: log ดิบเก็บใน tag `spike/m0-t06` (`9d43ddf`) · ลบ branch และโฟลเดอร์ spike · คืนค่า `.git/info/exclude` · แก้การอ้างอิงหลักฐานใน ADR-001 | §2.1 (M0-T06 cleanup) |
 | 2026-10-26 | DEC-059 (1): ลบ `%APPDATA%\prisma` แล้ว · พบไฟล์ระดับผู้ใช้อื่นที่ spike สร้าง 4 รายการ (DEC-060 Open) | §2.1 (DEC-059 (1)) |
 | 2026-10-26 | DEC-060 = B: ลบ `pnpm-store-operation-locks`, `biomejs` และ `prisma-nodejs` · เก็บ `pnpm-cache` · ไม่แตะ `vitest` | §2.1 (DEC-060) |
+| 2026-10-26 | M0-T14 part 1: `.claude/settings.json`, guard hook, `reviewer` และ `implement-task` = Partial · รอทดสอบ hook จริงในเซสชันใหม่ และรอ skill `verify` หลัง T10 | §2.1 (M0-T14 part 1) |
