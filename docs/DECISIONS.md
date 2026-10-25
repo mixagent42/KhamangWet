@@ -288,6 +288,7 @@
   - **Fuzz:** สร้าง message สุ่มจาก schema แล้วยิงเข้า room ใน M3
   - **Load:** ใช้ `@colyseus/loadtest` หรือเครื่องมืออื่นหลัง M3 (README L21)
 - **Dependency ใหม่ที่ต้องขออนุมัติแยก:** property-based testing library (ไม่บังคับ)
+- **อัปเดต 2026-10-26 (M0-T10):** เริ่มใช้ Vitest 5.0.5 แล้ว · รันแยกราย package (`pnpm -r test`) โดยไม่มี config ที่ root · test อยู่ข้าง source (`*.test.ts`) และ `tsconfig.build.json` กันไม่ให้เข้า `dist` · กฎ determinism (ห้าม `Math.random`, `Date.now`, `performance.now` ใน `game-rules`) ถูกบังคับด้วย ESLint ตั้งแต่ M0-T09
 
 ### DEC-014 — Animation runtime
 - **Status:** ~~Proposed~~ → **Open** (เปลี่ยนเมื่อ 2026-10-26 เพราะ DEC-040) · **ต้องปิดก่อน:** ผลิต asset จำนวนมาก (VP0-c) · **Ref:** D-23, R-19

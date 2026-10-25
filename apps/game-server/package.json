@@ -5,7 +5,8 @@
   "description": "Authoritative game server (Node).",
   "type": "module",
   "scripts": {
-    "build": "tsc -p tsconfig.json"
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "devDependencies": {
     "@kw/config": "workspace:*",

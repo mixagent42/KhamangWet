@@ -18,9 +18,9 @@
 
 | สถานะ | จำนวนรายการ (ตาราง §3) |
 |---|---|
-| Implemented | 7 (เอกสาร 2 รายการ + git repository + `CLAUDE.md` + `.claude/rules/` + pnpm workspace + lint/format · ยังไม่มีโค้ดเกม) |
+| Implemented | 8 (เอกสาร 2 รายการ + git repository + `CLAUDE.md` + `.claude/rules/` + pnpm workspace + lint/format + `pnpm verify` · ยังไม่มีโค้ดเกม) |
 | Partial | 4 |
-| Missing | 26 (infrastructure 3 + game systems 22 + art assets 1) |
+| Missing | 25 (infrastructure 2 + game systems 22 + art assets 1) |
 | Unknown | 4 |
 
 **[F]** ยังไม่มีโค้ดเกม, ยังไม่มี build system และยังไม่มี test · เอกสารทั้งหมดเป็นแผนและข้อเสนอ ไม่ใช่สิ่งที่ทำไปแล้ว (README L5)
@@ -115,11 +115,20 @@
 | `pnpm format:check` ก่อนจัดรูปแบบ | exit 1 · 3 ไฟล์: `eslint.config.js`, `tests/lint/import-boundaries.test.mjs` และ `.claude/hooks/guard-files.mjs` · ในขอบเขตมี 27 ไฟล์ ไม่มี `.md` และ lockfile |
 | `pnpm format` แล้วตรวจซ้ำ | ทั้ง 3 ไฟล์เปลี่ยนแค่การตัดบรรทัด · `format:check` exit 0 · pipe-test ของ hook ยังผ่าน 14/14 · `pnpm lint` exit 0 (9/9) · `pnpm build` exit 0 · `pnpm install --frozen-lockfile` = up to date |
 | `git commit` บน branch `m0/t09-lint-format-boundaries` | `108adea` (9 files, +1083 −4) · ผู้พัฒนาอนุมัติ diff ก่อน commit |
+| **(M0-T10, 2026-10-26)** `pnpm install` (เพิ่ม `vitest` 5.0.5 ใน catalog และเป็น devDep ของ `game-rules`) | exit 0 · `Packages: +19` ตามที่ประเมินไว้ · ไม่มี `jiti` · Vitest ใช้ `vite@8.3.5(@types/node@24.19.2)` ตัวเดิม · virtual store รวม 129 package |
+| `vitest run` ใน `packages/game-rules` | Test Files 1 passed · **Tests 5 passed (5)**: ค่าในช่วง, ต่ำกว่า, สูงกว่า, เท่าขอบ และ `min > max` โยน `RangeError` |
+| ลบ `packages/game-rules/dist` แล้ว build ด้วย `tsconfig.build.json` | exit 0 · `dist/` มีแค่ `clamp.*` และ `index.*` (ไม่มีไฟล์ test) |
+| **AC:** `pnpm verify` | **exit 0** (3.9 วินาที) · log ยืนยันว่ารันครบ 5 ขั้น: `pnpm -r typecheck` (5 package) → `eslint .` + `node --test` (9/9) → `pnpm -r test` (5/5) → `pnpm -r build` (5 package) → `prettier --check .` |
+| **AC:** แก้ `toBe(5)` เป็น `toBe(6)` ใน `clamp.test.ts` ชั่วคราว | `pnpm verify` **exit 1** ("AssertionError: expected 5 to be 6", `Tests 1 failed \| 4 passed`) · ขั้น build และ format:check **ไม่ได้รัน** · คืนไฟล์แล้ว `cmp` ตรงกับต้นฉบับ · `pnpm verify` exit 0 อีกครั้ง |
+| `pnpm install --frozen-lockfile` | "Lockfile is up to date" |
+| **(A2, ผู้พัฒนาอนุมัติ 2026-10-26)** `git config --local user.email` | เปลี่ยนจากอีเมลส่วนตัวเป็น GitHub noreply `328789487+mixagent42@users.noreply.github.com` ก่อน commit ของ T10 · ไม่มี global `user.email` · การเขียนประวัติเก่าใหม่รอแผนที่ผู้พัฒนาจะอนุมัติ |
+| `git commit` บน branch `m0/t10-verify` | `4d9afb4` (14 files, +258 −12) · author/committer = noreply · ผู้พัฒนาอนุมัติ diff ก่อน commit |
 
 ### 2.2 Build / Typecheck / Lint / Test
 > **[F] ไม่มีคำสั่ง build, typecheck, lint หรือ test ใน repository** ผลด้านล่างคือการลองรันจริง ซึ่ง**ล้มเหลวทั้งหมด** ไม่มีผลสำเร็จใดที่จะรายงานได้
 > **อัปเดต M0-T08 (2026-10-26):** มี `pnpm build` (= `pnpm -r build`) และผ่านแล้ว (§2.1 M0-T08) · typecheck, lint และ test ยังไม่มี (M0-T09, M0-T10) · ตารางด้านล่างคือผลตอน onboarding
 > **อัปเดต M0-T09 (2026-10-26):** มี `pnpm lint` และ `pnpm format:check` และผ่านแล้ว (§2.1 M0-T09) · typecheck และ test ยังไม่มี (M0-T10)
+> **อัปเดต M0-T10 (2026-10-26):** มี `pnpm typecheck`, `pnpm test` และ `pnpm verify` และผ่านแล้ว (§2.1 M0-T10) · ตารางด้านล่างคงไว้เป็นผลตอน onboarding
 
 | คำสั่ง | Exit code | Output สำคัญ |
 |---|---|---|
@@ -200,7 +209,7 @@ ec7a390099d9467f1cada7beedbdad10  prompts/06_TEST_PLAN.md
 | `docs/adr/` | **Partial** | มี ADR-001 (stack และเวอร์ชัน) จากผล spike M0-T06 · ADR-003 ถึง 007 ยังไม่ได้เขียน (M0-T12) · ADR-002 เลื่อนไปหลัง VP0-c | M0-T06 ✔, M0-T12 |
 | pnpm workspace + lockfile | **Implemented** | `pnpm-workspace.yaml` (catalog + `engineStrict`), 7 workspace projects (`@kw/*`) ที่มีแค่ entry point ว่าง, `pnpm-lock.yaml` · `pnpm install --frozen-lockfile` และ `pnpm -r build` ผ่านบนสำเนาใหม่ (§2.1 M0-T08) · ยังไม่มีโค้ดเกม | M0-T07 ✔, M0-T08 ✔ |
 | Lint / format / import boundary | **Implemented** | `eslint.config.js` (type-aware + กฎ boundary ด้วย ESLint core rules), `tests/lint/import-boundaries.test.mjs` (9/9), Prettier 3.9.10 สำหรับ code และ config (`.prettierignore`) · `pnpm lint` และ `pnpm format:check` exit 0 · import ผิดกฎทำให้ `pnpm lint` exit 1 (§2.1 M0-T09) | M0-T09 ✔ |
-| `pnpm verify` (typecheck + lint + test + build) | **Missing** | §2.2 | M0-T10 |
+| `pnpm verify` (typecheck + lint + test + build) | **Implemented** | `pnpm verify` = typecheck → lint → test → build → format:check, exit 0 · unit test ตัวอย่าง `clamp` ใน `game-rules` (Vitest 5/5) · test ที่ fail ทำให้ verify exit 1 และหยุดที่ขั้น test (§2.1 M0-T10) | M0-T10 ✔ |
 | CI pipeline | **Missing** | ไม่พบ `.github` หรือ `.gitlab-ci.yml` | M0-T11 |
 | Local PostgreSQL | **Missing** | ไม่พบ docker หรือ psql | M0-T13 |
 
@@ -261,3 +270,4 @@ ec7a390099d9467f1cada7beedbdad10  prompts/06_TEST_PLAN.md
 | 2026-10-26 | M0-T07 Done: pnpm 12.15.0 ผ่าน corepack shim · root `package.json` + `pnpm-lock.yaml` (ส่วนของ pnpm) · pnpm workspace + lockfile = Partial | §2.1 (M0-T07), §2.3 |
 | 2026-10-26 | M0-T08 Done: pnpm workspace + lockfile = Implemented (7 projects, 18 packages) · มี `pnpm build` แล้ว · convention 4–6 ใน ADR-001 | §2.1 (M0-T08), §2.2 |
 | 2026-10-26 | M0-T09 Done: lint/format/import boundary = Implemented · DEC-010 ปิดครบ (Prettier + ESLint core rules) · แก้ตัวเลขในแถว build ของ M0-T08 จาก 6 เป็น 5 package | §2.1 (M0-T08, M0-T09), §2.2 |
+| 2026-10-26 | M0-T10 Done: `pnpm verify` = Implemented · unit test แรก (`clamp`) · git email ของ repo เปลี่ยนเป็น noreply (A2) | §2.1 (M0-T10), §2.2 |

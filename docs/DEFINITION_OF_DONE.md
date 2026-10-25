@@ -94,11 +94,12 @@
 ## 6. Enforcement — `pnpm verify` และ CI (ข้อเสนอ, DEC-011 / DEC-013)
 
 > **[F]** ตอนนี้ยังไม่มีคำสั่งใดใน repository (`IMPLEMENTATION_STATUS.md §2.2`) ชื่อคำสั่งด้านล่างเป็น**ข้อเสนอ**ที่จะสร้างใน M0-T10
+> **อัปเดต 2026-10-26 (M0-T10):** `pnpm verify` มีจริงแล้วและผ่าน (`IMPLEMENTATION_STATUS.md §2.1 M0-T10`) · คำสั่งอื่นในตาราง 6.1 ยังเป็นข้อเสนอ
 
 ### 6.1 คำสั่ง local
 | คำสั่ง (เสนอ) | ทำอะไร | ใช้เมื่อ |
 |---|---|---|
-| `pnpm verify` | typecheck → lint → unit test → build (ทุก package) | ก่อน commit ทุกครั้ง และ CI tier 1 |
+| `pnpm verify` ✔ (M0-T10) | typecheck → lint → unit test → build (ทุก package) → **format:check** (เพิ่มใน M0-T10 ตามที่ผู้พัฒนาอนุมัติ) · lint รวม fixture test ของ import boundary · หยุดที่ขั้นแรกที่ fail | ก่อน commit ทุกครั้ง และ CI tier 1 |
 | `pnpm test:integration` | room + DB integration (ต้องมี PostgreSQL ตาม DEC-009) | ก่อน merge งานที่แตะ server หรือ DB |
 | `pnpm test:e2e` | Playwright 2 client ผ่าน debug hook | ก่อน merge งานที่แตะ flow หลัก และ nightly |
 | `pnpm perf:capture` | benchmark scene และ server tick capture แล้วบันทึกลง `docs/perf/` | งานที่แตะ render loop, asset หรือ hot path |

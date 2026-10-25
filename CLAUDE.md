@@ -25,11 +25,14 @@ Thai Occult & Sorcery MMORPG for Web PC. Art direction is locked to 2.5D HD-2D: 
 - One-time setup per machine: `corepack enable pnpm --install-directory "%APPDATA%\npm"` (corepack ships with Node 24). The `pnpm` shim runs the version pinned in `packageManager`, and corepack downloads it on first use.
 - `pnpm --version`: prints `12.15.0`.
 - `pnpm install`: install workspace dependencies. On a fresh clone and in CI use `pnpm install --frozen-lockfile`, which fails if `pnpm-lock.yaml` is out of date.
-- `pnpm build`: build every workspace package (runs `pnpm -r build`).
+- `pnpm verify`: typecheck → lint → test → build → format:check, stopping at the first failure. Run it before every commit; CI runs the same command.
+- `pnpm typecheck`: `tsc --noEmit` in every workspace package, test files included.
 - `pnpm lint`: type-aware ESLint on the whole repo, then the import-boundary fixture tests in `tests/lint/` (`node --test`).
+- `pnpm test`: unit tests with Vitest, per package (`pnpm -r test`). Tests sit next to the source as `*.test.ts`; `tsconfig.build.json` keeps them out of `dist`.
+- `pnpm build`: build every workspace package (runs `pnpm -r build`).
 - `pnpm format` / `pnpm format:check`: Prettier for code and config only; Markdown, `docs/`, `prompts/` and `pnpm-lock.yaml` are never reformatted (`.prettierignore`).
 
-Add a command here only after it has run successfully (planned: `pnpm verify` in M0-T10). Never claim a build, typecheck, lint or test passed unless it was actually run.
+Add a command here only after it has run successfully. Never claim a build, typecheck, lint or test passed unless it was actually run.
 
 ## Key decisions (summary; `docs/DECISIONS.md` wins on any conflict)
 - Exact version pins and a committed lockfile. Never install from the `latest` tag: Prisma's `latest` CLI tag points to a release candidate (DEC-003).

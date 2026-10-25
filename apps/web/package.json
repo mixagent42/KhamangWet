@@ -5,7 +5,8 @@
   "description": "Browser client (Vite).",
   "type": "module",
   "scripts": {
-    "build": "tsc -p tsconfig.json && vite build"
+    "build": "tsc -p tsconfig.json && vite build",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "devDependencies": {
     "@kw/config": "workspace:*",

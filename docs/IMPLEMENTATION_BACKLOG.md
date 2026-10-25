@@ -102,7 +102,7 @@ M4  T01(DB) ─► T02(auth) ─► T03(lease) ─► T04(loot txn) ─► T05(X
 - **AC:** มี fixture test 3 กรณีที่ lint ต้อง fail ได้แก่ (a) `apps/game-server` import Babylon (b) `apps/web` import Prisma (c) `packages/game-rules` import `node:fs` หรือ DOM
 
 #### M0-T10 — `pnpm verify` และ test ตัวอย่าง
-- **Type:** infra · **Size:** S · **Depends:** T09 · **Decisions:** DEC-013
+- **Type:** infra · **Size:** S · **Depends:** T09 ✔ · **Decisions:** DEC-013 ✔ · **Status:** ✔ **Done (2026-10-26)** ทำบน branch `m0/t10-verify` แล้ว squash merge เข้า `main` · ผู้พัฒนาอนุมัติแผน 5 ข้อ (รวมขั้น format:check เป็นขั้นที่ 5) และ diff ก่อน commit · AC ผ่านทั้ง 3 ข้อ: `pnpm verify` exit 0 · `clamp` + Vitest 5/5 · test ที่ fail ทำให้ verify exit 1 (`IMPLEMENTATION_STATUS.md §2.1 M0-T10`)
 - **AC:** `pnpm verify` = typecheck + lint + test + build และ exit 0 · มี unit test ตัวอย่าง 1 ตัวใน `game-rules` (เช่น pure function `clamp`) ซึ่งไม่ใช่ฟีเจอร์ · ทดลองทำให้ test fail แล้ว `pnpm verify` ต้อง exit ≠ 0 (บันทึกผล)
 
 #### M0-T11 — CI pipeline (tier 1)
