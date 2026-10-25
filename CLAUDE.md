@@ -24,7 +24,8 @@ None yet: there is no `package.json`. Add a command here only after it has run s
 
 ## Key decisions (summary; `docs/DECISIONS.md` wins on any conflict)
 - Exact version pins and a committed lockfile. Never install from the `latest` tag: Prisma's `latest` CLI tag points to a release candidate (DEC-003).
-- Node 24 LTS (DEC-004). Final versions of pnpm, TypeScript and Colyseus come from the M0-T06 spike and are recorded in ADR-001 (DEC-005..007).
+- Pinned stack (exact versions and pnpm settings in `docs/adr/001-stack-and-versions.md`): Node 24 LTS, pnpm 12.15.0, TypeScript 6.0.3, ESLint 10 + typescript-eslint 8.72 (type-aware), Colyseus 0.18, Prisma 7.10.1 (DEC-004..008, DEC-010). Revisit TypeScript 7 when typescript-eslint supports it.
+- Colyseus state uses `schema()` with `t.*`, not `@type()` decorators. Import Babylon.js per module, not `import * from "@babylonjs/core"` (ADR-001).
 - Prisma 7.x stable, with the CLI and client on the same exact version; schema lives in `database/` (DEC-008).
 - Art is 2.5D HD-2D only: no pixel art, chibi or full 3D realistic style without approval (DEC-040). Character appearance changes with equipment (paper-doll, DEC-045).
 - The animation runtime is undecided: VP0-c compares Blender → glTF (A3-B) with layered frames (A1-L). Spine is deferred (DEC-014, DEC-058).

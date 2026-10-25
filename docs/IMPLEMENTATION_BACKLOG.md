@@ -77,7 +77,7 @@ M4  T01(DB) ─► T02(auth) ─► T03(lease) ─► T04(loot txn) ─► T05(X
 - **Risks:** C-19
 
 #### M0-T06 — Version compatibility spike
-- **Type:** spike · **Size:** M · **Depends:** T02 · **Decisions:** DEC-003, DEC-004 (ผลลัพธ์ของ task นี้ใช้ปิด DEC-005 ถึง DEC-008)
+- **Type:** spike · **Size:** M · **Depends:** T02 · **Decisions:** DEC-003, DEC-004 (ผลลัพธ์ของ task นี้ใช้ปิด DEC-005 ถึง DEC-008) · **Status:** ✔ **Done (2026-10-26)** spike branch `spike/m0-t06-versions` (`c4bf28e`, ไม่ merge) · ผลอยู่ใน `docs/adr/001-stack-and-versions.md` · ผู้พัฒนาเลือก TS 6.0.3 + ESLint · มีผลข้างเคียงนอกแผนจาก Prisma (DEC-059)
 - **ขอบเขต:** branch ทิ้งได้ที่มี package น้อยที่สุดเพื่อพิสูจน์ว่า
   - TS major ที่เลือก + decorator ของ `@colyseus/schema` compile และ encode ได้
   - Vite + React plugin build ได้
@@ -89,7 +89,7 @@ M4  T01(DB) ─► T02(auth) ─► T03(lease) ─► T04(loot txn) ─► T05(X
 - **Risks:** R-17, R-18
 
 #### M0-T07 — ติดตั้งและ pin pnpm
-- **Type:** infra · **Size:** S · **Depends:** T06 · **Decisions:** DEC-005 · ⚠ ต้องได้รับอนุมัติก่อนติดตั้งซอฟต์แวร์
+- **Type:** infra · **Size:** S · **Depends:** T06 ✔ · **Decisions:** DEC-005 ✔ (pnpm 12.15.0) · ⚠ ต้องได้รับอนุมัติก่อนติดตั้งซอฟต์แวร์ · **ข้อมูลจาก spike:** `corepack pnpm@12.15.0` ใช้ได้โดยไม่ต้อง `corepack enable` จึงอาจไม่ต้องติดตั้ง pnpm แบบถาวรเลย (ให้ผู้พัฒนาเลือกวิธี)
 - **AC:** `pnpm --version` ตรงกับ `packageManager` ใน root `package.json` และวิธีติดตั้งมีบันทึกใน README หรือ CLAUDE.md
 
 #### M0-T08 — Monorepo skeleton
@@ -98,7 +98,7 @@ M4  T01(DB) ─► T02(auth) ─► T03(lease) ─► T04(loot txn) ─► T05(X
 - **AC:** (1) `pnpm install --frozen-lockfile` บน clone ใหม่สำเร็จ (2) `pnpm -r build` ผ่าน (3) ไม่มี package หรือโฟลเดอร์ที่ M1 ยังไม่ได้ใช้ ยกเว้นที่ระบุไว้ข้างบน
 
 #### M0-T09 — Lint, format และ import boundary
-- **Type:** infra · **Size:** S · **Depends:** T08 · **Decisions:** DEC-010
+- **Type:** infra · **Size:** S · **Depends:** T08 · **Decisions:** DEC-010 (lint = ESLint 10.13.0 + typescript-eslint 8.72.0 ✔ · formatter และเครื่องมือ import boundary ยังต้องเลือกใน task นี้)
 - **AC:** มี fixture test 3 กรณีที่ lint ต้อง fail ได้แก่ (a) `apps/game-server` import Babylon (b) `apps/web` import Prisma (c) `packages/game-rules` import `node:fs` หรือ DOM
 
 #### M0-T10 — `pnpm verify` และ test ตัวอย่าง
@@ -111,7 +111,7 @@ M4  T01(DB) ─► T02(auth) ─► T03(lease) ─► T04(loot txn) ─► T05(X
 
 #### M0-T12 — เขียน ADR-001 ถึง ADR-007
 - **Type:** doc · **Size:** M · **Depends:** T06 และ DEC ที่เกี่ยวข้องเป็น Accepted
-- **ADR:** 001 stack + versions · ~~002 animation runtime~~ → **เลื่อนไปหลัง VP0-c** (DEC-014 เปิดใหม่เพราะ DEC-040, อัปเดต 2026-10-26) · 003 walkable data (DEC-016) · 004 netcode model (DEC-017, 018) · 005 persistence strategy (DEC-019, ร่างได้ แต่ Accept ใน M3-T12) · 006 dev auth (DEC-020) · 007 MVP scope: PvE และ loot (DEC-021, 022)
+- **ADR:** 001 stack + versions (✔ เขียนแล้วใน M0-T06: `docs/adr/001-stack-and-versions.md`) · ~~002 animation runtime~~ → **เลื่อนไปหลัง VP0-c** (DEC-014 เปิดใหม่เพราะ DEC-040, อัปเดต 2026-10-26) · 003 walkable data (DEC-016) · 004 netcode model (DEC-017, 018) · 005 persistence strategy (DEC-019, ร่างได้ แต่ Accept ใน M3-T12) · 006 dev auth (DEC-020) · 007 MVP scope: PvE และ loot (DEC-021, 022)
 - **AC:** ทุก ADR มี context, decision, alternatives, consequences, status และ date (TECH §10) และ DECISIONS.md ลิงก์ไปยัง ADR
 
 #### M0-T13 — Local PostgreSQL (ทำใน M0 หรือเลื่อนไป M3 ก็ได้)

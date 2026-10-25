@@ -1,6 +1,6 @@
 # DECISIONS — Khamang Wet Decision Log
 
-- **สร้างเมื่อ:** 2026-10-26 · **สถานะเอกสาร:** Draft · **การตัดสินใจที่ผู้พัฒนาอนุมัติแล้ว:** DEC-040 (Art Direction 2.5D HD-2D, 2026-10-26) · DEC-045 (paper-doll ตาม equipment, 2026-10-26) · DEC-058 (VP0-c เทียบ A3-B กับ A1-L และยังไม่ซื้อ Spine, 2026-10-26) · **มอบอำนาจให้ผู้ตรวจตัดสิน (2026-10-26):** DEC-001 ถึง 008, 011, 012, 013, 033, 034, 039 (ดู §4.0)
+- **สร้างเมื่อ:** 2026-10-26 · **สถานะเอกสาร:** Draft · **การตัดสินใจที่ผู้พัฒนาอนุมัติแล้ว:** DEC-040 (Art Direction 2.5D HD-2D, 2026-10-26) · DEC-045 (paper-doll ตาม equipment, 2026-10-26) · DEC-058 (VP0-c เทียบ A3-B กับ A1-L และยังไม่ซื้อ Spine, 2026-10-26) · **มอบอำนาจให้ผู้ตรวจตัดสิน (2026-10-26):** DEC-001 ถึง 008, 011, 012, 013, 033, 034, 039 (ดู §4.0) · **DEC-006 และ DEC-010 (TypeScript 6.0.3 + ESLint/typescript-eslint, ผู้พัฒนา 2026-10-26)** · เวอร์ชันที่ pin ทั้งหมดอยู่ใน `docs/adr/001-stack-and-versions.md`
 - **ที่มา:** `PROJECT_ONBOARDING_REPORT.md` (รหัส C-xx = ข้อขัดแย้ง, D-xx = การตัดสินใจที่ขาด, R-xx = ความเสี่ยง) และเอกสารต้นฉบับ
 - **ความสัมพันธ์กับ ADR:** `TECHNICAL_ARCHITECTURE.md §10` (L146–147) กำหนดให้ใช้ `docs/adr/NNN-title.md` ไฟล์นี้จึงทำหน้าที่เป็น**ทะเบียนกลาง (register)** ของทุกการตัดสินใจ เมื่อ entry ใดได้สถานะ **Accepted** และมีผลระยะยาว ให้เขียน ADR เต็มแล้วลิงก์กลับมาที่นี่ โดยเก็บไว้ที่นี่แค่บทสรุป เพื่อไม่ให้เนื้อหาซ้ำกัน
 
@@ -30,12 +30,12 @@
 | DEC-002 | ตำแหน่งเอกสารต้นฉบับ (ลบไฟล์ซ้ำ) | **Accepted (delegated)** · ✔ ทำแล้วใน M0-T03 | M0 | C-01, C-02, D-32 |
 | DEC-003 | นโยบาย pin เวอร์ชัน dependency | **Accepted (delegated)** | M0 | D-14, R-17, R-18 |
 | DEC-004 | Node.js runtime line | **Accepted (delegated)** | M0 | หัวข้อ 8 ของรายงาน |
-| DEC-005 | pnpm major และนโยบาย build script | **Accepted (delegated, conditional: M0-T06)** | M0 | หัวข้อ 8 |
-| DEC-006 | TypeScript major (7.x หรือก่อนหน้า) | **Accepted (delegated, conditional: M0-T06)** | M0 | R-18 |
-| DEC-007 | Colyseus 0.18 / schema 5 / sdk | **Accepted (delegated, conditional: M0-T06)** | M0 | R-18 |
-| DEC-008 | Prisma major และ path ของ schema/migrations | **Accepted (delegated)** | M0 | R-17, C-18 |
+| DEC-005 | pnpm major และนโยบาย build script | **Accepted** — pnpm 12.15.0 + `allowBuilds` ปฏิเสธเป็นค่าเริ่มต้น (spike ยืนยัน, ADR-001) | M0 | หัวข้อ 8 |
+| DEC-006 | TypeScript major | **Accepted (ผู้พัฒนา, 2026-10-26)** — **TS 6.0.3** และทบทวน TS 7 เมื่อ typescript-eslint รองรับ (ADR-001) | M0 | R-18 |
+| DEC-007 | Colyseus 0.18 / schema 5 / sdk | **Accepted** — core 0.18.23, schema 5.0.42, sdk 0.18.6 (spike ยืนยัน, ADR-001) | M0 | R-18 |
+| DEC-008 | Prisma major และ path ของ schema/migrations | **Accepted (delegated)** — 7.10.1 ผ่าน spike แล้ว (ADR-001) · เรื่องการดาวน์โหลด engine ดู DEC-059 | M0 | R-17, C-18 |
 | DEC-009 | PostgreSQL ใน local (เครื่องมือและเวอร์ชัน) | Open | M3 | D-28, R-23 |
-| DEC-010 | Lint, format และ import boundary | Open | M0 | D-27 |
+| DEC-010 | Lint, format และ import boundary | **Accepted (ผู้พัฒนา, 2026-10-26)** ส่วน lint — **ESLint 10.13.0 + typescript-eslint 8.72.0 (type-aware)** · formatter และเครื่องมือ import boundary เลือกใน M0-T09 | M0 | D-27 |
 | DEC-011 | CI provider และ pipeline | **Accepted (delegated)** — GitHub Actions | M0 | D-27 |
 | DEC-012 | Branching, rollback และ recovery | **Accepted (delegated)** | M0 | R-20 |
 | DEC-013 | Automated test stack และ determinism | **Accepted (delegated)** | M0 | R-22 |
@@ -84,6 +84,7 @@
 | DEC-056 | กำลังการผลิต art และงบ | **Open (ผู้พัฒนา)** | **ก่อน VP0-b** | VP0 §6, RA-01 |
 | DEC-057 | Visual equipment slots, ลำดับชั้น (draw order) และการแสดงรอยสัก | Open (ผู้พัฒนาร่วมกับ VP0-c) | ก่อน M1-T13 | ART_BIBLE §4.3 |
 | **DEC-058** | **VP0-c เทียบ A3-B กับ A1-L ก่อน และยังไม่ยอมรับค่า Spine (G1 ของ A3-S)** | **Accepted (ผู้พัฒนา, 2026-10-26)** · ทบทวนได้ | — | ภาคผนวก C.1 |
+| DEC-059 | Prisma ดาวน์โหลด Schema Engine จาก `binaries.prisma.sh` และ cache ที่ `%APPDATA%\prisma` | **Open (ผู้พัฒนา)** | cache: ตอนนี้ · การดาวน์โหลด: ก่อน M4-T01 | ADR-001 (finding F1) |
 
 **การตัดสินใจที่เลื่อนออกไปโดยตั้งใจ (Deferred, ไม่บล็อก VS0):** D-06 การ spawn (VS0 ใช้ timer), D-08 จำนวนตัวละครต่อบัญชี (VS0 = 1), D-09 ritual/investigation (M5), D-11 cultural review และชื่อเกม (M6), D-12 business model (M7), D-33 hosting (M6)
 
@@ -114,11 +115,11 @@
 ### 3.1 Stack
 - ☑ **DEC-003** นโยบาย pin เวอร์ชัน (exact pins, commit lockfile, ห้ามติดตั้งจาก tag `latest`) — Accepted (delegated) 2026-10-26
 - ☑ **DEC-004** Node 24 LTS — Accepted (delegated) 2026-10-26
-- ◐ **DEC-005** pnpm major — ตัดสินกติกาแล้ว และเวอร์ชันจริงรอ M0-T06
-- ◐ **DEC-006** TypeScript major — ตัดสินกติกาแล้ว (7.x ถ้าผ่าน) และรอ M0-T06
-- ◐ **DEC-007** Colyseus 0.18 line — ตัดสินแล้ว และรอผล spike ใน M0-T06
-- ☐ **DEC-010** linter/formatter + import boundary — บล็อก M0
-- ☐ เวอร์ชันของ Babylon.js, Vite, React, Zod, Vitest และ Playwright ที่จะ pin (บันทึกใน ADR-001) — บล็อก M0
+- ☑ **DEC-005** pnpm 12.15.0 — ยืนยันโดย spike M0-T06 (ADR-001)
+- ☑ **DEC-006** TypeScript 6.0.3 — ผู้พัฒนาเลือก 2026-10-26 (ADR-001)
+- ☑ **DEC-007** Colyseus 0.18.23 / schema 5.0.42 / sdk 0.18.6 — ยืนยันโดย spike (ADR-001)
+- ◐ **DEC-010** lint = ESLint 10.13.0 + typescript-eslint 8.72.0 ☑ · formatter และ import boundary ☐ (M0-T09)
+- ☑ เวอร์ชันของ Babylon.js, Vite, React, Zod และ Vitest pin แล้วใน ADR-001 · ☐ Playwright (pin เมื่อเริ่มใช้ใน M1)
 
 ### 3.2 Animation Runtime
 - ☐ **DEC-014** animation runtime — **Open** (VP0-a ใช้ sprite-sheet placeholder ส่วนการตัดสินจริงมาจาก VP0-c ตามที่ DEC-040 กำหนด)
@@ -227,18 +228,18 @@
 - **Recommendation [R]:** Node 24 LTS โดยอัปเดตเป็น patch ล่าสุดก่อนเริ่ม M0-T06 · **Open:** จะย้ายไป 26 เมื่อเข้า LTS หรือไม่ (ให้ทบทวนตอนจบ M4)
 
 ### DEC-005 — pnpm major และนโยบาย build script
-- **Status:** **Accepted (delegated, conditional: M0-T06, 2026-10-26)** → ดู §4.0 · ~~Open~~ · **Context [F]:** ยังไม่ได้ติดตั้ง pnpm แต่มี `corepack 0.35.0` · registry มี `latest` = 12.15.0 และสาย 10.x, 11.x
+- **Status:** **Accepted** — pnpm 12.15.0 ยืนยันโดย spike M0-T06 (ADR-001) · เดิมเป็น Accepted (delegated, conditional) ใน §4.0 · ~~Open~~ · **Context [F]:** ยังไม่ได้ติดตั้ง pnpm แต่มี `corepack 0.35.0` · registry มี `latest` = 12.15.0 และสาย 10.x, 11.x
 - **[?] ต้องตรวจ:** พฤติกรรมของ pnpm 12 ต่อ lifecycle script ของ dependency (ตั้งแต่ v10 ไม่รันโดยค่าเริ่มต้น) ซึ่งมีผลต่อ Prisma และ esbuild · วิธีติดตั้งที่ pnpm แนะนำ (corepack หรือ standalone)
 - **Recommendation [R]:** เลือก major ที่ผ่าน M0-T06 แล้วกำหนด allowlist ของ package ที่ต้อง build ให้ชัด · ต้องได้รับอนุมัติก่อนติดตั้ง
 
 ### DEC-006 — TypeScript major
-- **Status:** **Accepted (delegated, conditional: M0-T06, 2026-10-26)** → ดู §4.0 · ~~Open (ต้องทำ spike)~~ · **Context [F]:** `latest` = 7.0.2 (มี `beta` 7.1.0) · TECH §1 L17 ให้ตรวจ compatibility ก่อน pin
+- **Status:** **Accepted (ผู้พัฒนา, 2026-10-26): TypeScript 6.0.3** และทบทวน TS 7 เมื่อ typescript-eslint รองรับ · ที่มา: คำสั่ง "DEC-006/010: เลือก TypeScript 6.0.3 + ESLint 10 / typescript-eslint 8.72.0 (type-aware lint) และทบทวน TS 7 เมื่อ typescript-eslint รองรับ" · ผล spike อยู่ใน ADR-001 · ~~Accepted (delegated, conditional)~~ · **Context [F]:** `latest` = 7.0.2 (มี `beta` 7.1.0) · TECH §1 L17 ให้ตรวจ compatibility ก่อน pin
 - **[?] ต้องตรวจใน M0-T06:** decorator ของ `@colyseus/schema` 5, linter ที่เลือก, React plugin ของ Vite 8, type ของ Prisma generated client และ Vitest 5
 - **Options:** **A.** TS 7.x ถ้าผ่านทุกข้อ · **B.** major ก่อนหน้า ถ้ามีเครื่องมือหลักที่ยังไม่รองรับ (ต้องยืนยันชื่อเวอร์ชันจาก registry)
 - **Impact:** ถ้าเลือกผิดจะต้องย้ายทั้ง monorepo ภายหลัง ควรตัดสินก่อนมีโค้ดจริง
 
 ### DEC-007 — Colyseus line
-- **Status:** **Accepted (delegated, conditional: M0-T06, 2026-10-26)** → ดู §4.0 · ~~Proposed (ต้องทำ spike)~~ · **Context [F]:** `colyseus` 0.18.10, `@colyseus/core` 0.18.23, `@colyseus/schema` 5.0.42, `@colyseus/sdk` 0.18.6, `@colyseus/testing` 0.18.6, `@colyseus/loadtest` 0.18.4 (license ของ colyseus เป็น MIT) · ยังเป็น 0.x และมี tag `legacy-0.17`
+- **Status:** **Accepted** — `@colyseus/core` 0.18.23 + `ws-transport` 0.18.4 + `schema` 5.0.42 + `sdk` 0.18.6 ยืนยันโดย spike (ADR-001) · ~~Accepted (delegated, conditional)~~ · **Context [F]:** `colyseus` 0.18.10, `@colyseus/core` 0.18.23, `@colyseus/schema` 5.0.42, `@colyseus/sdk` 0.18.6, `@colyseus/testing` 0.18.6, `@colyseus/loadtest` 0.18.4 (license ของ colyseus เป็น MIT) · ยังเป็น 0.x และมี tag `legacy-0.17`
 - **Recommendation [R]:** ใช้ 0.18 line เพราะตรงกับ client SDK ปัจจุบัน แต่ต้องอ่าน migration guide และ docs ทางการก่อน แล้วทำ spike "1 room + 1 client + state sync + message validation" ใน M0-T06
 - **[?]:** กลไก filter หรือ view สำหรับแยก state สาธารณะกับส่วนตัว (R-11), การตั้งค่า payload limit (R-13) และสิ่งที่มีให้สำหรับ prediction (R-06)
 
@@ -249,12 +250,12 @@
 - **Impact:** ถ้า CLI กับ client ต่าง major กัน generate หรือ migrate อาจล้มเหลวหรือได้ type ที่ไม่ตรงกัน
 
 ### DEC-009 — PostgreSQL ใน local
-- **Status:** Open · **Context [F]:** ไม่พบ `docker` และ `psql` ใน PATH
+- **Status:** Open · **Context [F]:** ไม่พบ `docker` และ `psql` ใน PATH · **[F] จาก spike M0-T06:** `prisma` 7.10.1 มี dependency `@prisma/dev` + `@electric-sql/pglite` (Postgres แบบ WASM) ซึ่ง**อาจ**เป็นทางเลือก D ที่ไม่ต้องติดตั้ง Docker หรือ PostgreSQL **[?]** ต้องตรวจความสามารถและข้อจำกัดก่อน
 - **Options:** **A.** Docker Desktop + compose (ใกล้เคียง CI และ production) · **B.** ติดตั้ง PostgreSQL บน Windows (เบากว่า แต่ต่างจาก CI) · **C.** Postgres บน cloud สำหรับ dev (ต้องใช้เน็ตและอาจมีค่าใช้จ่าย)
 - **Recommendation [R]:** A ถ้าเครื่องรองรับ เพราะ CI ก็ใช้ container แต่ต้องให้ผู้พัฒนาเลือก · major version ของ PostgreSQL ต้องตรงกับ support matrix ของ Prisma ที่เลือก **[?]**
 
 ### DEC-010 — Lint, format และ import boundary
-- **Status:** Open · **Context [F]:** ยังไม่มีเครื่องมือ · TECH L81 กำหนดกฎ import แต่ไม่มีอะไรบังคับ
+- **Status:** **Accepted (ผู้พัฒนา, 2026-10-26) ส่วน lint: ESLint 10.13.0 + typescript-eslint 8.72.0 (type-aware, `recommendedTypeChecked`)** · formatter และเครื่องมือ import boundary ยัง Open (M0-T09) · ~~Open~~ · **Context [F]:** ยังไม่มีเครื่องมือ · TECH L81 กำหนดกฎ import แต่ไม่มีอะไรบังคับ
 - **ต้องตรวจ [?]:** เครื่องมือที่เลือกรองรับ TypeScript major ตาม DEC-006 หรือไม่ (ทั้งตัว lint, formatter และตัวตรวจ dependency graph ระหว่าง package)
 - **เกณฑ์ที่ต้องผ่าน [R]:** มี fixture test ที่ import ผิดกฎ (เช่น server → Babylon) แล้วทำให้ `pnpm lint` ล้มเหลว
 
@@ -322,6 +323,9 @@
 
 ### DEC-017 — Multiplayer authority และ netcode model
 - **Status:** Proposed · **Ref:** D-16, D-18, C-14, C-15
+- **[F] จาก spike M0-T06 (ADR-001):**
+  - `onMessage(type, zodSchema, handler)` ของ Colyseus 0.18.23 ใช้ Zod 4 ได้ตรง ๆ แต่ถ้า payload ไม่ผ่าน จะ**ตัดการเชื่อมต่อ client** (code 4002) ส่วนการ `safeParse` เองใน handler ทิ้ง message โดยไม่ตัดการเชื่อมต่อ (ต้องเลือกนโยบายใน M3-T04)
+  - Colyseus 0.18 มี `InputBufferImpl` และ `setSimulationInterval` สำหรับรับ input และ tick และ `StateView` / `@view` ใน schema สำหรับกรองข้อมูลต่อ client (R-11) **[?]** ยังไม่ได้ทดสอบ
 - **Recommendation [R]:**
   1. Server ตัดสินตำแหน่ง, combat, status, loot, inventory และ progression (ยืนยัน DEC-L5 และ TECH §3)
   2. Client ทำนายเฉพาะการเดินของตัวเองแล้ว reconcile ตาม sequence ส่วนผู้เล่นและ entity อื่นใช้ interpolation
@@ -332,6 +336,7 @@
 - **Conflict ที่ต้องบันทึก:** ข้อ 3 ขัดกับข้อความใน `NETWORK_PROTOCOL.md` L15 ถ้าอนุมัติ ต้องแก้ L15 และแสดง diff ให้ผู้พัฒนาดูก่อน
 
 ### DEC-018 — Lag compensation และ i-frames
+- **[F] จาก spike M0-T06:** Colyseus 0.18 export `Rewind` และ `RewindView` (lag compensation ในตัว) **[?]** ยังไม่ได้ทดสอบ ต้องพิจารณาก่อนยืนยันข้อเสนอ "ไม่ rewind ใน VS0"
 - **Status:** Proposed · **Recommendation [R]:**
   - VS0 **ไม่ rewind** ให้ server resolve ตามตำแหน่ง ณ tick ที่ resolve (นิยาม "defined simulation moment" ของ COMBAT L35)
   - windup ของ telegraph ต้องนานพอให้ผู้เล่นมีเวลาตอบสนองแม้มี latency (ตัวเลขอยู่ใน game-data และ tune จาก playtest)
@@ -472,6 +477,15 @@
   - A3-B เป็นทาง skeletal ทางเดียว (RA-12 สูงขึ้นเป็น High)
   - ต้องติดตั้ง Blender (DEC-054) ก่อน M1-T19
   - A1-L ต้องทำตัวอย่างขั้นต่ำจริงเพื่อให้เทียบกันได้ (ไม่ใช่แค่ทางสำรองบนกระดาษ)
+
+### DEC-059 — Prisma Schema Engine download และ cache ใน `%APPDATA%`
+- **Status:** **Open (ผู้พัฒนา)** · **ต้องปิดก่อน:** เรื่อง cache ตัดสินได้ทันที ส่วนนโยบายการดาวน์โหลดตัดสินก่อน M4-T01
+- **Context [F] (spike M0-T06, finding F1):**
+  - แม้ `allowBuilds` จะปฏิเสธ postinstall ของ `@prisma/engines` แล้ว คำสั่ง `prisma --version` และ `prisma generate` ยังดาวน์โหลด `schema-engine-windows.exe` (20,791,808 bytes) เข้า `node_modules`
+  - และสร้าง cache ที่ `C:\Users\mixza\AppData\Roaming\prisma\master\d1b3f377…\windows\` (~20 MB, สร้างเมื่อ 2026-10-26 01:29:12) จาก host `binaries.prisma.sh` (ตามที่อ้างใน `@prisma/fetch-engine`) ซึ่งเป็นการเปลี่ยนแปลงนอกโฟลเดอร์ spike และนอกแผนที่อนุมัติ (npm registry เท่านั้น)
+  - Schema Engine **จำเป็น**สำหรับ `prisma migrate` (M4)
+- **คำถามสำหรับผู้พัฒนา:** (1) ลบ cache ที่ `%APPDATA%\prisma` ตอนนี้ หรือเก็บไว้ใช้ใน M4 (2) อนุญาตให้ Prisma ดาวน์โหลดจาก `binaries.prisma.sh` ใน M4 หรือไม่ (ตัวเลือกอื่นคือตั้ง mirror ผ่าน `PRISMA_ENGINES_MIRROR` ซึ่ง**ยังไม่ได้ตรวจ**วิธีใช้)
+- **ระหว่างนี้:** ผู้ตรวจจะไม่รันคำสั่ง Prisma CLI และไม่ลบ cache
 
 ### DEC-041 ถึง DEC-056 — การตัดสินใจด้าน art ก่อนผลิต asset จำนวนมาก
 - **Status:** Open ทั้งหมด (ดูคอลัมน์ "ตัดสินโดย" ใน `VISUAL_PROTOTYPE_PLAN.md §6`)

@@ -19,8 +19,8 @@
 | สถานะ | จำนวนรายการ (ตาราง §3) |
 |---|---|
 | Implemented | 5 (เอกสาร 2 รายการ + git repository + `CLAUDE.md` + `.claude/rules/` · ยังไม่มีโค้ด) |
-| Partial | 2 |
-| Missing | 30 (infrastructure 7 + game systems 22 + art assets 1) |
+| Partial | 3 |
+| Missing | 29 (infrastructure 6 + game systems 22 + art assets 1) |
 | Unknown | 4 |
 
 **[F]** ยังไม่มีโค้ดเกม, ยังไม่มี build system และยังไม่มี test · เอกสารทั้งหมดเป็นแผนและข้อเสนอ ไม่ใช่สิ่งที่ทำไปแล้ว (README L5)
@@ -66,6 +66,12 @@
 | ตรวจการอ้างอิงใน rule ใหม่ | DEC-013, `docs/DECISIONS.md`, `docs/IMPLEMENTATION_STATUS.md` และชื่อเอกสารต้นฉบับทั้ง 10 มีอยู่จริง |
 | `wc -l` และ `git ls-files --eol .claude/rules/` | `shared.md` 13 บรรทัด, `docs.md` 12 บรรทัด · ทั้ง 5 ไฟล์เป็น `i/lf` |
 | `git commit` บน branch `m0/t05-rules` | `52c44ac` · ผู้พัฒนาอนุมัติเนื้อหาก่อน commit |
+| **(M0-T06, 2026-10-26)** spike 2 ชุด (TS 7.0.2 กับ TS 6.0.3) ด้วย pnpm 12.15.0 | branch `spike/m0-t06-versions` commit `c4bf28e` (ไม่ merge) · log จริงอยู่ใน `spike/m0-t06/logs/` และ `RESULTS.md` บน branch นั้น · สรุปอยู่ใน `docs/adr/001-stack-and-versions.md` |
+| T1 install + `--frozen-lockfile` จาก clean, T9 `engineStrict` | exit 0 ทั้งสองชุด (หลังกำหนด `allowBuilds`) · engines `>=99` ถูกบล็อกด้วย `ERR_PNPM_UNSUPPORTED_ENGINE` |
+| T2 ถึง T7 (Colyseus schema และ room, Vite + React, Babylon, Prisma generate, Zod + Vitest) | ผ่านทั้งสองชุด · Vitest 8/8 · ตัวเลขอยู่ใน ADR-001 |
+| T8 lint | TS 7: typescript-eslint error "does not support TS 7.0" · TS 6.0.3: ESLint ทำงานได้และพบ `any` รั่ว 13 จุด · Biome ผ่านทั้งสองชุด |
+| ผลข้างเคียงนอกแผน | Prisma CLI ดาวน์โหลด Schema Engine 20 MB และสร้าง `%APPDATA%\prisma` (DEC-059 Open) · ยังไม่ได้ลบ |
+| ขนาดบนดิสก์ของ spike (ignored, ไม่อยู่ใน git) | `spike/m0-t06/` = 785 MB (store 633 MB, corepack 55 MB) · ซ่อนจาก `git status` บน `main` ด้วย `.git/info/exclude` (local เท่านั้น) จนกว่าจะลบ |
 
 ### 2.2 Build / Typecheck / Lint / Test
 > **[F] ไม่มีคำสั่ง build, typecheck, lint หรือ test ใน repository** ผลด้านล่างคือการลองรันจริง ซึ่ง**ล้มเหลวทั้งหมด** ไม่มีผลสำเร็จใดที่จะรายงานได้
@@ -88,7 +94,7 @@
 | node | v24.19.0 (สาย LTS ล่าสุด 24.22.1 ตาม nodejs.org index) | DEC-004 |
 | npm | 11.17.0 | — |
 | corepack | 0.35.0 | DEC-005 |
-| pnpm | ไม่พบ | DEC-005 |
+| pnpm | ไม่พบใน PATH · เรียก `corepack pnpm@12.15.0` ได้โดยไม่ต้อง `corepack enable` (M0-T06) | DEC-005 |
 | docker | ไม่พบ | DEC-009 |
 | psql | ไม่พบ | DEC-009 |
 | blender | ไม่พบใน PATH | DEC-016 |
@@ -146,7 +152,7 @@ ec7a390099d9467f1cada7beedbdad10  prompts/06_TEST_PLAN.md
 | Git repository, `.gitignore`, `.gitattributes` | **Implemented** | `ce6117d` (baseline 34 ไฟล์ md5 ตรงครบ) + `c8cbe36` (docs + `.gitattributes` + `.gitignore`) · clean · LF ทุกไฟล์ (§2.1, M0-T02) · ยังไม่มี remote | M0-T02 ✔ |
 | `CLAUDE.md` | **Implemented** | 66 บรรทัด สร้างจาก template และผู้พัฒนาอนุมัติเนื้อหาแล้ว · ไม่มี `@import` · ยังไม่มีส่วน Commands เพราะยังไม่มีคำสั่ง (§2.1 M0-T04) | M0-T04 ✔ |
 | `.claude/settings.json`, skills, agents, hooks | **Missing** | §2.1 | M0-T14 |
-| `docs/adr/` | **Missing** | — | M0-T12 |
+| `docs/adr/` | **Partial** | มี ADR-001 (stack และเวอร์ชัน) จากผล spike M0-T06 · ADR-003 ถึง 007 ยังไม่ได้เขียน (M0-T12) · ADR-002 เลื่อนไปหลัง VP0-c | M0-T06 ✔, M0-T12 |
 | pnpm workspace + lockfile | **Missing** | §2.2 | M0-T08 |
 | Lint / format / import boundary | **Missing** | §2.2 | M0-T09 |
 | `pnpm verify` (typecheck + lint + test + build) | **Missing** | §2.2 | M0-T10 |
@@ -202,3 +208,4 @@ ec7a390099d9467f1cada7beedbdad10  prompts/06_TEST_PLAN.md
 | 2026-10-26 | M0-T03 Done: `docs/` เป็นต้นฉบับเดียวและลบไฟล์ซ้ำแล้ว แล้ว squash merge เข้า `main` | §2.1 (M0-T03) |
 | 2026-10-26 | M0-T04 Done: `CLAUDE.md` = Implemented (66 บรรทัด) แล้ว squash merge เข้า `main` | §2.1 (M0-T04) |
 | 2026-10-26 | M0-T05 Done: `.claude/rules/` = Implemented (5 ไฟล์) แล้ว squash merge เข้า `main` | §2.1 (M0-T05) |
+| 2026-10-26 | M0-T06 Done: spike ผ่าน · ADR-001 เขียนแล้ว · `docs/adr/` = Partial · DEC-059 เปิดใหม่ | §2.1 (M0-T06) |
