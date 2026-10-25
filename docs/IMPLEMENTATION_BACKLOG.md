@@ -62,7 +62,7 @@ M4  T01(DB) ─► T02(auth) ─► T03(lease) ─► T04(loot txn) ─► T05(X
 - **Risks:** `core.autocrlf=true` อาจแปลง line ending ซึ่งป้องกันได้ด้วย `.gitattributes`
 
 #### M0-T03 — ลบเอกสารซ้ำและแก้ path อ้างอิง
-- **Type:** doc · **Size:** S · **Depends:** T02 · **Decisions:** DEC-002 ✔ · **เพิ่ม:** ย้าย `PROJECT_ONBOARDING_REPORT.md` เข้า `docs/` ใน commit เดียวกัน และคง `README.md` กับ `CLAUDE_TEMPLATE.md` ไว้ที่ root
+- **Type:** doc · **Size:** S · **Depends:** T02 · **Decisions:** DEC-002 ✔ · **เพิ่ม:** ย้าย `PROJECT_ONBOARDING_REPORT.md` เข้า `docs/` ใน commit เดียวกัน และคง `README.md` กับ `CLAUDE_TEMPLATE.md` ไว้ที่ root · **Status:** ✔ **Done (2026-10-26)** ทำบน branch `m0/t03-dedupe-docs` แล้ว squash merge เข้า `main` · ผู้พัฒนาอนุมัติ diff ก่อน commit · AC ทั้ง 4 ข้อผ่านตาม `IMPLEMENTATION_STATUS.md §2.1 (M0-T03)`
 - **AC:** (1) ตรวจ md5 ซ้ำก่อนลบ ถ้าคู่ใดต่างกันให้หยุดและรายงาน (2) เหลือสำเนาเดียวต่อเอกสาร (3) แสดง diff ของ README Contents และ TECH §5 ให้ผู้พัฒนาดูก่อน commit (4) path ทุกตัวในเอกสาร `docs/*.md` ชี้ไปยังไฟล์ที่มีจริง (ตรวจด้วย script หรือ grep)
 - **Risks:** สูญเสียการแก้ไขถ้าสำเนาเริ่มต่างกันแล้ว ซึ่งป้องกันได้ด้วยการตรวจ md5
 

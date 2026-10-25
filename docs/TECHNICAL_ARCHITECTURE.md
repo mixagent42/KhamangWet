@@ -94,12 +94,12 @@ database/
   migrations/
   seeds/
 docs/
-  GDD.md
+  GAME_VISION_GDD.md
   TECHNICAL_ARCHITECTURE.md
   COMBAT_SPEC.md
   NETWORK_PROTOCOL.md
   SECURITY_THREAT_MODEL.md
-  TEST_STRATEGY.md
+  TEST_STRATEGY.md       # also: ART_ANIMATION_PIPELINE.md, DATABASE_AND_ECONOMY.md, ROADMAP.md, AI_WORKFLOW.md, adr/, planning docs (see README)
 .claude/
   rules/
   skills/

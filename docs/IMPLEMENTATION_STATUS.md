@@ -48,6 +48,12 @@
 | `git show ce6117d:<path> \| md5sum` เทียบกับ §2.4 ทั้ง 34 ไฟล์ | match=34, mismatch=0 · ใน commit มี 34 ไฟล์ · 1,882 insertions (เท่ากับจำนวนบรรทัดของไฟล์ต้นฉบับ) |
 | `git status --porcelain` (หลัง commit 2) | ว่าง = clean |
 | `git ls-files --eol` | 44 ไฟล์ทั้งหมดเป็น `i/lf` · `git check-attr` ได้ `eol: lf` |
+| **(M0-T03, 2026-10-26)** `cmp` root กับ `docs/` ทั้ง 10 คู่ ก่อนลบ | IDENTICAL ครบ 10/10 |
+| `git rm` 10 ไฟล์ที่ root + `git mv PROJECT_ONBOARDING_REPORT.md docs/` | branch `m0/t03-dedupe-docs` commit `da1c627`: 13 files changed, 24 insertions, 778 deletions |
+| ตรวจ blob ที่ซ้ำกันใน index (`git ls-files -s`) | ไม่มีเนื้อหาซ้ำแล้ว · เอกสารหลักทั้ง 10 มีแค่ใน `docs/` |
+| md5 ของไฟล์ต้นฉบับที่ไม่ได้ตั้งใจแก้ | `docs/` 9 ไฟล์ + prompts + rules + CLAUDE_TEMPLATE ตรง baseline · ที่เปลี่ยนตามที่อนุมัติคือ `README.md` และ `docs/TECHNICAL_ARCHITECTURE.md` (ยังมี 147 บรรทัด) |
+| `git log --follow docs/PROJECT_ONBOARDING_REPORT.md` | ประวัติตามมาครบ (`c8cbe36` ถึง `da1c627`) |
+| สแกนการอ้างอิง `*.md` ทุกไฟล์ | ไม่มีการอ้างอิงที่เสีย ที่หาไม่เจอเป็นไฟล์ที่ยังไม่ได้สร้างตามแผน (`CLAUDE.md`, rule `shared.md` และ `docs.md`, ADR, `QUEST_AND_INTERACTION_SPEC.md`) |
 
 ### 2.2 Build / Typecheck / Lint / Test
 > **[F] ไม่มีคำสั่ง build, typecheck, lint หรือ test ใน repository** ผลด้านล่างคือการลองรันจริง ซึ่ง**ล้มเหลวทั้งหมด** ไม่มีผลสำเร็จใดที่จะรายงานได้
@@ -110,6 +116,7 @@ ec7a390099d9467f1cada7beedbdad10  prompts/06_TEST_PLAN.md
 154550e59d992d1ad8e00ebbed34ea35  prompts/08_DOC_SYNC.md
 ```
 (ไฟล์ใน `docs/` อีก 10 ไฟล์มี md5 ตรงกับคู่ที่ root ตามที่ระบุในวงเล็บ)
+**หมายเหตุ M0-T03 (2026-10-26):** สำเนาที่ root ถูกลบแล้วแต่ดูได้ใน commit `ce6117d` · `README.md` และ `docs/TECHNICAL_ARCHITECTURE.md` ถูกแก้ตามที่อนุมัติ จึงมี md5 ต่างจากรายการข้างบน ซึ่งเป็นค่าของ baseline
 
 ---
 
@@ -118,7 +125,7 @@ ec7a390099d9467f1cada7beedbdad10  prompts/06_TEST_PLAN.md
 ### 3.1 Project infrastructure
 | ส่วน | สถานะ | หลักฐาน / หมายเหตุ | Backlog |
 |---|---|---|---|
-| เอกสาร design, spec และ roadmap | **Implemented** (เอกสาร) | 10 ไฟล์ + README + CLAUDE_TEMPLATE (มีไฟล์ซ้ำ C-01) | M0-T03 |
+| เอกสาร design, spec และ roadmap | **Implemented** (เอกสาร) | 10 ไฟล์ใน `docs/` + README + CLAUDE_TEMPLATE · ไม่มีไฟล์ซ้ำแล้ว (M0-T03) | M0-T03 ✔ |
 | Prompt library `prompts/00–08` | **Implemented** (เอกสาร) | 9 ไฟล์ | — |
 | `.claude/rules/` | **Partial** | 3 ไฟล์ รูปแบบ `paths:` ถูกต้องตามเอกสาร Claude Code ปัจจุบัน แต่ path ที่ระบุยังไม่มีอยู่จริง และไม่มี rule สำหรับ `packages/**` | M0-T05 |
 | Foundation docs (`DECISIONS`, `IMPLEMENTATION_STATUS`, `DEFINITION_OF_DONE`, `IMPLEMENTATION_BACKLOG`) | **Partial** | สร้างแล้ว 2026-10-26 แต่ยังเป็น Draft ที่รอผู้พัฒนาอนุมัติ | M0-T01 |
@@ -180,3 +187,4 @@ ec7a390099d9467f1cada7beedbdad10  prompts/06_TEST_PLAN.md
 | 2026-10-26 | DEC-058: VP0-c เทียบ A3-B กับ A1-L และพัก A3-S ไว้ · สถานะ implementation ไม่เปลี่ยน | — |
 | 2026-10-26 | M0-T01 Done: ผู้พัฒนามอบอำนาจ และ DEC-001 ถึง 008, 011, 012, 013, 033, 034, 039 เป็น Accepted (delegated) · สถานะ implementation ไม่เปลี่ยน (ยังไม่มี git หรือโค้ด) | `DECISIONS.md §4.0` |
 | 2026-10-26 | M0-T02 Done: git repository = Implemented (`ce6117d`, `c8cbe36`) แล้วบันทึกหลักฐานใน commit ถัดไป | §2.1 (M0-T02) |
+| 2026-10-26 | M0-T03 Done: `docs/` เป็นต้นฉบับเดียวและลบไฟล์ซ้ำแล้ว แล้ว squash merge เข้า `main` | §2.1 (M0-T03) |
