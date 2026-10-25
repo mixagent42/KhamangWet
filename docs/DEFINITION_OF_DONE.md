@@ -157,6 +157,7 @@ Milestone ผ่านได้เมื่อ:
 3. **Flaky test:** ห้ามลบหรือ skip เงียบ ๆ ให้ mark ว่า quarantine พร้อม issue หรือ task ID และวันหมดอายุ ถ้าเกิน 1 milestone ต้องแก้หรือลบผ่านการตัดสินใจ
 4. **Partial:** ถ้า acceptance criteria ผ่านไม่ครบ สถานะของ task คือ Partial ใน STATUS ไม่ใช่ Done
 5. **Skip เพราะเครื่องมือไม่มี** (เช่น ไม่มี PostgreSQL) ให้ระบุใน report และ STATUS และ gate จะยังไม่ผ่าน
+6. **หลักฐานที่อ้างว่าอยู่ใน git ต้องตรวจว่าอยู่จริง:** root `.gitignore` ignore `*.log` ถ้าต้องเก็บ log ไว้ใน commit ให้ใช้ `git add -f` แล้วตรวจด้วย `git ls-tree -r <commit>` ก่อนอ้างถึงในเอกสาร (บทเรียนจาก M0-T06 ที่ log ไม่ได้เข้า commit `c4bf28e`)
 
 ---
 

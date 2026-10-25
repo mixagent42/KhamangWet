@@ -66,12 +66,18 @@
 | ตรวจการอ้างอิงใน rule ใหม่ | DEC-013, `docs/DECISIONS.md`, `docs/IMPLEMENTATION_STATUS.md` และชื่อเอกสารต้นฉบับทั้ง 10 มีอยู่จริง |
 | `wc -l` และ `git ls-files --eol .claude/rules/` | `shared.md` 13 บรรทัด, `docs.md` 12 บรรทัด · ทั้ง 5 ไฟล์เป็น `i/lf` |
 | `git commit` บน branch `m0/t05-rules` | `52c44ac` · ผู้พัฒนาอนุมัติเนื้อหาก่อน commit |
-| **(M0-T06, 2026-10-26)** spike 2 ชุด (TS 7.0.2 กับ TS 6.0.3) ด้วย pnpm 12.15.0 | branch `spike/m0-t06-versions` commit `c4bf28e` (ไม่ merge) · log จริงอยู่ใน `spike/m0-t06/logs/` และ `RESULTS.md` บน branch นั้น · สรุปอยู่ใน `docs/adr/001-stack-and-versions.md` |
+| **(M0-T06, 2026-10-26)** spike 2 ชุด (TS 7.0.2 กับ TS 6.0.3) ด้วย pnpm 12.15.0 | tag `spike/m0-t06` → `9d43ddf` (spike `c4bf28e` + log ดิบ 24 ไฟล์ · ไม่ merge) · log จริงอยู่ใน `spike/m0-t06/logs/` และ `RESULTS.md` ภายใน tag · สรุปอยู่ใน `docs/adr/001-stack-and-versions.md` |
 | T1 install + `--frozen-lockfile` จาก clean, T9 `engineStrict` | exit 0 ทั้งสองชุด (หลังกำหนด `allowBuilds`) · engines `>=99` ถูกบล็อกด้วย `ERR_PNPM_UNSUPPORTED_ENGINE` |
 | T2 ถึง T7 (Colyseus schema และ room, Vite + React, Babylon, Prisma generate, Zod + Vitest) | ผ่านทั้งสองชุด · Vitest 8/8 · ตัวเลขอยู่ใน ADR-001 |
 | T8 lint | TS 7: typescript-eslint error "does not support TS 7.0" · TS 6.0.3: ESLint ทำงานได้และพบ `any` รั่ว 13 จุด · Biome ผ่านทั้งสองชุด |
 | ผลข้างเคียงนอกแผน | Prisma CLI ดาวน์โหลด Schema Engine 20 MB และสร้าง `%APPDATA%\prisma` (DEC-059 Open) · ยังไม่ได้ลบ |
-| ขนาดบนดิสก์ของ spike (ignored, ไม่อยู่ใน git) | `spike/m0-t06/` = 785 MB (store 633 MB, corepack 55 MB) · ซ่อนจาก `git status` บน `main` ด้วย `.git/info/exclude` (local เท่านั้น) จนกว่าจะลบ |
+| ขนาดบนดิสก์ของ spike (ignored, ไม่อยู่ใน git) | `spike/m0-t06/` เคยใช้ 785 MB (store 633 MB, corepack 55 MB) และเคยซ่อนจาก `git status` บน `main` ด้วย `.git/info/exclude` · **ลบแล้ว 2026-10-26** (ดูแถว cleanup ด้านล่าง) |
+| **(M0-T06 cleanup, 2026-10-26)** ตรวจก่อนลบ: `git ls-tree` ของ `c4bf28e` เทียบกับไฟล์บนดิสก์ | พบว่า log 24 ไฟล์**ไม่อยู่ใน `c4bf28e`** เพราะ root `.gitignore` มี `*.log` (ADR-001 อ้างผิด) |
+| `git add -f` log 24 ไฟล์ → commit `9d43ddf` · `git tag -a spike/m0-t06 9d43ddf` | tag มี 97 ไฟล์ (log 24 ไฟล์ + ไฟล์ของ `c4bf28e` ครบ) · เนื้อหา log ใน tag ตรงกับบนดิสก์ 24/24 (เทียบโดยไม่สน CR; มี 1 ไฟล์ที่ถูก normalize จาก CRLF เป็น LF) |
+| `git branch -D spike/m0-t06-versions` | ลบแล้ว (tip `9d43ddf` = commit ของ tag) |
+| `rm -rf spike/m0-t06` + `rmdir spike` | ลบแล้ว 842 MB · ก่อนลบตรวจว่า `main` ไม่ track ไฟล์ใดใน `spike/` (0 ไฟล์) |
+| แก้ `.git/info/exclude` | เอาบรรทัด `/spike/` และ comment ออก · ไฟล์กลับไปตรงกับ default template ของ git ทุกบรรทัด |
+| ไม่ได้แตะ | cache ของ Prisma ที่ `%APPDATA%\prisma` (DEC-059 ยัง Open) |
 
 ### 2.2 Build / Typecheck / Lint / Test
 > **[F] ไม่มีคำสั่ง build, typecheck, lint หรือ test ใน repository** ผลด้านล่างคือการลองรันจริง ซึ่ง**ล้มเหลวทั้งหมด** ไม่มีผลสำเร็จใดที่จะรายงานได้
@@ -209,3 +215,4 @@ ec7a390099d9467f1cada7beedbdad10  prompts/06_TEST_PLAN.md
 | 2026-10-26 | M0-T04 Done: `CLAUDE.md` = Implemented (66 บรรทัด) แล้ว squash merge เข้า `main` | §2.1 (M0-T04) |
 | 2026-10-26 | M0-T05 Done: `.claude/rules/` = Implemented (5 ไฟล์) แล้ว squash merge เข้า `main` | §2.1 (M0-T05) |
 | 2026-10-26 | M0-T06 Done: spike ผ่าน · ADR-001 เขียนแล้ว · `docs/adr/` = Partial · DEC-059 เปิดใหม่ | §2.1 (M0-T06) |
+| 2026-10-26 | M0-T06 cleanup: log ดิบเก็บใน tag `spike/m0-t06` (`9d43ddf`) · ลบ branch และโฟลเดอร์ spike · คืนค่า `.git/info/exclude` · แก้การอ้างอิงหลักฐานใน ADR-001 | §2.1 (M0-T06 cleanup) |

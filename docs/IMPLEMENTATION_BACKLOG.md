@@ -77,7 +77,7 @@ M4  T01(DB) ─► T02(auth) ─► T03(lease) ─► T04(loot txn) ─► T05(X
 - **Risks:** C-19
 
 #### M0-T06 — Version compatibility spike
-- **Type:** spike · **Size:** M · **Depends:** T02 · **Decisions:** DEC-003, DEC-004 (ผลลัพธ์ของ task นี้ใช้ปิด DEC-005 ถึง DEC-008) · **Status:** ✔ **Done (2026-10-26)** spike branch `spike/m0-t06-versions` (`c4bf28e`, ไม่ merge) · ผลอยู่ใน `docs/adr/001-stack-and-versions.md` · ผู้พัฒนาเลือก TS 6.0.3 + ESLint · มีผลข้างเคียงนอกแผนจาก Prisma (DEC-059)
+- **Type:** spike · **Size:** M · **Depends:** T02 · **Decisions:** DEC-003, DEC-004 (ผลลัพธ์ของ task นี้ใช้ปิด DEC-005 ถึง DEC-008) · **Status:** ✔ **Done (2026-10-26)** หลักฐานอยู่ใน tag `spike/m0-t06` (`9d43ddf` = spike `c4bf28e` + log ดิบ · ไม่ merge · ลบ branch และโฟลเดอร์แล้ว) · ผลอยู่ใน `docs/adr/001-stack-and-versions.md` · ผู้พัฒนาเลือก TS 6.0.3 + ESLint · มีผลข้างเคียงนอกแผนจาก Prisma (DEC-059)
 - **ขอบเขต:** branch ทิ้งได้ที่มี package น้อยที่สุดเพื่อพิสูจน์ว่า
   - TS major ที่เลือก + decorator ของ `@colyseus/schema` compile และ encode ได้
   - Vite + React plugin build ได้

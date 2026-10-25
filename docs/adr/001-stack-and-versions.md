@@ -2,7 +2,7 @@
 
 - **Status:** Accepted · **Date:** 2026-10-26
 - **ผู้ตัดสิน:** ผู้พัฒนาเลือก TypeScript และ lint เอง (DEC-006, DEC-010) · ข้ออื่นมาจากการมอบอำนาจใน M0-T01 (DEC-003, 004, 005, 007, 008) ซึ่งเงื่อนไข "ต้องผ่าน spike" ได้รับการยืนยันแล้วใน M0-T06 · **ผู้พัฒนาอนุมัติ ADR ทั้งฉบับรวม conventions 3 ข้อเมื่อ 2026-10-26** ("อนุมัติ ADR-001 และ conventions ทั้ง 3 ข้อ")
-- **หลักฐาน:** spike M0-T06 บน branch `spike/m0-t06-versions` commit `c4bf28e` (`spike/m0-t06/RESULTS.md` + `logs/`) · ข้อมูลสำคัญคัดลอกไว้ในไฟล์นี้แล้ว เพื่อให้ยังอ่านได้แม้ลบ branch spike ไปแล้ว
+- **หลักฐาน:** annotated tag **`spike/m0-t06`** → commit `9d43ddf` ซึ่งมีโค้ด, lockfile และ `spike/m0-t06/RESULTS.md` (จาก commit `c4bf28e`) + log ดิบ 24 ไฟล์ใน `spike/m0-t06/logs/` (force-add ใน `9d43ddf` เพราะ root `.gitignore` มี `*.log`) · branch spike และโฟลเดอร์บนดิสก์ถูกลบแล้วเมื่อ 2026-10-26 · ดูได้ด้วย `git show refs/tags/spike/m0-t06:spike/m0-t06/RESULTS.md` · ข้อมูลสำคัญคัดลอกไว้ในไฟล์นี้แล้วด้วย
 - **เกี่ยวข้อง:** `docs/DECISIONS.md` DEC-003 ถึง 008, DEC-010 · `docs/TECHNICAL_ARCHITECTURE.md §1` (L17 "Check compatibility, latest stable versions, and licensing before pinning dependencies. Commit lockfile.")
 
 ## Context
