@@ -1,0 +1,37 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build output
+dist/
+build/
+.vite/
+*.tsbuildinfo
+
+# Test output
+coverage/
+playwright-report/
+test-results/
+blob-report/
+
+# Environment and secrets (never commit; see CLAUDE_TEMPLATE.md)
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Claude Code: personal, uncommitted settings
+.claude/settings.local.json
+CLAUDE.local.md
+
+# Prisma generated client (DEC-008): add the exact output path in M4-T01.
+# Source art storage (art-src/) is pending DEC-051 and is not ignored yet.

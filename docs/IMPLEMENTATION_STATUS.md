@@ -1,0 +1,176 @@
+# IMPLEMENTATION STATUS — Khamang Wet
+
+- **Snapshot:** 2026-10-26 · **ตรวจโดย:** Claude Code (read-only checks)
+- **Repository state:** ยังไม่ใช่ git repository จึงไม่มี commit hash ให้อ้างอิง
+- **กฎของไฟล์นี้:** อัปเดตได้เฉพาะเมื่อมี**หลักฐานจริง** (คำสั่งที่รัน + ผลลัพธ์ + วันที่ หรือ path ของไฟล์และ test) ห้ามเปลี่ยนสถานะเป็น Implemented ตามที่เอกสารออกแบบเขียนไว้ หรือตามที่ AI รายงานโดยไม่มีผลรันประกอบ
+
+### นิยามสถานะ
+| สถานะ | ความหมาย | หลักฐานขั้นต่ำ |
+|---|---|---|
+| **Implemented** | มีโค้ดหรือไฟล์จริง และผ่าน acceptance criteria ตาม `DEFINITION_OF_DONE.md` | path + test ที่ผ่าน + คำสั่งที่รัน |
+| **Partial** | มีบางส่วน หรือมีแต่ยังไม่ผ่าน criteria หรือยังไม่ได้ทดสอบ | path + ส่วนที่ขาด |
+| **Missing** | ตรวจแล้วไม่พบ | คำสั่งที่ใช้ตรวจ |
+| **Unknown** | ตรวจจาก workspace นี้ไม่ได้ ต้องถามผู้พัฒนาหรือตรวจเพิ่ม | เหตุผลที่ตรวจไม่ได้ |
+
+---
+
+## 1. สรุป
+
+| สถานะ | จำนวนรายการ (ตาราง §3) |
+|---|---|
+| Implemented | 2 (เป็นเอกสารเท่านั้น ไม่มีโค้ด) |
+| Partial | 3 |
+| Missing | 32 (infrastructure 9 + game systems 22 + art assets 1) |
+| Unknown | 4 |
+
+**[F]** ยังไม่มีโค้ดเกม, ยังไม่มี build system และยังไม่มี test · เอกสารทั้งหมดเป็นแผนและข้อเสนอ ไม่ใช่สิ่งที่ทำไปแล้ว (README L5)
+
+---
+
+## 2. หลักฐานที่ใช้ (Evidence Log)
+
+### 2.1 Repository และ Git
+| คำสั่ง (รันเมื่อ 2026-10-26) | ผลลัพธ์จริง |
+|---|---|
+| `git status` ใน `KhamangWet_FullSystem/` | `fatal: not a git repository (or any of the parent directories): .git` |
+| `git -C E:/KhamangWet status` | `fatal: not a git repository …` |
+| `git config --get core.autocrlf` | `true` |
+| `git config --get init.defaultBranch` | `master` |
+| `git config --get user.name` / `user.email` | ไม่ได้ตั้งค่า (commit จะล้มเหลว) |
+| `find E:/KhamangWet -type f` | 35 ไฟล์ = 34 ต้นฉบับ + `PROJECT_ONBOARDING_REPORT.md` (ก่อนสร้างไฟล์ foundation 4 ไฟล์นี้) |
+| `find` หา `package.json`, `Makefile`, `justfile`, `turbo.json`, `nx.json`, `pyproject.toml`, `*.sln`, `Taskfile*`, `.github`, `.gitlab-ci.yml` | ไม่พบ |
+| `test -e E:/package.json`, `E:/node_modules` | ไม่พบ (npm จึงไม่ได้ไปใช้ project ที่ parent directory) |
+| นับ CR bytes ทุกไฟล์ (`tr -cd '\r' \| wc -c`) | 0 = ทุกไฟล์ใช้ LF |
+| `ls .claude/` | มีแค่ `rules/` ไม่มี `settings.json`, `skills/`, `agents/` หรือ `hooks/` |
+| (รอบ 2, 2026-10-26) `find` หาไฟล์ที่ไม่ใช่ `.md` และไฟล์ asset (png, jpg, webp, psd, blend, glb, gltf, spine, json, ktx2) | ไม่พบ · `git status` ยังเป็น `fatal: not a git repository` · md5 ของไฟล์ต้นฉบับ 34/34 OK |
+
+### 2.2 Build / Typecheck / Lint / Test
+> **[F] ไม่มีคำสั่ง build, typecheck, lint หรือ test ใน repository** ผลด้านล่างคือการลองรันจริง ซึ่ง**ล้มเหลวทั้งหมด** ไม่มีผลสำเร็จใดที่จะรายงานได้
+
+| คำสั่ง | Exit code | Output สำคัญ |
+|---|---|---|
+| `npm run build` | 127 (non-zero, รันจาก Git Bash) | `npm error code ENOENT` · `path E:\KhamangWet\KhamangWet_FullSystem\package.json` |
+| `npm run typecheck` | 127 | เหมือนกัน (ไม่มี `package.json`) |
+| `npm run lint` | 127 | เหมือนกัน |
+| `npm run test` | 127 | เหมือนกัน |
+| `pnpm --version` | 127 | `pnpm: command not found` |
+| `command -v tsc eslint vitest playwright prisma` | — | ไม่พบทั้ง 5 คำสั่ง |
+
+**สิ่งที่ต้องมีก่อนรันคำสั่งเหล่านี้ได้:** backlog M0-T07 (pnpm), M0-T08 (workspace), M0-T09 (lint), M0-T10 (`pnpm verify`)
+
+### 2.3 Toolchain และฮาร์ดแวร์
+| รายการ | ผลตรวจ | ใช้ใน |
+|---|---|---|
+| git | 2.55.0.windows.5 | DEC-001 |
+| node | v24.19.0 (สาย LTS ล่าสุด 24.22.1 ตาม nodejs.org index) | DEC-004 |
+| npm | 11.17.0 | — |
+| corepack | 0.35.0 | DEC-005 |
+| pnpm | ไม่พบ | DEC-005 |
+| docker | ไม่พบ | DEC-009 |
+| psql | ไม่พบ | DEC-009 |
+| blender | ไม่พบใน PATH | DEC-016 |
+| jq | ไม่พบ | DEC-033 (hooks ใช้ Node แทน) |
+| gh | ไม่พบ | DEC-039 |
+| CPU / GPU / RAM | i5-14600K (14C/20T) / RTX 5070 (driver 32.0.16.1714) / 31.7 GB | DEC-029 |
+| Display | 1920×1080 @ 179 Hz | DEC-029 |
+| Browsers | Chrome 155.0.8059.85, Edge 156.0.4314.42 | DEC-036 |
+
+### 2.4 Baseline hashes ของไฟล์ต้นฉบับ (md5, 2026-10-26)
+ใช้ตรวจว่า commit แรก (DEC-001 ขั้นที่ 4) และการลบไฟล์ซ้ำ (DEC-002) ไม่ได้แก้เนื้อหาโดยไม่ตั้งใจ
+
+```
+229c9d23796f6d5f5276ecea7e1b9b62  .claude/rules/client.md
+07b91a0fb3b36f7a18121d429ab5ba57  .claude/rules/database.md
+609d38f3a46d00b8020e7685c68e09af  .claude/rules/server.md
+9d92eb486ca163e41191efa45fabd6f9  AI_WORKFLOW.md              (= docs/AI_WORKFLOW.md)
+e796f1829994921472646977e8c67f8a  ART_ANIMATION_PIPELINE.md   (= docs/…)
+0c9167de4719cb879b08cadbac164a0d  CLAUDE_TEMPLATE.md
+7650f42de979198c7bd5cc2836e0eee6  COMBAT_SPEC.md              (= docs/…)
+6e7c03b9fd7d75a0114c462c8ab975b2  DATABASE_AND_ECONOMY.md     (= docs/…)
+c7ae2ab03613d44bf58c1d4a6850be5b  GAME_VISION_GDD.md          (= docs/…)
+c29f1f392516aa6a5566e32f79d12f08  NETWORK_PROTOCOL.md         (= docs/…)
+1bd2509f8f0492f685349e198fa4bcb3  README.md
+2452aefee006b7e459eec45af8ec0c47  ROADMAP.md                  (= docs/…)
+981ca3de086c5c605eeb8405f4b82721  SECURITY_THREAT_MODEL.md    (= docs/…)
+204c705e1f74d598800b295c1182b2fb  TECHNICAL_ARCHITECTURE.md   (= docs/…)
+6759b892f3fd0fc7586d8af1fbe39c53  TEST_STRATEGY.md            (= docs/…)
+bdda62c2416da9b38d95f66b27d01d80  prompts/00_BOOTSTRAP_AND_AUDIT.md
+78079fd7349324b605f6f0a0056d668e  prompts/01_MASTER_SYSTEM_PROMPT.md
+bebe553c95f3ec70dbc42dd463882600  prompts/02_IMPLEMENT_FEATURE.md
+a05d61eb8ad600e7949f009dcc7f9a67  prompts/03_CODE_REVIEW.md
+0828130dc193c27b7a1560846a4abab6  prompts/04_SECURITY_REVIEW.md
+518ac495744915ce41eca9fa2d0bc290  prompts/05_ART_TECH_REVIEW.md
+ec7a390099d9467f1cada7beedbdad10  prompts/06_TEST_PLAN.md
+081748d4b6a3a57299223f700b66614b  prompts/07_RELEASE_CHECK.md
+154550e59d992d1ad8e00ebbed34ea35  prompts/08_DOC_SYNC.md
+```
+(ไฟล์ใน `docs/` อีก 10 ไฟล์มี md5 ตรงกับคู่ที่ root ตามที่ระบุในวงเล็บ)
+
+---
+
+## 3. สถานะรายส่วน
+
+### 3.1 Project infrastructure
+| ส่วน | สถานะ | หลักฐาน / หมายเหตุ | Backlog |
+|---|---|---|---|
+| เอกสาร design, spec และ roadmap | **Implemented** (เอกสาร) | 10 ไฟล์ + README + CLAUDE_TEMPLATE (มีไฟล์ซ้ำ C-01) | M0-T03 |
+| Prompt library `prompts/00–08` | **Implemented** (เอกสาร) | 9 ไฟล์ | — |
+| `.claude/rules/` | **Partial** | 3 ไฟล์ รูปแบบ `paths:` ถูกต้องตามเอกสาร Claude Code ปัจจุบัน แต่ path ที่ระบุยังไม่มีอยู่จริง และไม่มี rule สำหรับ `packages/**` | M0-T05 |
+| Foundation docs (`DECISIONS`, `IMPLEMENTATION_STATUS`, `DEFINITION_OF_DONE`, `IMPLEMENTATION_BACKLOG`) | **Partial** | สร้างแล้ว 2026-10-26 แต่ยังเป็น Draft ที่รอผู้พัฒนาอนุมัติ | M0-T01 |
+| Art docs (`ART_BIBLE`, `ASSET_PIPELINE`, `VISUAL_PROTOTYPE_PLAN`) | **Partial** | Draft (ART_BIBLE v0.2, ASSET_PIPELINE v0.4, VISUAL_PROTOTYPE_PLAN v0.4, 2026-10-26) · มาตรฐานตัวเลขรอ VP0 · Art Direction (DEC-040) และ paper-doll (DEC-045) เป็น Accepted · ไม่มีโค้ดหรือ asset ที่ทำตามเอกสารนี้ | M1 (VP0) |
+| Art assets (ตัวละคร, ฉาก, VFX, UI) | **Missing** | ไม่พบไฟล์ asset ใด (§2.1 รอบ 2) · ภาพอ้างอิง 2 ภาพอยู่ในโฟลเดอร์ชั่วคราวนอก repo และยังไม่ได้คัดลอกเข้า repo | M1-T03, T13–T16 |
+| Git repository, `.gitignore`, `.gitattributes` | **Missing** | §2.1 | M0-T02 |
+| `CLAUDE.md` | **Missing** | มีแค่ template | M0-T04 |
+| `.claude/settings.json`, skills, agents, hooks | **Missing** | §2.1 | M0-T14 |
+| `docs/adr/` | **Missing** | — | M0-T12 |
+| pnpm workspace + lockfile | **Missing** | §2.2 | M0-T08 |
+| Lint / format / import boundary | **Missing** | §2.2 | M0-T09 |
+| `pnpm verify` (typecheck + lint + test + build) | **Missing** | §2.2 | M0-T10 |
+| CI pipeline | **Missing** | ไม่พบ `.github` หรือ `.gitlab-ci.yml` | M0-T11 |
+| Local PostgreSQL | **Missing** | ไม่พบ docker หรือ psql | M0-T13 |
+
+### 3.2 Game systems (เทียบกับ GDD §6 MVP Scope และ TECH §4)
+| ระบบ | สถานะ | หมายเหตุ | Milestone |
+|---|---|---|---|
+| `apps/web` — Babylon scene, iso camera | **Missing** | — | M1 |
+| 2D character renderer + animation | **Missing** | runtime ยังไม่ตัดสิน (DEC-014) | M1 |
+| Walkable / collision data ที่ใช้ร่วมกัน | **Missing** | DEC-016 | M1 |
+| Input + movement (local) | **Missing** | — | M1 |
+| React UI overlay | **Missing** | — | M1–M2 |
+| `packages/game-rules` — combat rules | **Missing** | — | M2 |
+| `packages/game-data` — skills, enemies, items | **Missing** | — | M2 |
+| `packages/shared-contracts` — messages และ schemas | **Missing** | — | M2 |
+| Enemy AI | **Missing** | — | M2 |
+| `apps/game-server` — Colyseus rooms | **Missing** | — | M3 |
+| Authoritative movement + validation | **Missing** | — | M3 |
+| Rate / payload limits | **Missing** | — | M3 |
+| Reconnect | **Missing** | — | M3 |
+| Auth / session | **Missing** | DEC-020 | M3 (dev), M4 |
+| Database schema + migrations | **Missing** | — | M4 |
+| Character save/load + lease | **Missing** | DEC-019 | M4 |
+| Inventory / loot grant | **Missing** | — | M4 |
+| Equipment, tattoo/amulet loadout | **Missing** | — | M5 |
+| Quest (tutorial, investigation, hunt) | **Missing** | ยังไม่มี spec (C-09) | M5–M6 |
+| NPC shop, crafting, currency ledger | **Missing** | ยังไม่ได้อยู่ใน milestone ใด (C-11) | M5 |
+| Observability (logs, metrics) | **Missing** | — | M3 |
+| Admin / debug commands | **Missing** | — | M3 (debug), M8 (admin) |
+
+### 3.3 Unknown — ต้องถามผู้พัฒนา
+| รายการ | ทำไมตรวจไม่ได้ |
+|---|---|
+| มี repository เกมหรือโค้ดอยู่ที่อื่นหรือไม่ | README L8 พูดถึงการแตก ZIP ลง repo เกม แต่ไม่มี repo ใน workspace |
+| มี asset (art, Blender source, audio) อยู่ที่อื่นหรือไม่ | ไม่พบใน workspace |
+| ติดตั้ง Blender ไว้หรือไม่ (นอก PATH) | ตรวจแค่ PATH |
+| มี remote (GitHub หรือ GitLab) หรือบัญชี CI หรือไม่ | ไม่พบ `gh` และไม่มี git |
+
+---
+
+## 4. Change Log ของไฟล์นี้
+| วันที่ | การเปลี่ยนแปลง | หลักฐาน |
+|---|---|---|
+| 2026-10-26 | สร้างครั้งแรกจากการตรวจ read-only | §2 |
+| 2026-10-26 | ตรวจรอบ 2 หลัง Art Direction Lock และเพิ่มแถว art docs (Partial) กับ art assets (Missing) | §2.1 รอบ 2 |
+| 2026-10-26 | DEC-045 (paper-doll) ทำให้ art docs เป็น v0.2 · สถานะ implementation ไม่เปลี่ยน (ยังไม่มีโค้ดหรือ asset) | — |
+| 2026-10-26 | เพิ่ม A3-B ใน VP0-c และบันทึกผลตรวจ license ของ Spine, PixelLab และ Blender (`DECISIONS.md` ภาคผนวก C) · สถานะ implementation ไม่เปลี่ยน | — |
+| 2026-10-26 | DEC-058: VP0-c เทียบ A3-B กับ A1-L และพัก A3-S ไว้ · สถานะ implementation ไม่เปลี่ยน | — |
+| 2026-10-26 | M0-T01 Done: ผู้พัฒนามอบอำนาจ และ DEC-001 ถึง 008, 011, 012, 013, 033, 034, 039 เป็น Accepted (delegated) · สถานะ implementation ไม่เปลี่ยน (ยังไม่มี git หรือโค้ด) | `DECISIONS.md §4.0` |

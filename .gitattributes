@@ -1,0 +1,28 @@
+# Line endings: LF in the repository and the working tree (DEC-001).
+# This overrides core.autocrlf, so Windows checkouts stay LF for shell scripts and Linux CI.
+* text=auto eol=lf
+
+# Windows batch files need CRLF.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Binary assets: no line-ending conversion, no text diff.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.gif binary
+*.exr binary
+*.psd binary
+*.kra binary
+*.clip binary
+*.blend binary
+*.glb binary
+*.ktx2 binary
+*.basis binary
+*.woff2 binary
+*.ttf binary
+*.otf binary
+*.ogg binary
+*.wav binary
+*.m4a binary
