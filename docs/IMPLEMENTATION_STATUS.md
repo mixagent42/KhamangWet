@@ -77,7 +77,13 @@
 | `git branch -D spike/m0-t06-versions` | ลบแล้ว (tip `9d43ddf` = commit ของ tag) |
 | `rm -rf spike/m0-t06` + `rmdir spike` | ลบแล้ว 842 MB · ก่อนลบตรวจว่า `main` ไม่ track ไฟล์ใดใน `spike/` (0 ไฟล์) |
 | แก้ `.git/info/exclude` | เอาบรรทัด `/spike/` และ comment ออก · ไฟล์กลับไปตรงกับ default template ของ git ทุกบรรทัด |
-| ไม่ได้แตะ | cache ของ Prisma ที่ `%APPDATA%\prisma` (DEC-059 ยัง Open) |
+| ไม่ได้แตะ | cache ของ Prisma ที่ `%APPDATA%\prisma` (DEC-059 ยัง Open) → **ลบแล้วในแถวถัดไป** |
+| **(DEC-059 (1), 2026-10-26)** ตรวจ `%APPDATA%\prisma` ก่อนลบ (`find -printf`, `tasklist`) | 3 ไฟล์และ 4 โฟลเดอร์, 20,791,936 bytes · สร้างระหว่าง 01:29:12 ถึง 01:29:15 ทั้งหมด · ไม่มี process `schema-engine` ทำงานอยู่ |
+| `rm -rf "%APPDATA%\prisma"` | exit 0 · ตรวจซ้ำแล้วว่าไม่มีโฟลเดอร์ |
+| ตรวจโฟลเดอร์ระดับผู้ใช้อื่นที่ชื่อเกี่ยวกับเครื่องมือของ spike | พบที่มาจาก spike 4 รายการ: `%LOCALAPPDATA%\pnpm-cache` (335,190,585 bytes), `pnpm-store-operation-locks`, `biomejs`, `%APPDATA%\prisma-nodejs` · พบ `%LOCALAPPDATA%\vitest` ซึ่งสร้างเมื่อ 2026-09-28 (มีอยู่ก่อน ไม่แตะ) · **ยังไม่ได้ลบ** และรอ DEC-060 → ดำเนินการแล้วในแถวถัดไป |
+| **(DEC-060 = B, 2026-10-26)** ตรวจซ้ำก่อนลบ (`Get-ChildItem -Recurse`, `Get-Process`) | `pnpm-store-operation-locks` (2 ไฟล์ .lock, 0 bytes), `biomejs` (โฟลเดอร์ว่าง `biome/cache`), `prisma-nodejs` (`Config/commands.json` 52 bytes) · ทุก entry สร้างระหว่าง 01:24 ถึง 01:31 · ไม่มี process ของ pnpm, Biome หรือ Prisma ทำงานอยู่ |
+| `Remove-Item -Recurse -Force` 3 รายการ | `Test-Path` = False ทั้ง 3 รายการ · `%APPDATA%\prisma` ยังไม่มี (ลบแล้วจาก DEC-059 (1)) |
+| snapshot ของโฟลเดอร์ที่เก็บไว้ ก่อนและหลังลบ | `pnpm-cache`: 424 ไฟล์ / 335,190,585 bytes / เขียนล่าสุด 01:26:07 (ก่อน = หลัง) · `vitest`: 1 ไฟล์ / 37 bytes / 2026-09-28 (ก่อน = หลัง) |
 
 ### 2.2 Build / Typecheck / Lint / Test
 > **[F] ไม่มีคำสั่ง build, typecheck, lint หรือ test ใน repository** ผลด้านล่างคือการลองรันจริง ซึ่ง**ล้มเหลวทั้งหมด** ไม่มีผลสำเร็จใดที่จะรายงานได้
@@ -216,3 +222,5 @@ ec7a390099d9467f1cada7beedbdad10  prompts/06_TEST_PLAN.md
 | 2026-10-26 | M0-T05 Done: `.claude/rules/` = Implemented (5 ไฟล์) แล้ว squash merge เข้า `main` | §2.1 (M0-T05) |
 | 2026-10-26 | M0-T06 Done: spike ผ่าน · ADR-001 เขียนแล้ว · `docs/adr/` = Partial · DEC-059 เปิดใหม่ | §2.1 (M0-T06) |
 | 2026-10-26 | M0-T06 cleanup: log ดิบเก็บใน tag `spike/m0-t06` (`9d43ddf`) · ลบ branch และโฟลเดอร์ spike · คืนค่า `.git/info/exclude` · แก้การอ้างอิงหลักฐานใน ADR-001 | §2.1 (M0-T06 cleanup) |
+| 2026-10-26 | DEC-059 (1): ลบ `%APPDATA%\prisma` แล้ว · พบไฟล์ระดับผู้ใช้อื่นที่ spike สร้าง 4 รายการ (DEC-060 Open) | §2.1 (DEC-059 (1)) |
+| 2026-10-26 | DEC-060 = B: ลบ `pnpm-store-operation-locks`, `biomejs` และ `prisma-nodejs` · เก็บ `pnpm-cache` · ไม่แตะ `vitest` | §2.1 (DEC-060) |

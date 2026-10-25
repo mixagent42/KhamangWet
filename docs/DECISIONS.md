@@ -84,7 +84,8 @@
 | DEC-056 | กำลังการผลิต art และงบ | **Open (ผู้พัฒนา)** | **ก่อน VP0-b** | VP0 §6, RA-01 |
 | DEC-057 | Visual equipment slots, ลำดับชั้น (draw order) และการแสดงรอยสัก | Open (ผู้พัฒนาร่วมกับ VP0-c) | ก่อน M1-T13 | ART_BIBLE §4.3 |
 | **DEC-058** | **VP0-c เทียบ A3-B กับ A1-L ก่อน และยังไม่ยอมรับค่า Spine (G1 ของ A3-S)** | **Accepted (ผู้พัฒนา, 2026-10-26)** · ทบทวนได้ | — | ภาคผนวก C.1 |
-| DEC-059 | Prisma ดาวน์โหลด Schema Engine จาก `binaries.prisma.sh` และ cache ที่ `%APPDATA%\prisma` | **Open (ผู้พัฒนา)** | cache: ตอนนี้ · การดาวน์โหลด: ก่อน M4-T01 | ADR-001 (finding F1) |
+| DEC-059 | Prisma ดาวน์โหลด Schema Engine จาก `binaries.prisma.sh` และ cache ที่ `%APPDATA%\prisma` | (1) cache: **✔ ลบแล้ว 2026-10-26 (ผู้พัฒนาสั่ง)** · (2) การดาวน์โหลดใน M4: **Open (ผู้พัฒนา)** | (2) ก่อน M4-T01 | ADR-001 (finding F1) |
+| DEC-060 | ไฟล์ที่ spike M0-T06 เขียนไว้นอกโฟลเดอร์ spike (`pnpm-cache` 335 MB, `pnpm-store-operation-locks`, `biomejs`, `prisma-nodejs`) | **Accepted (ผู้พัฒนา, 2026-10-26): B** — เก็บ `pnpm-cache` และลบอีก 3 รายการแล้ว | — | `IMPLEMENTATION_STATUS.md §2.1` |
 
 **การตัดสินใจที่เลื่อนออกไปโดยตั้งใจ (Deferred, ไม่บล็อก VS0):** D-06 การ spawn (VS0 ใช้ timer), D-08 จำนวนตัวละครต่อบัญชี (VS0 = 1), D-09 ritual/investigation (M5), D-11 cultural review และชื่อเกม (M6), D-12 business model (M7), D-33 hosting (M6)
 
@@ -479,13 +480,36 @@
   - A1-L ต้องทำตัวอย่างขั้นต่ำจริงเพื่อให้เทียบกันได้ (ไม่ใช่แค่ทางสำรองบนกระดาษ)
 
 ### DEC-059 — Prisma Schema Engine download และ cache ใน `%APPDATA%`
-- **Status:** **Open (ผู้พัฒนา)** · **ต้องปิดก่อน:** เรื่อง cache ตัดสินได้ทันที ส่วนนโยบายการดาวน์โหลดตัดสินก่อน M4-T01
+- **Status:** คำถาม (1) **ตัดสินแล้ว** และคำถาม (2) **ยัง Open** · **ต้องปิดก่อน:** (2) ก่อน M4-T01
+- **ผลการตัดสิน (1), 2026-10-26:** ผู้พัฒนาสั่ง "DEC-059 (1): ลบ cache ที่ C:\Users\mixza\AppData\Roaming\prisma ตอนนี้" · ตรวจก่อนลบแล้วว่ามี 3 ไฟล์และ 4 โฟลเดอร์ (20,791,936 bytes) ทั้งหมดสร้างระหว่าง 01:29:12 ถึง 01:29:15 ในช่วง spike และไม่มี process ใช้อยู่ · **ลบแล้ว** (`rm -rf` exit 0 และตรวจซ้ำว่าไม่มีโฟลเดอร์แล้ว)
+- **พบเพิ่มหลังลบ:** `%APPDATA%\prisma-nodejs` (52 bytes, `Config/commands.json` = `{"firstCommandTimestamp":"2026-10-25T18:29:12.662Z"}`) ซึ่ง Prisma CLI สร้างในวินาทีเดียวกัน **ยังไม่ได้ลบ** เพราะไม่อยู่ในคำสั่ง และย้ายไปตัดสินใน DEC-060 → **ลบแล้วตาม DEC-060 (B), 2026-10-26**
 - **Context [F] (spike M0-T06, finding F1):**
   - แม้ `allowBuilds` จะปฏิเสธ postinstall ของ `@prisma/engines` แล้ว คำสั่ง `prisma --version` และ `prisma generate` ยังดาวน์โหลด `schema-engine-windows.exe` (20,791,808 bytes) เข้า `node_modules`
   - และสร้าง cache ที่ `C:\Users\mixza\AppData\Roaming\prisma\master\d1b3f377…\windows\` (~20 MB, สร้างเมื่อ 2026-10-26 01:29:12) จาก host `binaries.prisma.sh` (ตามที่อ้างใน `@prisma/fetch-engine`) ซึ่งเป็นการเปลี่ยนแปลงนอกโฟลเดอร์ spike และนอกแผนที่อนุมัติ (npm registry เท่านั้น)
   - Schema Engine **จำเป็น**สำหรับ `prisma migrate` (M4)
 - **คำถามสำหรับผู้พัฒนา:** (1) ลบ cache ที่ `%APPDATA%\prisma` ตอนนี้ หรือเก็บไว้ใช้ใน M4 (2) อนุญาตให้ Prisma ดาวน์โหลดจาก `binaries.prisma.sh` ใน M4 หรือไม่ (ตัวเลือกอื่นคือตั้ง mirror ผ่าน `PRISMA_ENGINES_MIRROR` ซึ่ง**ยังไม่ได้ตรวจ**วิธีใช้)
-- **ระหว่างนี้:** ผู้ตรวจจะไม่รันคำสั่ง Prisma CLI และไม่ลบ cache
+- **ระหว่างนี้:** ผู้ตรวจจะไม่รันคำสั่ง Prisma CLI จนกว่าจะตัดสินคำถาม (2)
+
+### DEC-060 — ไฟล์ที่ spike M0-T06 เขียนไว้นอกโฟลเดอร์ spike
+- **Status:** **Accepted (ผู้พัฒนา, 2026-10-26): ตัวเลือก B** · ที่มา: คำสั่ง "DEC-060 เลือก B: เก็บ pnpm-cache ไว้ ลบ pnpm-store-operation-locks, biomejs และ prisma-nodejs (ห้ามแตะ vitest)" · ~~Open~~
+- **ผลการดำเนินการ (2026-10-26):**
+  - ตรวจซ้ำก่อนลบ: ทุก entry ของทั้ง 3 รายการสร้างระหว่าง 01:24 ถึง 01:31 (0 entry นอกช่วง spike) และไม่มี process ของ pnpm, Biome หรือ Prisma ทำงานอยู่
+  - ลบด้วย `Remove-Item -Recurse -Force` แล้วตรวจซ้ำ `Test-Path` = False ทั้ง 3 รายการ
+  - **ไม่ได้แตะ:** `pnpm-cache` (ก่อนและหลังเท่ากัน: 424 ไฟล์, 335,190,585 bytes, เขียนล่าสุด 01:26:07) และ `vitest` (ก่อนและหลังเท่ากัน: 1 ไฟล์, 37 bytes, 2026-09-28)
+- **ข้อที่ต้องจำสำหรับครั้งหน้า:** spike ที่ต้องแยกขาดต้องกำหนด cache dir ของ pnpm ด้วย (ไม่ใช่แค่ `storeDir`) และตรวจโฟลเดอร์ระดับผู้ใช้ (`%APPDATA%`, `%LOCALAPPDATA%`) ทั้งก่อนและหลังรัน
+- **Context [F] (ตรวจ 2026-10-26 ด้วย `Get-Item` และ `find` แบบอ่านอย่างเดียว):**
+
+| Path | สร้างเมื่อ | ขนาด | มาจาก spike? |
+|---|---|---|---|
+| `%LOCALAPPDATA%\pnpm-cache` (`v12/`, `lockfile-verified.jsonl`) | 2026-10-26 01:24:14 | 335,190,585 bytes (424 ไฟล์) | ใช่ (metadata cache ของ pnpm 12 ซึ่งเขียนไว้ที่นี่แม้ตั้ง `storeDir` ไว้ในโฟลเดอร์ spike) |
+| `%LOCALAPPDATA%\pnpm-store-operation-locks` | 2026-10-26 01:24:15 | 0 bytes (2 ไฟล์) | ใช่ (pnpm) |
+| `%LOCALAPPDATA%\biomejs\biome` | 2026-10-26 01:31:34 | 0 bytes (โฟลเดอร์ว่าง) | ใช่ (Biome) |
+| `%APPDATA%\prisma-nodejs\Config\commands.json` | 2026-10-26 01:29:12 | 52 bytes | ใช่ (Prisma CLI) |
+| `%LOCALAPPDATA%\vitest` | 2026-09-28 21:57:50 | 37 bytes | **ไม่ใช่** (มีอยู่ก่อนโปรเจกต์นี้ จึงไม่แตะ) |
+
+- **ข้อผิดพลาดที่ต้องบันทึก:** แผน spike และรายงานก่อนหน้านี้เขียนว่า "ลบโฟลเดอร์เดียวก็ cleanup ได้" ซึ่ง**ไม่จริง** เพราะ pnpm 12 ใช้ cache dir แยกจาก store dir (ต้องตั้ง `cacheDir` ด้วยถ้าต้องการแยกขาด **[?]** ต้องตรวจชื่อ setting ใน pnpm 12) และ Biome กับ Prisma เขียนลงโฟลเดอร์ระดับผู้ใช้
+- **ตัวเลือก:** (A) ลบทั้ง 4 รายการที่มาจาก spike ตอนนี้ (B) เก็บ `pnpm-cache` ไว้เพราะ M0-T07/T08 จะใช้ pnpm 12.15.0 ตัวเดียวกันอยู่แล้ว (ทำให้ติดตั้งเร็วขึ้น) และลบอีก 3 รายการที่เหลือ (C) เก็บไว้ทั้งหมด
+- **ข้อเสนอ [R]:** (B) เพราะ `pnpm-cache` คือ cache ปกติของ pnpm ที่โปรเจกต์จะสร้างอยู่แล้วเมื่อเริ่มใช้ pnpm จริง ส่วนอีก 3 รายการไม่มีประโยชน์ต่อโปรเจกต์ · **ไม่ว่าจะเลือกข้อไหน `vitest` ห้ามแตะ**
 
 ### DEC-041 ถึง DEC-056 — การตัดสินใจด้าน art ก่อนผลิต asset จำนวนมาก
 - **Status:** Open ทั้งหมด (ดูคอลัมน์ "ตัดสินโดย" ใน `VISUAL_PROTOTYPE_PLAN.md §6`)
