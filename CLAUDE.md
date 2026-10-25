@@ -26,6 +26,8 @@ Thai Occult & Sorcery MMORPG for Web PC. Art direction is locked to 2.5D HD-2D: 
 - `pnpm --version`: prints `12.15.0`.
 - `pnpm install`: install workspace dependencies. On a fresh clone and in CI use `pnpm install --frozen-lockfile`, which fails if `pnpm-lock.yaml` is out of date.
 - `pnpm build`: build every workspace package (runs `pnpm -r build`).
+- `pnpm lint`: type-aware ESLint on the whole repo, then the import-boundary fixture tests in `tests/lint/` (`node --test`).
+- `pnpm format` / `pnpm format:check`: Prettier for code and config only; Markdown, `docs/`, `prompts/` and `pnpm-lock.yaml` are never reformatted (`.prettierignore`).
 
 Add a command here only after it has run successfully (planned: `pnpm verify` in M0-T10). Never claim a build, typecheck, lint or test passed unless it was actually run.
 

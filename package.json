@@ -7,6 +7,15 @@
     "node": "^24.19.0"
   },
   "scripts": {
-    "build": "pnpm -r build"
+    "build": "pnpm -r build",
+    "lint": "eslint . && node --test tests/lint/*.test.mjs",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "eslint": "catalog:",
+    "prettier": "catalog:",
+    "typescript": "catalog:",
+    "typescript-eslint": "catalog:"
   }
 }

@@ -98,7 +98,7 @@ M4  T01(DB) ─► T02(auth) ─► T03(lease) ─► T04(loot txn) ─► T05(X
 - **AC:** (1) `pnpm install --frozen-lockfile` บน clone ใหม่สำเร็จ (2) `pnpm -r build` ผ่าน (3) ไม่มี package หรือโฟลเดอร์ที่ M1 ยังไม่ได้ใช้ ยกเว้นที่ระบุไว้ข้างบน
 
 #### M0-T09 — Lint, format และ import boundary
-- **Type:** infra · **Size:** S · **Depends:** T08 · **Decisions:** DEC-010 (lint = ESLint 10.13.0 + typescript-eslint 8.72.0 ✔ · formatter และเครื่องมือ import boundary ยังต้องเลือกใน task นี้)
+- **Type:** infra · **Size:** S · **Depends:** T08 ✔ · **Decisions:** DEC-010 ✔ (lint = ESLint 10.13.0 + typescript-eslint 8.72.0 · formatter = Prettier 3.9.10 · boundary = ESLint core rules) · **Status:** ✔ **Done (2026-10-26)** ทำบน branch `m0/t09-lint-format-boundaries` แล้ว squash merge เข้า `main` · ผู้พัฒนาอนุมัติแผน 5 ข้อและ diff ก่อน commit · AC ผ่าน: fixture 7 กรณีที่ต้อง fail (มากกว่า 3 กรณีของ AC เพราะรวมกฎ DEC-013) และ 2 กรณีที่ต้องผ่าน · mutation test จับได้ · import ผิดกฎจริงทำให้ `pnpm lint` exit 1 (`IMPLEMENTATION_STATUS.md §2.1 M0-T09`)
 - **AC:** มี fixture test 3 กรณีที่ lint ต้อง fail ได้แก่ (a) `apps/game-server` import Babylon (b) `apps/web` import Prisma (c) `packages/game-rules` import `node:fs` หรือ DOM
 
 #### M0-T10 — `pnpm verify` และ test ตัวอย่าง

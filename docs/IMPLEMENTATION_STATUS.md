@@ -18,9 +18,9 @@
 
 | สถานะ | จำนวนรายการ (ตาราง §3) |
 |---|---|
-| Implemented | 6 (เอกสาร 2 รายการ + git repository + `CLAUDE.md` + `.claude/rules/` + pnpm workspace · ยังไม่มีโค้ดเกม) |
+| Implemented | 7 (เอกสาร 2 รายการ + git repository + `CLAUDE.md` + `.claude/rules/` + pnpm workspace + lint/format · ยังไม่มีโค้ดเกม) |
 | Partial | 4 |
-| Missing | 27 (infrastructure 4 + game systems 22 + art assets 1) |
+| Missing | 26 (infrastructure 3 + game systems 22 + art assets 1) |
 | Unknown | 4 |
 
 **[F]** ยังไม่มีโค้ดเกม, ยังไม่มี build system และยังไม่มี test · เอกสารทั้งหมดเป็นแผนและข้อเสนอ ไม่ใช่สิ่งที่ทำไปแล้ว (README L5)
@@ -99,7 +99,7 @@
 | `git commit` บน branch `m0/t07-pnpm` | `d72e0cf` (4 files) · ผู้พัฒนาอนุมัติ diff ก่อน commit |
 | **(M0-T08, 2026-10-26)** `pnpm install` | exit 0 · 7 workspace projects · `Packages: +18` (resolved 18, downloaded 18) · store `E:\.pnpm-store\v11` แบบ hardlink · 616 ms |
 | เทียบ lockfile กับ spike (`closure.mjs` ใน scratchpad ของเซสชัน + `cmp`) | closure ของ win32-x64 ตรงกับ lockfile ของ spike set-b **ทุกตัว** (18 package; ไม่มี `jiti` ตามที่คาด) · ส่วน pnpm (157 บรรทัดแรก) ไม่เปลี่ยนจาก T07 · lockfile +521 −0 |
-| `pnpm -r build` และ `pnpm build` (script ที่ root) | exit 0 ทั้งสองคำสั่ง · 6 package: `tsc` ×5 และ `vite build` ของ web (29 ms, `dist/assets/index-*.js` 0.67 kB) · script ที่เรียก `pnpm` หา pnpm เจอผ่าน shim |
+| `pnpm -r build` และ `pnpm build` (script ที่ root) | exit 0 ทั้งสองคำสั่ง · ~~6 package: `tsc` ×5 และ `vite build` ของ web~~ **แก้ 2026-10-26 (M0-T09): 5 package ที่มี build script** (`packages/config` ไม่มี build) · `tsc` 5 ครั้ง (รวม typecheck ของ web) และ `vite build` 1 ครั้ง (29 ms, `dist/assets/index-*.js` 0.67 kB) · script ที่เรียก `pnpm` หา pnpm เจอผ่าน shim |
 | AC (1) สำเนาใหม่: tree ชั่วคราว `360ac0f` (index แยก + `git add -A`) → `git archive` ไปที่ `E:\KhamangWet\kw-clone-test` | ไม่มี `node_modules` และ `dist` · `pnpm install --frozen-lockfile` exit 0 (reused 18, downloaded 0, พิมพ์ "Lockfile passes supply-chain policies") · `pnpm -r build` exit 0 · lockfile หลัง install `cmp` = IDENTICAL |
 | ทดสอบกลับ: เพิ่ม `picocolors` ใน `apps/web/package.json` ของสำเนาโดยไม่อัปเดต lockfile | `pnpm install --frozen-lockfile` **exit 1** พร้อมคำแนะนำให้สร้าง lockfile ใหม่ ซึ่งเป็นผลที่ต้องการ |
 | ลบสำเนาทดสอบ | `rm -rf` ลบเนื้อหาได้ แต่ตัวโฟลเดอร์ถูก lock เพราะ `cd` ของ Claude ย้าย working directory ของเซสชันเข้าไป · ย้ายกลับมาที่ repo แล้ว `rmdir` สำเร็จ · `E:\KhamangWet\` เหลือแค่ `KhamangWet_FullSystem` |
@@ -107,10 +107,19 @@
 | ไฟล์ระดับผู้ใช้หลัง install | `E:\.pnpm-store` 512 ไฟล์ 62,879,008 bytes · `pnpm-cache` +1,444 bytes · `pnpm-store-operation-locks` 2 ไฟล์ 0 bytes · นอกแผน: `pnpm-state\pnpm-state.json` 51 bytes (`lastUpdateCheck`) และ `pnpm-dir-locks\` (โฟลเดอร์ว่าง) |
 | `git diff --stat 360ac0f HEAD` | ต่างกันแค่ `CLAUDE.md` (แก้หลังทดสอบ) · ไฟล์อื่นตรงกับ tree ที่ทดสอบทุกไฟล์ |
 | `git commit` บน branch `m0/t08-monorepo-skeleton` | `00c3378` (24 files, +738 −1) · ผู้พัฒนาอนุมัติ diff ก่อน commit |
+| **(M0-T09, 2026-10-26)** `pnpm install` (เพิ่ม `eslint` 10.13.0, `typescript-eslint` 8.72.0, `prettier` 3.9.10 ใน catalog) | exit 0 · `Packages: +92` ตามที่ประเมินไว้ · ไม่มี `jiti` และ `@eslint/js` · virtual store รวม 110 package · lockfile +823 −1 |
+| `eslint .` บนโค้ดปัจจุบัน | exit 0 · lint 7 ไฟล์ · `--print-config` ของไฟล์ใน game-rules มีกฎ 76 ข้อ รวม type-aware (`no-floating-promises`, `no-unsafe-call`) และกฎ boundary 3 ข้อ · `projectService: true` |
+| AC: `node --test tests/lint/*.test.mjs` | **9/9 ผ่าน** · ต้อง fail 7 กรณี: (a) game-server import Babylon (b) web import Prisma (c) game-rules import `node:fs` และใช้ `document` + `Math.random`, `Date.now`, `performance.now` · ต้องผ่าน 2 กรณี: web import Babylon และ game-rules รับ RNG เป็น parameter |
+| mutation test: ลบ `babylon` ออกจากกฎของ game-server ชั่วคราว | test จับได้: pass 8, fail 1, exit 1 · คืน `eslint.config.js` แล้ว `cmp` ตรงกับต้นฉบับ |
+| พิสูจน์ตาม DEC-010: ใส่ `export { Scene } from "@babylonjs/core/scene"` ใน `apps/game-server/src/main.ts` | `pnpm lint` **exit 1** (`no-restricted-imports`: "Babylon.js is rendering code; it belongs in apps/web only") · คืนไฟล์แล้ว `git diff` ว่าง |
+| `pnpm format:check` ก่อนจัดรูปแบบ | exit 1 · 3 ไฟล์: `eslint.config.js`, `tests/lint/import-boundaries.test.mjs` และ `.claude/hooks/guard-files.mjs` · ในขอบเขตมี 27 ไฟล์ ไม่มี `.md` และ lockfile |
+| `pnpm format` แล้วตรวจซ้ำ | ทั้ง 3 ไฟล์เปลี่ยนแค่การตัดบรรทัด · `format:check` exit 0 · pipe-test ของ hook ยังผ่าน 14/14 · `pnpm lint` exit 0 (9/9) · `pnpm build` exit 0 · `pnpm install --frozen-lockfile` = up to date |
+| `git commit` บน branch `m0/t09-lint-format-boundaries` | `108adea` (9 files, +1083 −4) · ผู้พัฒนาอนุมัติ diff ก่อน commit |
 
 ### 2.2 Build / Typecheck / Lint / Test
 > **[F] ไม่มีคำสั่ง build, typecheck, lint หรือ test ใน repository** ผลด้านล่างคือการลองรันจริง ซึ่ง**ล้มเหลวทั้งหมด** ไม่มีผลสำเร็จใดที่จะรายงานได้
 > **อัปเดต M0-T08 (2026-10-26):** มี `pnpm build` (= `pnpm -r build`) และผ่านแล้ว (§2.1 M0-T08) · typecheck, lint และ test ยังไม่มี (M0-T09, M0-T10) · ตารางด้านล่างคือผลตอน onboarding
+> **อัปเดต M0-T09 (2026-10-26):** มี `pnpm lint` และ `pnpm format:check` และผ่านแล้ว (§2.1 M0-T09) · typecheck และ test ยังไม่มี (M0-T10)
 
 | คำสั่ง | Exit code | Output สำคัญ |
 |---|---|---|
@@ -190,7 +199,7 @@ ec7a390099d9467f1cada7beedbdad10  prompts/06_TEST_PLAN.md
 | `.claude/settings.json`, skills, agents, hooks | **Partial** | `settings.json` (deny 11, ask 9, ยังไม่มี allow), hook `guard-files.mjs`, subagent `reviewer` และ skill `implement-task` · pipe-test ผ่าน 14/14 แต่ยังไม่เห็น hook บล็อกจริงในเซสชัน · ขาด skill `verify` และ allow list ซึ่งรอ M0-T10 (§2.1 M0-T14 part 1) | M0-T14 (part 1 ✔) |
 | `docs/adr/` | **Partial** | มี ADR-001 (stack และเวอร์ชัน) จากผล spike M0-T06 · ADR-003 ถึง 007 ยังไม่ได้เขียน (M0-T12) · ADR-002 เลื่อนไปหลัง VP0-c | M0-T06 ✔, M0-T12 |
 | pnpm workspace + lockfile | **Implemented** | `pnpm-workspace.yaml` (catalog + `engineStrict`), 7 workspace projects (`@kw/*`) ที่มีแค่ entry point ว่าง, `pnpm-lock.yaml` · `pnpm install --frozen-lockfile` และ `pnpm -r build` ผ่านบนสำเนาใหม่ (§2.1 M0-T08) · ยังไม่มีโค้ดเกม | M0-T07 ✔, M0-T08 ✔ |
-| Lint / format / import boundary | **Missing** | §2.2 | M0-T09 |
+| Lint / format / import boundary | **Implemented** | `eslint.config.js` (type-aware + กฎ boundary ด้วย ESLint core rules), `tests/lint/import-boundaries.test.mjs` (9/9), Prettier 3.9.10 สำหรับ code และ config (`.prettierignore`) · `pnpm lint` และ `pnpm format:check` exit 0 · import ผิดกฎทำให้ `pnpm lint` exit 1 (§2.1 M0-T09) | M0-T09 ✔ |
 | `pnpm verify` (typecheck + lint + test + build) | **Missing** | §2.2 | M0-T10 |
 | CI pipeline | **Missing** | ไม่พบ `.github` หรือ `.gitlab-ci.yml` | M0-T11 |
 | Local PostgreSQL | **Missing** | ไม่พบ docker หรือ psql | M0-T13 |
@@ -251,3 +260,4 @@ ec7a390099d9467f1cada7beedbdad10  prompts/06_TEST_PLAN.md
 | 2026-10-26 | M0-T14 part 1: `.claude/settings.json`, guard hook, `reviewer` และ `implement-task` = Partial · รอทดสอบ hook จริงในเซสชันใหม่ และรอ skill `verify` หลัง T10 | §2.1 (M0-T14 part 1) |
 | 2026-10-26 | M0-T07 Done: pnpm 12.15.0 ผ่าน corepack shim · root `package.json` + `pnpm-lock.yaml` (ส่วนของ pnpm) · pnpm workspace + lockfile = Partial | §2.1 (M0-T07), §2.3 |
 | 2026-10-26 | M0-T08 Done: pnpm workspace + lockfile = Implemented (7 projects, 18 packages) · มี `pnpm build` แล้ว · convention 4–6 ใน ADR-001 | §2.1 (M0-T08), §2.2 |
+| 2026-10-26 | M0-T09 Done: lint/format/import boundary = Implemented · DEC-010 ปิดครบ (Prettier + ESLint core rules) · แก้ตัวเลขในแถว build ของ M0-T08 จาก 6 เป็น 5 package | §2.1 (M0-T08, M0-T09), §2.2 |

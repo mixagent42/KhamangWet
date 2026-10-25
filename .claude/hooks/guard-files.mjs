@@ -17,12 +17,16 @@ try {
 const name = posix.basename(filePath.replaceAll("\\", "/"));
 
 if ((name === ".env" || name.startsWith(".env.")) && name !== ".env.example") {
-  console.error(`Blocked by .claude/hooks/guard-files.mjs: ${name} may hold secrets. Ask the developer to edit it; document variables in .env.example instead.`);
+  console.error(
+    `Blocked by .claude/hooks/guard-files.mjs: ${name} may hold secrets. Ask the developer to edit it; document variables in .env.example instead.`,
+  );
   process.exit(2);
 }
 
 if (name === "pnpm-lock.yaml") {
-  console.error("Blocked by .claude/hooks/guard-files.mjs: pnpm-lock.yaml changes only through pnpm (install, add, remove, update).");
+  console.error(
+    "Blocked by .claude/hooks/guard-files.mjs: pnpm-lock.yaml changes only through pnpm (install, add, remove, update).",
+  );
   process.exit(2);
 }
 

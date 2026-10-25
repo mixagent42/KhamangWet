@@ -35,7 +35,7 @@
 | DEC-007 | Colyseus 0.18 / schema 5 / sdk | **Accepted** — core 0.18.23, schema 5.0.42, sdk 0.18.6 (spike ยืนยัน, ADR-001) | M0 | R-18 |
 | DEC-008 | Prisma major และ path ของ schema/migrations | **Accepted (delegated)** — 7.10.1 ผ่าน spike แล้ว (ADR-001) · เรื่องการดาวน์โหลด engine ดู DEC-059 | M0 | R-17, C-18 |
 | DEC-009 | PostgreSQL ใน local (เครื่องมือและเวอร์ชัน) | Open | M3 | D-28, R-23 |
-| DEC-010 | Lint, format และ import boundary | **Accepted (ผู้พัฒนา, 2026-10-26)** ส่วน lint — **ESLint 10.13.0 + typescript-eslint 8.72.0 (type-aware)** · formatter และเครื่องมือ import boundary เลือกใน M0-T09 | M0 | D-27 |
+| DEC-010 | Lint, format และ import boundary | **Accepted (ผู้พัฒนา, 2026-10-26)** ส่วน lint — **ESLint 10.13.0 + typescript-eslint 8.72.0 (type-aware)** · ~~formatter และเครื่องมือ import boundary เลือกใน M0-T09~~ **formatter = Prettier 3.9.10 · boundary = ESLint core rules (M0-T09)** | M0 | D-27 |
 | DEC-011 | CI provider และ pipeline | **Accepted (delegated)** — GitHub Actions | M0 | D-27 |
 | DEC-012 | Branching, rollback และ recovery | **Accepted (delegated)** | M0 | R-20 |
 | DEC-013 | Automated test stack และ determinism | **Accepted (delegated)** | M0 | R-22 |
@@ -256,7 +256,7 @@
 - **Recommendation [R]:** A ถ้าเครื่องรองรับ เพราะ CI ก็ใช้ container แต่ต้องให้ผู้พัฒนาเลือก · major version ของ PostgreSQL ต้องตรงกับ support matrix ของ Prisma ที่เลือก **[?]**
 
 ### DEC-010 — Lint, format และ import boundary
-- **Status:** **Accepted (ผู้พัฒนา, 2026-10-26) ส่วน lint: ESLint 10.13.0 + typescript-eslint 8.72.0 (type-aware, `recommendedTypeChecked`)** · formatter และเครื่องมือ import boundary ยัง Open (M0-T09) · ~~Open~~ · **Context [F]:** ยังไม่มีเครื่องมือ · TECH L81 กำหนดกฎ import แต่ไม่มีอะไรบังคับ
+- **Status:** **Accepted (ผู้พัฒนา, 2026-10-26) ส่วน lint: ESLint 10.13.0 + typescript-eslint 8.72.0 (type-aware, `recommendedTypeChecked`)** · ~~formatter และเครื่องมือ import boundary ยัง Open (M0-T09)~~ **→ Accepted (ผู้พัฒนา, 2026-10-26, M0-T09): formatter = Prettier 3.9.10 เฉพาะ code และ config (ไม่แตะ Markdown) · import boundary = ESLint core rules (`no-restricted-imports`, `no-restricted-globals`, `no-restricted-properties`) โดยไม่เพิ่ม plugin · fixture test ใช้ `node --test`** · เลือก Prettier แทน Biome 2.6.3 เพราะ **[F]** binary ของ Biome สำหรับ Windows ใหญ่ 102.4 MB เทียบกับ Prettier 10 MB ที่ไม่มี dependency และ Biome 2.6.3 เพิ่งออก 2 วัน (registry.npmjs.org, ตรวจ 2026-10-26) · ~~Open~~ · **Context [F]:** ยังไม่มีเครื่องมือ · TECH L81 กำหนดกฎ import แต่ไม่มีอะไรบังคับ
 - **ต้องตรวจ [?]:** เครื่องมือที่เลือกรองรับ TypeScript major ตาม DEC-006 หรือไม่ (ทั้งตัว lint, formatter และตัวตรวจ dependency graph ระหว่าง package)
 - **เกณฑ์ที่ต้องผ่าน [R]:** มี fixture test ที่ import ผิดกฎ (เช่น server → Babylon) แล้วทำให้ `pnpm lint` ล้มเหลว
 

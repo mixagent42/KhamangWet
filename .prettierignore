@@ -1,0 +1,6 @@
+# Prettier formats code and config only (M0-T09). It also skips everything in .gitignore.
+# Markdown is never reformatted: docs are edited minimally and cite each other's line numbers.
+**/*.md
+docs/
+prompts/
+pnpm-lock.yaml

@@ -23,6 +23,7 @@
 | TypeScript | **6.0.3** | ผู้พัฒนาเลือก (DEC-006) เพื่อให้ใช้ type-aware lint ได้ |
 | ESLint | **10.13.0** | DEC-010 |
 | typescript-eslint | **8.72.0** (`recommendedTypeChecked` + `projectService`) | DEC-010 |
+| Prettier | **3.9.10** | formatter เฉพาะ code และ config (DEC-010, M0-T09) · ไม่มี dependency · 10 MB |
 
 ### Libraries
 | กลุ่ม | Package | เวอร์ชัน |
@@ -91,7 +92,7 @@
 - **ข้อจำกัดที่ต้องรู้:**
   - Prisma CLI ดาวน์โหลด Schema Engine (~20 MB) จาก `binaries.prisma.sh` ตอน runtime แม้จะบล็อก postinstall แล้ว และเก็บ cache ไว้ที่ `%APPDATA%\prisma` (finding F1) · การตัดสินใจเรื่องนี้ยัง Open ใน DEC-008
   - Colyseus validation ในตัว (`onMessage(type, schema, handler)`) **ตัดการเชื่อมต่อ client** (code 4002) เมื่อ payload ไม่ผ่าน (finding F3) · นโยบายตัดสินใน M3-T04
-- **Formatter ยังไม่ได้เลือก:** DEC-010 ครอบคลุม lint แล้ว ส่วน formatter (Biome แบบใช้เฉพาะ formatter หรือ Prettier) ตัดสินใน M0-T09
+- ~~**Formatter ยังไม่ได้เลือก:** DEC-010 ครอบคลุม lint แล้ว ส่วน formatter (Biome แบบใช้เฉพาะ formatter หรือ Prettier) ตัดสินใน M0-T09~~ **เลือกแล้วใน M0-T09 (2026-10-26):** Prettier 3.9.10 เฉพาะ code และ config (DEC-010)
 
 ## Revisit triggers
 | เมื่อ | ทบทวน |
