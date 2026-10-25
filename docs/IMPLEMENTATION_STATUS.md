@@ -19,8 +19,8 @@
 | สถานะ | จำนวนรายการ (ตาราง §3) |
 |---|---|
 | Implemented | 5 (เอกสาร 2 รายการ + git repository + `CLAUDE.md` + `.claude/rules/` · ยังไม่มีโค้ด) |
-| Partial | 4 |
-| Missing | 28 (infrastructure 5 + game systems 22 + art assets 1) |
+| Partial | 5 |
+| Missing | 27 (infrastructure 4 + game systems 22 + art assets 1) |
 | Unknown | 4 |
 
 **[F]** ยังไม่มีโค้ดเกม, ยังไม่มี build system และยังไม่มี test · เอกสารทั้งหมดเป็นแผนและข้อเสนอ ไม่ใช่สิ่งที่ทำไปแล้ว (README L5)
@@ -91,6 +91,12 @@
 | ทดสอบจริง: Write `.env` ลงใน scratchpad ของเซสชัน | **ไม่ถูกบล็อก** (ลบไฟล์ทดสอบแล้ว) เพราะเซสชันนี้เริ่มก่อนจะมี `.claude/settings.json` · **ยังไม่ผ่าน AC ข้อ hook** ต้องทดสอบซ้ำในเซสชันใหม่ที่เปิดที่ `E:\KhamangWet\KhamangWet_FullSystem` |
 | อ่านเอกสาร `code.claude.com/docs/en/permissions` (ตรวจ 2026-10-26) | ชื่อไฟล์เปล่าใช้ gitignore semantics และ match ทุกระดับ (`Read(.env)` = `Read(**/.env)`) ส่วน `./.env` match เฉพาะโฟลเดอร์ปัจจุบัน · `!` carve-out มีผลกับ rule ที่อยู่ก่อนหน้าใน list เดียวกัน · ask rule ยังถามแม้อยู่ใน auto mode |
 | `git commit` บน branch `m0/t14-claude-config` | `2235350` (5 files, +111 −1) · ผู้พัฒนาอนุมัติเนื้อหาและจุดที่ต่างจาก DECISIONS ภาคผนวก A.5 ทั้ง 6 ข้อก่อน commit |
+| **(M0-T07, 2026-10-26)** `corepack enable pnpm --install-directory "%APPDATA%\npm"` | exit 0 · เพิ่ม shim 6 ไฟล์ใน `%APPDATA%\npm` (`pnpm`, `pnpm.CMD`, `pnpm.ps1`, `pnpx`, `pnpx.CMD`, `pnpx.ps1`) ซึ่งชี้ไปที่ corepack ใน `C:\Program Files\nodejs` · ไฟล์ `claude*` และ `node_modules` เดิมไม่ถูกแตะ |
+| `pnpm --version` ครั้งแรก (Git Bash) | corepack ดาวน์โหลด `registry.npmjs.org/pnpm/-/pnpm-12.15.0.tgz` และไฟล์รันของ win32-x64 · ได้ `12.15.0`, exit 0, 3.3 วินาที |
+| `pnpm --version` ใน PowerShell และ cmd.exe | `12.15.0` ทั้งสองตัว (PowerShell ใช้ `pnpm.ps1` ภายใต้ execution policy `Bypass` ของเซสชัน Claude) |
+| ขนาด `%LOCALAPPDATA%\node\corepack` หลังดาวน์โหลด | 451 ไฟล์, 56,684,425 bytes (`v1\pnpm\12.15.0` + `lastKnownGood.json` 160 bytes) · ตรงกับ registry: `pnpm` 4.2 MB + `@pnpm/exe.win32-x64` 52.5 MB · ไม่มี store, `node_modules` หรือโฟลเดอร์ pnpm อื่นถูกสร้าง · `pnpm-cache` ไม่เปลี่ยน (424 ไฟล์) |
+| ผลนอกแผน: `pnpm --version` สร้าง `pnpm-lock.yaml` | 158 บรรทัด มีเฉพาะส่วน `packageManagerDependencies` (integrity 15 ตัว) · `cmp` 157 บรรทัดแรกกับ lockfile ของ spike set-b ใน tag `spike/m0-t06` แล้ว **IDENTICAL** · integrity ของ `pnpm@12.15.0` ตรงกับ registry และกับ sha512 ใน `packageManager` · ผู้พัฒนาอนุมัติให้ commit |
+| `git commit` บน branch `m0/t07-pnpm` | `d72e0cf` (4 files) · ผู้พัฒนาอนุมัติ diff ก่อน commit |
 
 ### 2.2 Build / Typecheck / Lint / Test
 > **[F] ไม่มีคำสั่ง build, typecheck, lint หรือ test ใน repository** ผลด้านล่างคือการลองรันจริง ซึ่ง**ล้มเหลวทั้งหมด** ไม่มีผลสำเร็จใดที่จะรายงานได้
@@ -101,7 +107,7 @@
 | `npm run typecheck` | 127 | เหมือนกัน (ไม่มี `package.json`) |
 | `npm run lint` | 127 | เหมือนกัน |
 | `npm run test` | 127 | เหมือนกัน |
-| `pnpm --version` | 127 | `pnpm: command not found` |
+| `pnpm --version` | 127 → **0 (M0-T07)** | `pnpm: command not found` (ตอน onboarding) · หลัง M0-T07 ได้ `12.15.0` (§2.1 M0-T07) |
 | `command -v tsc eslint vitest playwright prisma` | — | ไม่พบทั้ง 5 คำสั่ง |
 
 **สิ่งที่ต้องมีก่อนรันคำสั่งเหล่านี้ได้:** backlog M0-T07 (pnpm), M0-T08 (workspace), M0-T09 (lint), M0-T10 (`pnpm verify`)
@@ -113,7 +119,7 @@
 | node | v24.19.0 (สาย LTS ล่าสุด 24.22.1 ตาม nodejs.org index) | DEC-004 |
 | npm | 11.17.0 | — |
 | corepack | 0.35.0 | DEC-005 |
-| pnpm | ไม่พบใน PATH · เรียก `corepack pnpm@12.15.0` ได้โดยไม่ต้อง `corepack enable` (M0-T06) | DEC-005 |
+| pnpm | ~~ไม่พบใน PATH~~ · เรียก `corepack pnpm@12.15.0` ได้โดยไม่ต้อง `corepack enable` (M0-T06) · **M0-T07:** `pnpm` 12.15.0 ผ่าน corepack shim ใน `%APPDATA%\npm` (ตัว pnpm อยู่ที่ `%LOCALAPPDATA%\node\corepack`) | DEC-005 |
 | docker | ไม่พบ | DEC-009 |
 | psql | ไม่พบ | DEC-009 |
 | blender | ไม่พบใน PATH | DEC-016 |
@@ -172,7 +178,7 @@ ec7a390099d9467f1cada7beedbdad10  prompts/06_TEST_PLAN.md
 | `CLAUDE.md` | **Implemented** | 66 บรรทัด สร้างจาก template และผู้พัฒนาอนุมัติเนื้อหาแล้ว · ไม่มี `@import` · ยังไม่มีส่วน Commands เพราะยังไม่มีคำสั่ง (§2.1 M0-T04) | M0-T04 ✔ |
 | `.claude/settings.json`, skills, agents, hooks | **Partial** | `settings.json` (deny 11, ask 9, ยังไม่มี allow), hook `guard-files.mjs`, subagent `reviewer` และ skill `implement-task` · pipe-test ผ่าน 14/14 แต่ยังไม่เห็น hook บล็อกจริงในเซสชัน · ขาด skill `verify` และ allow list ซึ่งรอ M0-T10 (§2.1 M0-T14 part 1) | M0-T14 (part 1 ✔) |
 | `docs/adr/` | **Partial** | มี ADR-001 (stack และเวอร์ชัน) จากผล spike M0-T06 · ADR-003 ถึง 007 ยังไม่ได้เขียน (M0-T12) · ADR-002 เลื่อนไปหลัง VP0-c | M0-T06 ✔, M0-T12 |
-| pnpm workspace + lockfile | **Missing** | §2.2 | M0-T08 |
+| pnpm workspace + lockfile | **Partial** | root `package.json` (`packageManager` pnpm 12.15.0 + sha512) และ `pnpm-lock.yaml` ที่มีแค่ส่วนของ pnpm เอง (§2.1 M0-T07) · ยังไม่มี `pnpm-workspace.yaml` และ package | M0-T07 ✔, M0-T08 |
 | Lint / format / import boundary | **Missing** | §2.2 | M0-T09 |
 | `pnpm verify` (typecheck + lint + test + build) | **Missing** | §2.2 | M0-T10 |
 | CI pipeline | **Missing** | ไม่พบ `.github` หรือ `.gitlab-ci.yml` | M0-T11 |
@@ -232,3 +238,4 @@ ec7a390099d9467f1cada7beedbdad10  prompts/06_TEST_PLAN.md
 | 2026-10-26 | DEC-059 (1): ลบ `%APPDATA%\prisma` แล้ว · พบไฟล์ระดับผู้ใช้อื่นที่ spike สร้าง 4 รายการ (DEC-060 Open) | §2.1 (DEC-059 (1)) |
 | 2026-10-26 | DEC-060 = B: ลบ `pnpm-store-operation-locks`, `biomejs` และ `prisma-nodejs` · เก็บ `pnpm-cache` · ไม่แตะ `vitest` | §2.1 (DEC-060) |
 | 2026-10-26 | M0-T14 part 1: `.claude/settings.json`, guard hook, `reviewer` และ `implement-task` = Partial · รอทดสอบ hook จริงในเซสชันใหม่ และรอ skill `verify` หลัง T10 | §2.1 (M0-T14 part 1) |
+| 2026-10-26 | M0-T07 Done: pnpm 12.15.0 ผ่าน corepack shim · root `package.json` + `pnpm-lock.yaml` (ส่วนของ pnpm) · pnpm workspace + lockfile = Partial | §2.1 (M0-T07), §2.3 |

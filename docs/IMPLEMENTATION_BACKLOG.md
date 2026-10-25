@@ -89,7 +89,7 @@ M4  T01(DB) ─► T02(auth) ─► T03(lease) ─► T04(loot txn) ─► T05(X
 - **Risks:** R-17, R-18
 
 #### M0-T07 — ติดตั้งและ pin pnpm
-- **Type:** infra · **Size:** S · **Depends:** T06 ✔ · **Decisions:** DEC-005 ✔ (pnpm 12.15.0) · ⚠ ต้องได้รับอนุมัติก่อนติดตั้งซอฟต์แวร์ · **ข้อมูลจาก spike:** `corepack pnpm@12.15.0` ใช้ได้โดยไม่ต้อง `corepack enable` จึงอาจไม่ต้องติดตั้ง pnpm แบบถาวรเลย (ให้ผู้พัฒนาเลือกวิธี)
+- **Type:** infra · **Size:** S · **Depends:** T06 ✔ · **Decisions:** DEC-005 ✔ (pnpm 12.15.0) · ⚠ ต้องได้รับอนุมัติก่อนติดตั้งซอฟต์แวร์ · **ข้อมูลจาก spike:** `corepack pnpm@12.15.0` ใช้ได้โดยไม่ต้อง `corepack enable` จึงอาจไม่ต้องติดตั้ง pnpm แบบถาวรเลย (ให้ผู้พัฒนาเลือกวิธี) · **Status:** ✔ **Done (2026-10-26)** ทำบน branch `m0/t07-pnpm` แล้ว squash merge เข้า `main` · ผู้พัฒนาเลือก corepack shim ใน `%APPDATA%\npm` · AC ผ่านทั้ง 2 ข้อ: `pnpm --version` = `12.15.0` = `packageManager` และวิธีติดตั้งอยู่ใน `CLAUDE.md` ส่วน Commands · ผลนอกแผน: pnpm สร้าง `pnpm-lock.yaml` (ส่วนของ pnpm เอง) ซึ่งผู้พัฒนาอนุมัติให้ commit (`IMPLEMENTATION_STATUS.md §2.1 M0-T07`)
 - **AC:** `pnpm --version` ตรงกับ `packageManager` ใน root `package.json` และวิธีติดตั้งมีบันทึกใน README หรือ CLAUDE.md
 
 #### M0-T08 — Monorepo skeleton

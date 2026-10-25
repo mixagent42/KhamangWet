@@ -21,7 +21,10 @@ Thai Occult & Sorcery MMORPG for Web PC. Art direction is locked to 2.5D HD-2D: 
 - `CLAUDE_TEMPLATE.md` is the original template this file was derived from; this file takes precedence.
 
 ## Commands
-None yet: there is no `package.json`. Add a command here only after it has run successfully (planned: `pnpm verify` in M0-T10). Never claim a build, typecheck, lint or test passed unless it was actually run.
+- One-time setup per machine: `corepack enable pnpm --install-directory "%APPDATA%\npm"` (corepack ships with Node 24). The `pnpm` shim runs the version pinned in `packageManager`, and corepack downloads it on first use.
+- `pnpm --version`: prints `12.15.0`.
+
+Add a command here only after it has run successfully (planned: `pnpm verify` in M0-T10). Never claim a build, typecheck, lint or test passed unless it was actually run.
 
 ## Key decisions (summary; `docs/DECISIONS.md` wins on any conflict)
 - Exact version pins and a committed lockfile. Never install from the `latest` tag: Prisma's `latest` CLI tag points to a release candidate (DEC-003).
