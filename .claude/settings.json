@@ -1,5 +1,27 @@
 {
   "permissions": {
+    "allow": [
+      "Bash(pnpm verify)",
+      "Bash(pnpm typecheck)",
+      "Bash(pnpm lint)",
+      "Bash(pnpm test *)",
+      "Bash(pnpm build)",
+      "Bash(pnpm format:check)",
+      "Bash(pnpm --version)",
+      "Bash(git status *)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "PowerShell(pnpm verify)",
+      "PowerShell(pnpm typecheck)",
+      "PowerShell(pnpm lint)",
+      "PowerShell(pnpm test *)",
+      "PowerShell(pnpm build)",
+      "PowerShell(pnpm format:check)",
+      "PowerShell(pnpm --version)",
+      "PowerShell(git status *)",
+      "PowerShell(git diff *)",
+      "PowerShell(git log *)"
+    ],
     "deny": [
       "Read(.env)",
       "Read(.env.*)",

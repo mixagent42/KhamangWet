@@ -58,7 +58,7 @@
 | DEC-030 | รูปแบบ game-data และ content versioning | Proposed | M2 | D-26, R-14 |
 | DEC-031 | React ↔ Babylon state bridge และ in-world UI | Proposed | M1 | D-25 |
 | DEC-032 | การแสดงผลภาษาไทยและ font | Open | M1 | D-10 |
-| DEC-033 | การตั้งค่า Claude Code สำหรับ M0–M1 | **Accepted (delegated)** · A.1 `CLAUDE.md` ทำแล้วใน M0-T04 · A.2 rules ทำแล้วใน M0-T05 · A.3 ถึง A.5 ทำส่วนแรกแล้วใน M0-T14 (ต่างจาก A.5 ใน 6 ข้อที่ผู้พัฒนาอนุมัติ) · skill `verify` และ allow list รอ M0-T10 | M0 | C-19, C-20, C-21 |
+| DEC-033 | การตั้งค่า Claude Code สำหรับ M0–M1 | **Accepted (delegated)** · A.1 `CLAUDE.md` ทำแล้วใน M0-T04 · A.2 rules ทำแล้วใน M0-T05 · A.3 ถึง A.5 ทำครบแล้วใน M0-T14 (ต่างจาก A.5 ใน 6 ข้อที่ผู้พัฒนาอนุมัติ) · ~~skill `verify` และ allow list รอ M0-T10~~ ทำแล้วใน M0-T14 part 2 | M0 | C-19, C-20, C-21 |
 | DEC-034 | ลำดับชั้นเอกสาร Definition of Done | **Accepted (delegated)** | M0 | ภาคผนวก B |
 | DEC-035 | Asset provenance รวมถึง asset ที่ AI สร้าง | Open | M1 (placeholder), M6 | D-24 |
 | DEC-036 | Browser support matrix | Proposed | M1 | D-31 |
@@ -424,7 +424,7 @@
 
 ### DEC-033 — การตั้งค่า Claude Code สำหรับ M0–M1
 - **Status:** **Accepted (delegated, 2026-10-26)** → ดู §4.0 · ~~Proposed~~ · รายละเอียดอยู่ใน**ภาคผนวก A** · **[F]** รูปแบบไฟล์ตรวจกับเอกสารทางการ `code.claude.com/docs` (หน้า memory, skills, sub-agents, hooks, permissions) เมื่อ 2026-10-26
-- **อัปเดต 2026-10-26 (M0-T14 part 1):** ทำ A.3 (`implement-task`), A.4 (`reviewer`) และ A.5 (settings + hook) แล้ว โดยต่างจาก A.5 ใน 6 ข้อที่ผู้พัฒนาอนุมัติ ดูหมายเหตุใต้ A.5 · skill `verify` และ allow list รอ M0-T10
+- **อัปเดต 2026-10-26 (M0-T14 part 1):** ทำ A.3 (`implement-task`), A.4 (`reviewer`) และ A.5 (settings + hook) แล้ว โดยต่างจาก A.5 ใน 6 ข้อที่ผู้พัฒนาอนุมัติ ดูหมายเหตุใต้ A.5 · ~~skill `verify` และ allow list รอ M0-T10~~ **ทำแล้วใน M0-T14 part 2 (2026-10-26)**: skill `verify` และ `allow` 20 rule สำหรับคำสั่งที่มีจริง · hook บล็อกได้จริงในเซสชัน
 
 ### DEC-034 — ลำดับชั้นเอกสาร Definition of Done
 - **Status:** **Accepted (delegated, 2026-10-26)** → ดู §4.0 · ~~Proposed~~ · **Context [F]:** มีเกณฑ์ done หรือรายงานปิดงานที่ซ้อนกัน 5 แหล่ง ดูภาคผนวก B
@@ -638,7 +638,7 @@
   3. เพิ่ม `Read(!.env.example)` ต่อจาก `Read(.env.*)` เพื่อให้อ่านไฟล์ตัวอย่างได้
   4. เพิ่ม rule: deny `git push --force-with-lease *`, ask `pnpm exec prisma migrate *` และ rule `PowerShell(...)` คู่กับ `Bash(...)` ทุกตัว รวมถึง ask `PowerShell(Remove-Item *)` เพราะเครื่องนี้มีเครื่องมือ PowerShell ด้วย
   5. สร้าง skill `implement-task` ก่อน T10 (ต่างจาก A.3) เพราะ skill อ่าน Commands จาก `CLAUDE.md` จึงใช้ได้ก่อนจะมี `pnpm verify`
-  6. ยังไม่ใส่ `allow` (รอ T10) และไม่กำหนด `model` ของ `reviewer` (ใช้ model ของเซสชัน) ข้อ Open ใน A.4 จึงยังเปิดอยู่
+  6. ~~ยังไม่ใส่ `allow` (รอ T10)~~ **เพิ่ม `allow` แล้วใน M0-T14 part 2:** คำสั่ง A.5 + `pnpm build`, `pnpm format:check`, `pnpm --version` และ `git status *` (A.5 เขียนแค่ `git status`) โดยมี rule `PowerShell(...)` คู่กันทุกตัว · และไม่กำหนด `model` ของ `reviewer` (ใช้ model ของเซสชัน) ข้อ Open ใน A.4 จึงยังเปิดอยู่
   - **[F] ข้อจำกัด:** hook ดูแลเฉพาะเครื่องมือ Edit และ Write จึงไม่ครอบคลุมการเขียนผ่าน Bash หรือ PowerShell และ `Read(...)` ไม่ครอบคลุม `cat` ใน shell · hook จะ fail-open (exit 0) เมื่ออ่าน input ไม่ได้ · settings โหลดตอนเริ่มเซสชัน จึงต้องทดสอบ hook จริงในเซสชันใหม่ (`IMPLEMENTATION_STATUS.md §2.1 M0-T14 part 1`)
 
 ---

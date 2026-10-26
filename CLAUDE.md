@@ -18,7 +18,7 @@ Thai Occult & Sorcery MMORPG for Web PC. Art direction is locked to 2.5D HD-2D: 
 - Art: `docs/ART_BIBLE.md`, `docs/ASSET_PIPELINE.md`, `docs/VISUAL_PROTOTYPE_PLAN.md`.
 - `prompts/`: task prompts (02 implement, 03 code review, 04 security, 05 art tech, 06 test plan, 07 release, 08 doc sync).
 - `.claude/rules/`: path-scoped rules for client, server, database, shared-package and docs files.
-- `.claude/settings.json`: permission rules and a PreToolUse hook (`.claude/hooks/guard-files.mjs`) that blocks edits to `.env*` and `pnpm-lock.yaml`. The read-only `reviewer` subagent is in `.claude/agents/`; the `/implement-task <task-id>` skill is in `.claude/skills/`.
+- `.claude/settings.json`: permission rules and a PreToolUse hook (`.claude/hooks/guard-files.mjs`) that blocks edits to `.env*` and `pnpm-lock.yaml`. The read-only `reviewer` subagent is in `.claude/agents/`; the `/implement-task <task-id>` and `/verify` skills are in `.claude/skills/`.
 - `CLAUDE_TEMPLATE.md` is the original template this file was derived from; this file takes precedence.
 
 ## Commands

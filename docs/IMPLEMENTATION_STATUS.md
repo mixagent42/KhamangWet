@@ -18,8 +18,8 @@
 
 | สถานะ | จำนวนรายการ (ตาราง §3) |
 |---|---|
-| Implemented | 8 (เอกสาร 2 รายการ + git repository + `CLAUDE.md` + `.claude/rules/` + pnpm workspace + lint/format + `pnpm verify` · ยังไม่มีโค้ดเกม) |
-| Partial | 4 |
+| Implemented | 9 (เอกสาร 2 รายการ + git repository + `CLAUDE.md` + `.claude/rules/` + Claude Code config + pnpm workspace + lint/format + `pnpm verify` · ยังไม่มีโค้ดเกม) |
+| Partial | 3 |
 | Missing | 25 (infrastructure 2 + game systems 22 + art assets 1) |
 | Unknown | 4 |
 
@@ -131,7 +131,11 @@
 | Rewrite Phase 3: `verify-rewrite.mjs` + `pnpm verify` | ผ่านครบ 7 ข้อ: (1) commit object ทุกตัวตรงกับเดิมยกเว้น tree/parent/email (16/16) (2) ไม่พบอีเมลเดิมใน 279 object + tag (3) 14 commit ต่างแค่ STATUS −1 +1 บรรทัด และ 2 commit tree เหมือนเดิม (4) md5 baseline 34 ไฟล์ตรง §2.4 และ root tree ไม่เปลี่ยน (5) tip เดิมกับใหม่ต่างแค่ 1 บรรทัด (6) `pnpm verify` exit 0 (7) tag ตรงกับที่คาด และเปิด `RESULTS.md` ได้ · **ข้อ 4 รอบแรก FAIL** เพราะสคริปต์คาดว่า §2.4 มี md5 34 บรรทัด แต่จริงมี 24 บรรทัด + 10 ไฟล์ใน `docs/` ที่ระบุว่าตรงกับคู่ที่ root · ตรวจใหม่ครอบคลุม 34 ไฟล์แล้วผ่าน |
 | Rewrite Phase 4: ลบ `refs/original/*` และโฟลเดอร์ว่าง | ref ที่เหลือมีแค่ `refs/heads/main` (`590fe6b`) และ `refs/tags/spike/m0-t06` (`bdbf62c`) · `git rev-list --all --objects` 279 object ไม่พบอีเมลเดิม · ไม่ได้รัน `gc` หรือ `prune`: reflog (80 รายการ) และ object เดิมยังอยู่ใน `.git` แต่ไม่มี ref ชี้ถึง จึงไม่ถูก push ถ้า push เฉพาะ `main` และ tag แบบระบุชื่อ |
 | Phase 5: แก้เอกสาร (`update-citations.mjs` + แก้ทีละจุด) | hash ของ commit ที่ถูกเขียนใหม่ 29/29 จุดเป็นค่าใหม่ · ข้อ C: 8 commit บน branch ระบุ squash commit บน `main` · `git grep` อีเมลเดิมใน working tree = 0 ไฟล์ · hash ทุกตัวที่อ้างมีอยู่จริง · ตารางทุกไฟล์มีจำนวนคอลัมน์ถูกต้อง · `pnpm verify` exit 0 · **พลาด 1 ครั้ง:** รอบแรกแทนที่ได้ 0 จุดเพราะ shell ยุบ `\\b` ในโค้ดที่ส่งผ่าน heredoc จึงย้ายโค้ดไปเป็นไฟล์แล้วรันใหม่ |
-| `git commit` บน branch `m0/dec-061-public-repo` | `ed517b2` (8 files, +99 −33) · author = noreply · ผู้พัฒนาอนุมัติ diff ก่อน commit · squash commit บน `main` คือ "docs: record the public repo decision and the history rewrite (DEC-061)" |
+| `git commit` บน branch `m0/dec-061-public-repo` | `ed517b2` (→ squash `6489da0` บน `main`) (8 files, +99 −33) · author = noreply · ผู้พัฒนาอนุมัติ diff ก่อน commit · squash commit บน `main` คือ "docs: record the public repo decision and the history rewrite (DEC-061)" |
+| **(M0-T14 part 2, 2026-10-26)** ทดสอบ hook จริงในเซสชันที่เริ่มที่ root ของ repo: Write `.env` และ `pnpm-lock.yaml` ลงใน scratchpad ของเซสชัน | **ถูกบล็อกทั้งสองไฟล์** · `PreToolUse:Write hook error: … Blocked by .claude/hooks/guard-files.mjs: .env may hold secrets…` และ `… pnpm-lock.yaml changes only through pnpm (install, add, remove, update).` · `test -e` ยืนยันว่าไม่มีไฟล์ถูกสร้าง · สองครั้งก่อนหน้าไม่ถูกบล็อก เพราะครั้งแรกเซสชันเริ่มก่อนจะมี `.claude/settings.json` และครั้งที่สองแค่ย้าย working directory ซึ่งไม่ทำให้ hook โหลด |
+| `allow` list ใน `.claude/settings.json` | 20 rule (Bash 10 + PowerShell 10) เฉพาะคำสั่งที่มีจริง: `pnpm verify`, `typecheck`, `lint`, `test *`, `build`, `format:check`, `--version`, `git status *`, `git diff *`, `git log *` · `JSON.parse` ผ่าน · ไม่มี rule ที่ซ้ำกับ deny หรือ ask · ยังไม่ได้ทดสอบว่าไม่ถามสิทธิ์ เพราะเซสชันนี้อยู่ใน auto mode |
+| skill `verify` (`.claude/skills/verify/SKILL.md`) | Claude Code โหลด skill ทันทีที่สร้างไฟล์ (ปรากฏในรายการ skill) · เรียกผ่าน Skill tool แล้วรัน `pnpm verify`: exit 0 · typecheck 5 package · lint fixture 9/9 · test 5/5 · build 5 package · format:check ผ่าน |
+| `git commit` บน branch `m0/t14-claude-config-part2` | `b5e611e` (6 files, +45 −9) · author = noreply · ผู้พัฒนาอนุมัติ diff ก่อน commit · squash commit บน `main` คือ "chore(claude): add the verify skill and an allow list; prove the guard hook (M0-T14 part 2)" |
 
 ### 2.2 Build / Typecheck / Lint / Test
 > **[F] ไม่มีคำสั่ง build, typecheck, lint หรือ test ใน repository** ผลด้านล่างคือการลองรันจริง ซึ่ง**ล้มเหลวทั้งหมด** ไม่มีผลสำเร็จใดที่จะรายงานได้
@@ -241,7 +245,7 @@ ec7a390099d9467f1cada7beedbdad10  prompts/06_TEST_PLAN.md
 | Art assets (ตัวละคร, ฉาก, VFX, UI) | **Missing** | ไม่พบไฟล์ asset ใด (§2.1 รอบ 2) · ภาพอ้างอิง 2 ภาพอยู่ในโฟลเดอร์ชั่วคราวนอก repo และยังไม่ได้คัดลอกเข้า repo | M1-T03, T13–T16 |
 | Git repository, `.gitignore`, `.gitattributes` | **Implemented** | `2ab369f` (baseline 34 ไฟล์ md5 ตรงครบ) + `94b822b` (docs + `.gitattributes` + `.gitignore`) · clean · LF ทุกไฟล์ (§2.1, M0-T02) · ยังไม่มี remote · **DEC-061:** ประวัติเขียนใหม่ให้ใช้อีเมล noreply แล้ว (ตารางเทียบ hash ใน §2.5) และ GitHub repo แบบ public สร้างแล้วแต่ยังไม่ได้ push | M0-T02 ✔ |
 | `CLAUDE.md` | **Implemented** | 66 บรรทัด สร้างจาก template และผู้พัฒนาอนุมัติเนื้อหาแล้ว · ไม่มี `@import` · ยังไม่มีส่วน Commands เพราะยังไม่มีคำสั่ง (§2.1 M0-T04) | M0-T04 ✔ |
-| `.claude/settings.json`, skills, agents, hooks | **Partial** | `settings.json` (deny 11, ask 9, ยังไม่มี allow), hook `guard-files.mjs`, subagent `reviewer` และ skill `implement-task` · pipe-test ผ่าน 14/14 แต่ยังไม่เห็น hook บล็อกจริงในเซสชัน · ขาด skill `verify` และ allow list ซึ่งรอ M0-T10 (§2.1 M0-T14 part 1) | M0-T14 (part 1 ✔) |
+| `.claude/settings.json`, skills, agents, hooks | **Implemented** | `settings.json` (allow 20, deny 11, ask 9), hook `guard-files.mjs` ที่**บล็อกได้จริงในเซสชัน** (`.env` และ `pnpm-lock.yaml`), subagent `reviewer`, skill `implement-task` และ `verify` (เรียกจริงแล้ว) · pipe-test 14/14 (§2.1 M0-T14 part 1 และ part 2) | M0-T14 ✔ |
 | `docs/adr/` | **Partial** | มี ADR-001 (stack และเวอร์ชัน) จากผล spike M0-T06 · ADR-003 ถึง 007 ยังไม่ได้เขียน (M0-T12) · ADR-002 เลื่อนไปหลัง VP0-c | M0-T06 ✔, M0-T12 |
 | pnpm workspace + lockfile | **Implemented** | `pnpm-workspace.yaml` (catalog + `engineStrict`), 7 workspace projects (`@kw/*`) ที่มีแค่ entry point ว่าง, `pnpm-lock.yaml` · `pnpm install --frozen-lockfile` และ `pnpm -r build` ผ่านบนสำเนาใหม่ (§2.1 M0-T08) · ยังไม่มีโค้ดเกม | M0-T07 ✔, M0-T08 ✔ |
 | Lint / format / import boundary | **Implemented** | `eslint.config.js` (type-aware + กฎ boundary ด้วย ESLint core rules), `tests/lint/import-boundaries.test.mjs` (9/9), Prettier 3.9.10 สำหรับ code และ config (`.prettierignore`) · `pnpm lint` และ `pnpm format:check` exit 0 · import ผิดกฎทำให้ `pnpm lint` exit 1 (§2.1 M0-T09) | M0-T09 ✔ |
@@ -308,3 +312,4 @@ ec7a390099d9467f1cada7beedbdad10  prompts/06_TEST_PLAN.md
 | 2026-10-26 | M0-T09 Done: lint/format/import boundary = Implemented · DEC-010 ปิดครบ (Prettier + ESLint core rules) · แก้ตัวเลขในแถว build ของ M0-T08 จาก 6 เป็น 5 package | §2.1 (M0-T08, M0-T09), §2.2 |
 | 2026-10-26 | M0-T10 Done: `pnpm verify` = Implemented · unit test แรก (`clamp`) · git email ของ repo เปลี่ยนเป็น noreply (A2) | §2.1 (M0-T10), §2.2 |
 | 2026-10-26 | DEC-061: repo เป็น public · เขียนประวัติ git ใหม่ให้ใช้อีเมล noreply (backup ไว้นอก repo) · hash ในเอกสาร 29 จุดเปลี่ยนเป็นค่าใหม่ · เพิ่ม §2.5 ตารางเทียบ hash · หลักฐานที่อ้าง commit บน branch ระบุ squash commit บน `main` ไว้ข้างกัน | §2.1 (DEC-061), §2.5 |
+| 2026-10-26 | M0-T14 Done: hook บล็อกได้จริงในเซสชัน · เพิ่ม `allow` list และ skill `verify` · Claude Code config = Implemented | §2.1 (M0-T14 part 2) |
