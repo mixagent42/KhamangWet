@@ -48,3 +48,6 @@ These are recommendations, not facts about an existing repository. Confirm curre
 - `docs/ART_BIBLE.md`: locked 2.5D HD-2D art direction and standards
 - `docs/ASSET_PIPELINE.md`: asset formats, naming, budgets and import pipeline
 - `docs/VISUAL_PROTOTYPE_PLAN.md`: visual prototype (VP0) plan and measurements
+
+## License
+Copyright © 2026 mixza (GitHub: mixagent42). All rights reserved. This repository is public, but no license is granted to use, copy, modify or distribute its code, documents or assets (DEC-061).

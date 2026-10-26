@@ -41,6 +41,7 @@ Add a command here only after it has run successfully. Never claim a build, type
 - Prisma 7.x stable, with the CLI and client on the same exact version; schema lives in `database/` (DEC-008).
 - Art is 2.5D HD-2D only: no pixel art, chibi or full 3D realistic style without approval (DEC-040). Character appearance changes with equipment (paper-doll, DEC-045).
 - The animation runtime is undecided: VP0-c compares Blender → glTF (A3-B) with layered frames (A1-L). Spine is deferred (DEC-014, DEC-058).
+- The GitHub repo `mixagent42/KhamangWet` is public (DEC-061): never commit secrets, personal data or assets without redistribution rights. Commits use the GitHub noreply email. Push only `main` and named tags, never `--all` or `--mirror`.
 
 ## Engineering rules
 1. Check `git status` and read the relevant files before editing. Never overwrite or delete user work without approval.

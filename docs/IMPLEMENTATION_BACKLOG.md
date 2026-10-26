@@ -56,7 +56,7 @@ M4  T01(DB) ─► T02(auth) ─► T03(lease) ─► T04(loot txn) ─► T05(X
 - **Risks:** R-20
 
 #### M0-T02 — Git init และ baseline commit
-- **Type:** infra · **Size:** S · **Depends:** T01 ✔ · **Decisions:** DEC-001 ✔ · **Status:** ✔ **Done (2026-10-26)** · commit `ce6117d` (baseline) + `c8cbe36` (docs) + commit บันทึกหลักฐาน · AC ทั้ง 4 ข้อผ่านตาม `IMPLEMENTATION_STATUS.md §2.1` · **ข้อยกเว้นของ DEC-012:** task นี้ commit ตรงเข้า `main` เพราะเป็นการสร้าง branch แรกของ repo ส่วน task ถัดไปใช้ 1 branch ต่อ task
+- **Type:** infra · **Size:** S · **Depends:** T01 ✔ · **Decisions:** DEC-001 ✔ · **Status:** ✔ **Done (2026-10-26)** · commit `2ab369f` (baseline) + `94b822b` (docs) + commit บันทึกหลักฐาน · AC ทั้ง 4 ข้อผ่านตาม `IMPLEMENTATION_STATUS.md §2.1` · **ข้อยกเว้นของ DEC-012:** task นี้ commit ตรงเข้า `main` เพราะเป็นการสร้าง branch แรกของ repo ส่วน task ถัดไปใช้ 1 branch ต่อ task
 - **ขั้นตอน:** ตั้ง git identity (ผู้พัฒนาตั้งเอง หรือให้ค่ามาเพื่อตั้งแบบ local ใน repo) → `git init -b main` → `.gitattributes` (LF) + `.gitignore` → commit 1 = 34 ไฟล์ต้นฉบับโดยไม่แก้ไข → commit 2 = onboarding report + foundation docs + `.gitattributes` + `.gitignore`
 - **AC:** (1) `git log --oneline` แสดง 2 commit (2) md5 ของทุกไฟล์ใน commit 1 ตรงกับ baseline (3) `git status` สะอาด (4) `git ls-files --eol` แสดงว่าทุกไฟล์ใน index เป็น LF
 - **Risks:** `core.autocrlf=true` อาจแปลง line ending ซึ่งป้องกันได้ด้วย `.gitattributes`
@@ -77,7 +77,7 @@ M4  T01(DB) ─► T02(auth) ─► T03(lease) ─► T04(loot txn) ─► T05(X
 - **Risks:** C-19
 
 #### M0-T06 — Version compatibility spike
-- **Type:** spike · **Size:** M · **Depends:** T02 · **Decisions:** DEC-003, DEC-004 (ผลลัพธ์ของ task นี้ใช้ปิด DEC-005 ถึง DEC-008) · **Status:** ✔ **Done (2026-10-26)** หลักฐานอยู่ใน tag `spike/m0-t06` (`9d43ddf` = spike `c4bf28e` + log ดิบ · ไม่ merge · ลบ branch และโฟลเดอร์แล้ว) · ผลอยู่ใน `docs/adr/001-stack-and-versions.md` · ผู้พัฒนาเลือก TS 6.0.3 + ESLint · มีผลข้างเคียงนอกแผนจาก Prisma (DEC-059)
+- **Type:** spike · **Size:** M · **Depends:** T02 · **Decisions:** DEC-003, DEC-004 (ผลลัพธ์ของ task นี้ใช้ปิด DEC-005 ถึง DEC-008) · **Status:** ✔ **Done (2026-10-26)** หลักฐานอยู่ใน tag `spike/m0-t06` (`ce3eed4` = spike `15a0b05` + log ดิบ · ไม่ merge · ลบ branch และโฟลเดอร์แล้ว) · ผลอยู่ใน `docs/adr/001-stack-and-versions.md` · ผู้พัฒนาเลือก TS 6.0.3 + ESLint · มีผลข้างเคียงนอกแผนจาก Prisma (DEC-059)
 - **ขอบเขต:** branch ทิ้งได้ที่มี package น้อยที่สุดเพื่อพิสูจน์ว่า
   - TS major ที่เลือก + decorator ของ `@colyseus/schema` compile และ encode ได้
   - Vite + React plugin build ได้
@@ -106,7 +106,7 @@ M4  T01(DB) ─► T02(auth) ─► T03(lease) ─► T04(loot txn) ─► T05(X
 - **AC:** `pnpm verify` = typecheck + lint + test + build และ exit 0 · มี unit test ตัวอย่าง 1 ตัวใน `game-rules` (เช่น pure function `clamp`) ซึ่งไม่ใช่ฟีเจอร์ · ทดลองทำให้ test fail แล้ว `pnpm verify` ต้อง exit ≠ 0 (บันทึกผล)
 
 #### M0-T11 — CI pipeline (tier 1)
-- **Type:** infra · **Size:** S · **Depends:** T10 · **Decisions:** DEC-011, DEC-039 · ⚠ การ push ไปยัง remote ต้องได้รับอนุมัติ
+- **Type:** infra · **Size:** S · **Depends:** T10 ✔ · **Decisions:** DEC-011, ~~DEC-039~~ DEC-061 · ⚠ การ push ไปยัง remote ต้องได้รับอนุมัติ · **อัปเดต DEC-061 (2026-10-26):** repo `mixagent42/KhamangWet` เป็น public จึงตั้ง branch ruleset บน `main` ได้บน GitHub Free · workflow ต้อง harden ตาม DEC-011 · push เฉพาะ `main` และ `refs/tags/spike/m0-t06` แบบระบุชื่อ
 - **AC:** CI เขียวบน `main` · branch ทดสอบที่ตั้งใจให้ fail ต้องแดง · ตั้ง branch protection แล้ว (ถ้ามี remote)
 
 #### M0-T12 — เขียน ADR-001 ถึง ADR-007

@@ -1,6 +1,6 @@
 # DECISIONS — Khamang Wet Decision Log
 
-- **สร้างเมื่อ:** 2026-10-26 · **สถานะเอกสาร:** Draft · **การตัดสินใจที่ผู้พัฒนาอนุมัติแล้ว:** DEC-040 (Art Direction 2.5D HD-2D, 2026-10-26) · DEC-045 (paper-doll ตาม equipment, 2026-10-26) · DEC-058 (VP0-c เทียบ A3-B กับ A1-L และยังไม่ซื้อ Spine, 2026-10-26) · **มอบอำนาจให้ผู้ตรวจตัดสิน (2026-10-26):** DEC-001 ถึง 008, 011, 012, 013, 033, 034, 039 (ดู §4.0) · **DEC-006 และ DEC-010 (TypeScript 6.0.3 + ESLint/typescript-eslint, ผู้พัฒนา 2026-10-26)** · เวอร์ชันที่ pin ทั้งหมดอยู่ใน `docs/adr/001-stack-and-versions.md`
+- **สร้างเมื่อ:** 2026-10-26 · **สถานะเอกสาร:** Draft · **การตัดสินใจที่ผู้พัฒนาอนุมัติแล้ว:** DEC-040 (Art Direction 2.5D HD-2D, 2026-10-26) · DEC-045 (paper-doll ตาม equipment, 2026-10-26) · DEC-058 (VP0-c เทียบ A3-B กับ A1-L และยังไม่ซื้อ Spine, 2026-10-26) · **มอบอำนาจให้ผู้ตรวจตัดสิน (2026-10-26):** DEC-001 ถึง 008, 011, 012, 013, 033, 034, 039 (ดู §4.0) · **DEC-006 และ DEC-010 (TypeScript 6.0.3 + ESLint/typescript-eslint, ผู้พัฒนา 2026-10-26)** · **DEC-061 (GitHub repo แบบ public + เขียนประวัติใหม่ให้ใช้อีเมล noreply, ผู้พัฒนา 2026-10-26; แทน DEC-039)** · เวอร์ชันที่ pin ทั้งหมดอยู่ใน `docs/adr/001-stack-and-versions.md`
 - **ที่มา:** `PROJECT_ONBOARDING_REPORT.md` (รหัส C-xx = ข้อขัดแย้ง, D-xx = การตัดสินใจที่ขาด, R-xx = ความเสี่ยง) และเอกสารต้นฉบับ
 - **ความสัมพันธ์กับ ADR:** `TECHNICAL_ARCHITECTURE.md §10` (L146–147) กำหนดให้ใช้ `docs/adr/NNN-title.md` ไฟล์นี้จึงทำหน้าที่เป็น**ทะเบียนกลาง (register)** ของทุกการตัดสินใจ เมื่อ entry ใดได้สถานะ **Accepted** และมีผลระยะยาว ให้เขียน ADR เต็มแล้วลิงก์กลับมาที่นี่ โดยเก็บไว้ที่นี่แค่บทสรุป เพื่อไม่ให้เนื้อหาซ้ำกัน
 
@@ -26,7 +26,7 @@
 | ID | เรื่อง | สถานะ | ต้องปิดก่อน | อ้างอิงรายงาน |
 |---|---|---|---|---|
 | DEC-L1…L7 | Product direction ที่ล็อกแล้ว | Locked | — | prompts/01 L9–16 |
-| DEC-001 | Repo root และการเริ่ม Git | **Accepted (delegated)** · ✔ ทำแล้วใน M0-T02 (`ce6117d`, `c8cbe36`) | M0 | C-03, C-24, D-13 |
+| DEC-001 | Repo root และการเริ่ม Git | **Accepted (delegated)** · ✔ ทำแล้วใน M0-T02 (`2ab369f`, `94b822b`) | M0 | C-03, C-24, D-13 |
 | DEC-002 | ตำแหน่งเอกสารต้นฉบับ (ลบไฟล์ซ้ำ) | **Accepted (delegated)** · ✔ ทำแล้วใน M0-T03 | M0 | C-01, C-02, D-32 |
 | DEC-003 | นโยบาย pin เวอร์ชัน dependency | **Accepted (delegated)** | M0 | D-14, R-17, R-18 |
 | DEC-004 | Node.js runtime line | **Accepted (delegated)** | M0 | หัวข้อ 8 ของรายงาน |
@@ -64,7 +64,7 @@
 | DEC-036 | Browser support matrix | Proposed | M1 | D-31 |
 | DEC-037 | Observability ขั้นต่ำ | Proposed | M3 | D-30 |
 | DEC-038 | Class model (archetype หรือ build path) | Open (ไม่บล็อก VS0) | M5 | D-02, C-07 |
-| DEC-039 | Remote repository และ backup นอกเครื่อง | **Accepted (delegated)** — GitHub private repo (สร้าง repo และ push ครั้งแรกต้องให้ผู้พัฒนาทำหรืออนุมัติ) | M0 | — |
+| DEC-039 | Remote repository และ backup นอกเครื่อง | ~~**Accepted (delegated)** — GitHub private repo~~ **Superseded by DEC-061 (2026-10-26)** (สร้าง repo และ push ครั้งแรกต้องให้ผู้พัฒนาทำหรืออนุมัติ) | M0 | — |
 | **DEC-040** | **Art Direction: 2.5D HD-2D** | **Accepted (ผู้พัฒนา, 2026-10-26)** | — | ART_BIBLE §0 |
 | DEC-041 | Pitch ของกล้องและช่วงซูม | Open (VP0-a) | ก่อน M1-T13 | VP0 §6 |
 | DEC-042 | 4 หรือ 8 ทิศ + นโยบาย mirror | Open (VP0-b) | ก่อนผลิตจำนวนมาก | VP0 §6 |
@@ -76,7 +76,7 @@
 | DEC-048 | Post-processing, quality tiers และเครื่อง min-spec | Open (VP0-a + ผู้พัฒนา) | ก่อน VP0 review | VP0 §2.4 |
 | DEC-049 | วิธีสร้าง VFX และ intensity tiers | Open (VP0-b) | ก่อนผลิต VFX จำนวนมาก | ASSET_PIPELINE §8 |
 | DEC-050 | แสงในฉากแบบ baked หรือ dynamic | Open (VP0-a) | ก่อนผลิตฉากจำนวนมาก | ASSET_PIPELINE §7 |
-| DEC-051 | ที่เก็บไฟล์ต้นฉบับ (Git LFS หรือนอก git) | **Open (ผู้พัฒนา)** | ก่อน M1-T03 | ASSET_PIPELINE §14 |
+| DEC-051 | ที่เก็บไฟล์ต้นฉบับ (Git LFS หรือนอก git) | **Open (ผู้พัฒนา)** · ต้องคำนึงว่า repo เป็น public (DEC-061) | ก่อน M1-T03 | ASSET_PIPELINE §14 |
 | DEC-052 | Font ไทยและโลโก้ | **Open (ผู้พัฒนา)** | ก่อน M1-T17 | ART_BIBLE §6 |
 | DEC-053 | แนวทางด้านวัฒนธรรมและผู้ตรวจ | **Open (ผู้พัฒนา)** | ก่อน M1-T13 | ART_BIBLE §3.4 |
 | DEC-054 | เครื่องมือของ Blender pipeline (ติดตั้ง Blender, glTF compression, lightmap bake และ export ของ A3-B) | Open | ก่อน M1-T16 หรือ M1-T19 (อันไหนมาก่อน) | ASSET_PIPELINE §7, §6.5 |
@@ -86,6 +86,7 @@
 | **DEC-058** | **VP0-c เทียบ A3-B กับ A1-L ก่อน และยังไม่ยอมรับค่า Spine (G1 ของ A3-S)** | **Accepted (ผู้พัฒนา, 2026-10-26)** · ทบทวนได้ | — | ภาคผนวก C.1 |
 | DEC-059 | Prisma ดาวน์โหลด Schema Engine จาก `binaries.prisma.sh` และ cache ที่ `%APPDATA%\prisma` | (1) cache: **✔ ลบแล้ว 2026-10-26 (ผู้พัฒนาสั่ง)** · (2) การดาวน์โหลดใน M4: **Open (ผู้พัฒนา)** | (2) ก่อน M4-T01 | ADR-001 (finding F1) |
 | DEC-060 | ไฟล์ที่ spike M0-T06 เขียนไว้นอกโฟลเดอร์ spike (`pnpm-cache` 335 MB, `pnpm-store-operation-locks`, `biomejs`, `prisma-nodejs`) | **Accepted (ผู้พัฒนา, 2026-10-26): B** — เก็บ `pnpm-cache` และลบอีก 3 รายการแล้ว | — | `IMPLEMENTATION_STATUS.md §2.1` |
+| DEC-061 | GitHub repo แบบ public และการลบอีเมลส่วนตัวออกจากประวัติ git | **Accepted (ผู้พัฒนา, 2026-10-26)** — `mixagent42/KhamangWet` แบบ public · เขียนประวัติใหม่ให้ใช้อีเมล noreply แล้ว · แทน DEC-039 | M0 | `IMPLEMENTATION_STATUS.md §2.1, §2.5` |
 
 **การตัดสินใจที่เลื่อนออกไปโดยตั้งใจ (Deferred, ไม่บล็อก VS0):** D-06 การ spawn (VS0 ใช้ timer), D-08 จำนวนตัวละครต่อบัญชี (VS0 = 1), D-09 ritual/investigation (M5), D-11 cultural review และชื่อเกม (M6), D-12 business model (M7), D-33 hosting (M6)
 
@@ -265,6 +266,7 @@
   - ถ้าใช้ GitHub ให้ใช้ GitHub Actions workflow เดียว แบ่ง 3 ระดับ (รายละเอียดใน `DEFINITION_OF_DONE.md §6`): ทุก push รัน `pnpm verify`, ก่อน merge เพิ่ม integration + E2E smoke, รอบ nightly หรือสั่งเอง รัน E2E เต็ม + load + dependency audit
   - **หลักสำคัญสำหรับ solo dev:** CI และ local เรียกคำสั่งเดียวกัน (`pnpm verify`) จึงมีที่มาของ gate เพียงที่เดียว
 - **Impact:** ไม่มี CI = gate ขึ้นกับวินัยของคนอย่างเดียว ซึ่ง AI ข้ามได้ง่าย
+- **อัปเดต 2026-10-26 (DEC-061):** repo เป็น public จึงต้อง harden workflow: `permissions: contents: read`, pin action ด้วย commit SHA, ไม่ใช้ `pull_request_target`, ไม่ใช้ secret ใน tier 1 และตั้งให้ fork PR จากคนนอกต้องอนุมัติก่อนรัน · Actions ฟรีสำหรับ public repo
 
 ### DEC-012 — Branching, rollback และ recovery
 - **Status:** **Accepted (delegated, 2026-10-26)** → ดู §4.0 · ~~Proposed~~ · **Recommendation [R]:**
@@ -431,6 +433,7 @@
 ### DEC-035 — Asset provenance (รวม asset ที่ AI สร้าง)
 - **Status:** Open · **Context [F]:** ART §6 L57 ห้ามใช้ asset ที่ไม่รู้สิทธิ์การแจกจ่าย
 - **Open:** นโยบายการใช้ asset จาก AI generator (สิทธิ์ทางการค้า, การบันทึก prompt, tool และวันที่) · **[R] ชั่วคราว:** VS0 ใช้ placeholder ที่ทำเองหรือมี license ชัด และบันทึกทุกชิ้นใน asset manifest
+- **อัปเดต 2026-10-26 (DEC-061):** repo เป็น public ดังนั้น asset ที่ commit ต้องมีสิทธิ์**แจกจ่ายต่อ** ไม่ใช่แค่สิทธิ์ใช้ในเกม (เช่น font หรือโมเดลที่ซื้อ license มาอาจห้ามเผยแพร่ใน repo สาธารณะ) · ต้องตรวจ license ก่อน commit ทุกครั้ง
 - **อัปเดต 2026-10-26:** ประเมิน PixelLab แล้ว ผล: **ไม่ใช้สำหรับตัวละครหรือ asset ในเกม และไม่ใช้เป็น placeholder ของ VP0** เพราะสร้างแต่ pixel art ซึ่งขัดกับ DEC-040 (รายละเอียดและเงื่อนไข ToS อยู่ในภาคผนวก C.2) · นโยบาย AI โดยรวมยังเป็น Open
 
 ### DEC-036 — Browser support matrix
@@ -443,7 +446,7 @@
 - **Status:** Open (ไม่บล็อก VS0 เพราะ VS0 มีตัวละครแบบเดียว) · **Conflict [F]:** GDD L32 กับ L62–73 และ ROADMAP L45 · ตัดสินก่อน M5
 
 ### DEC-039 — Remote repository และ backup นอกเครื่อง
-- **Status:** **Accepted (delegated, 2026-10-26): GitHub private repo** → ดู §4.0 · ~~Open~~ · **Context [F]:** ไม่มี git, ไม่พบ `gh` CLI และไม่รู้ว่าผู้พัฒนาใช้ GitHub หรือ GitLab หรือไม่
+- **Status:** ~~**Accepted (delegated, 2026-10-26): GitHub private repo**~~ **Superseded by DEC-061 (2026-10-26)**: ผู้พัฒนาสร้าง repo เป็น public และเลือกเก็บเป็น public · → ดู §4.0 · ~~Open~~ · **Context [F]:** ไม่มี git, ไม่พบ `gh` CLI และไม่รู้ว่าผู้พัฒนาใช้ GitHub หรือ GitLab หรือไม่
 - **[R]:** ใช้ remote แบบ private เพื่อเป็น backup นอกเครื่องและรัน CI · **การ push ครั้งแรกต้องได้รับอนุมัติ** (ถือว่าเป็นการส่งข้อมูลออกนอกเครื่อง)
 
 ---
@@ -513,9 +516,32 @@
 - **ตัวเลือก:** (A) ลบทั้ง 4 รายการที่มาจาก spike ตอนนี้ (B) เก็บ `pnpm-cache` ไว้เพราะ M0-T07/T08 จะใช้ pnpm 12.15.0 ตัวเดียวกันอยู่แล้ว (ทำให้ติดตั้งเร็วขึ้น) และลบอีก 3 รายการที่เหลือ (C) เก็บไว้ทั้งหมด
 - **ข้อเสนอ [R]:** (B) เพราะ `pnpm-cache` คือ cache ปกติของ pnpm ที่โปรเจกต์จะสร้างอยู่แล้วเมื่อเริ่มใช้ pnpm จริง ส่วนอีก 3 รายการไม่มีประโยชน์ต่อโปรเจกต์ · **ไม่ว่าจะเลือกข้อไหน `vitest` ห้ามแตะ**
 
+### DEC-061 — GitHub repo แบบ public และการลบอีเมลส่วนตัวออกจากประวัติ git
+- **Status:** **Accepted (ผู้พัฒนา, 2026-10-26)** · แทน DEC-039 · ที่มา: คำสั่ง "เก็บ repo เป็น public" และ "เลือก A2: เขียนประวัติใหม่ให้อีเมลเป็น noreply … รวม tag spike/m0-t06 ทำ backup ก่อน"
+- **Decision:**
+  - remote คือ `https://github.com/mixagent42/KhamangWet.git` แบบ **public** · default branch `main`
+  - ประวัติ git ทั้งหมด (`main` + tag `spike/m0-t06`) ใช้อีเมล GitHub noreply `328789487+mixagent42@users.noreply.github.com` · `user.email` ของ repo ตั้งเป็นค่านี้ตั้งแต่ M0-T10
+  - ลิขสิทธิ์: proprietary ("All rights reserved") · root `package.json` มี `"license": "UNLICENSED"` · ไม่มีไฟล์ LICENSE
+- **Context [F] (ตรวจ 2026-10-26):**
+  - GitHub API ตอบว่า repo เป็น `"visibility": "public"` และยังว่าง ซึ่งขัดกับ DEC-039
+  - GitHub Free: repo ที่ public ได้ feature ครบ ส่วน repo ที่ private ได้ "limited feature set" และ protected branches สำหรับ private repo มีเฉพาะ GitHub Pro (docs.github.com, หน้า GitHub's plans)
+  - GitHub Actions ฟรีสำหรับ public repo ที่ใช้ runner มาตรฐาน ส่วน private บน Free ได้ 2,000 นาทีต่อเดือน (docs.github.com, หน้า billing for GitHub Actions)
+  - ก่อน rewrite อีเมลส่วนตัวอยู่ใน author/committer ของ 15 commit, tagger ของ tag และ STATUS 1 บรรทัด · ไม่พบ secret
+- **ผลการดำเนินการ:** เขียนประวัติใหม่ด้วย `git filter-branch` หลัง backup ไว้นอก repo · ตรวจผ่านครบ 7 ข้อ · hash ทุก commit เปลี่ยน และเอกสารอ้าง hash ใหม่แล้ว (`IMPLEMENTATION_STATUS.md §2.1` แถว DEC-061 และตารางเทียบ §2.5)
+- **ผลที่ตามมา:**
+  - เอกสาร โค้ด และประวัติทั้งหมดเปิดให้ทุกคนอ่านและ fork ได้ และลบออกทีหลังไม่ได้จริง
+  - ห้ามมี secret, ข้อมูลส่วนตัว และ production data ใน repo (CLAUDE.md rule 11) · ให้เปิด secret scanning และ push protection บน GitHub
+  - asset ใน repo ต้องมีสิทธิ์แจกจ่ายต่อ (DEC-035) · ไฟล์ต้นฉบับ art ต้องคิดเรื่องการเปิดเผยด้วย (DEC-051)
+  - ความปลอดภัยต้องไม่พึ่งการปิดโค้ดเป็นความลับ ซึ่งตรงกับหลัก server-authoritative ที่มีอยู่แล้ว (`SECURITY_THREAT_MODEL.md`)
+  - CI ต้อง harden สำหรับ public repo (DEC-011, M0-T11)
+  - push เฉพาะ `main` และ `refs/tags/spike/m0-t06` แบบระบุชื่อ ห้าม `git push --all` หรือ `--mirror` เพราะ object เดิมที่มีอีเมลยังอยู่ในเครื่อง · push ครั้งแรกยังต้องได้รับอนุมัติ
+  - branch protection หรือ ruleset บน `main` ทำได้บน GitHub Free แล้ว (M0-T11)
+- **ข้อจำกัด [F]:** commit message ที่อ้าง hash เดิมคงข้อความเดิมไว้ · commit บน branch ที่ squash แล้วไม่อยู่บน `main` และไม่ถูก push · backup ที่ `E:\KhamangWet\_backup\pre-rewrite-20261026\` ยังมีอีเมลเดิมและเก็บไว้ในเครื่องเท่านั้น
+
 ### DEC-041 ถึง DEC-056 — การตัดสินใจด้าน art ก่อนผลิต asset จำนวนมาก
 - **Status:** Open ทั้งหมด (ดูคอลัมน์ "ตัดสินโดย" ใน `VISUAL_PROTOTYPE_PLAN.md §6`)
 - คำถาม เหตุผลที่บล็อก และกำหนดเวลาของแต่ละข้ออยู่ใน `VISUAL_PROTOTYPE_PLAN.md §6` เพื่อไม่ให้เนื้อหาซ้ำ ไฟล์นี้เก็บแค่สถานะในตาราง §1
+- **หมายเหตุ DEC-061 (2026-10-26):** repo เป็น public · DEC-051 (ที่เก็บไฟล์ต้นฉบับ) ต้องคำนึงว่าไฟล์ที่อยู่ใน git เช่น `.blend` และ `.psd` จะเปิดเผยต่อสาธารณะ และ asset ที่ซื้อ license มาอาจห้ามเผยแพร่
 - **ข้อที่ผู้พัฒนาต้องตัดสินเอง (ไม่ได้มาจาก prototype):** DEC-051, 052, 053, 055, 056 และ DEC-035 (DEC-045 ตัดสินแล้ว) · DEC-057 ให้ผู้พัฒนาตัดสินร่วมกับผลของ VP0-c
 
 ---
@@ -606,7 +632,7 @@
   - `ask`: `Bash(git push *)`, `Bash(pnpm add *)`, `Bash(pnpm remove *)`, `Bash(pnpm update *)`, `Bash(pnpm prisma migrate *)`
   - `allow` (หลังคำสั่งมีจริง): `Bash(pnpm verify)`, `Bash(pnpm typecheck)`, `Bash(pnpm lint)`, `Bash(pnpm test *)`, `Bash(git status)`, `Bash(git diff *)`, `Bash(git log *)`
   - **หมายเหตุ [F]:** rule เหล่านี้ไม่ครอบคลุมทุกรูปแบบของคำสั่ง (เช่น `git -C . push`) จึงต้องมี branch protection บน remote ด้วย (DEC-011, DEC-039)
-- **ผลจริงใน M0-T14 part 1 (2026-10-26, ผู้พัฒนาอนุมัติทั้ง 6 ข้อ):** `.claude/settings.json` และ `.claude/hooks/guard-files.mjs` (commit `2235350`) ต่างจากข้อเสนอด้านบนดังนี้
+- **ผลจริงใน M0-T14 part 1 (2026-10-26, ผู้พัฒนาอนุมัติทั้ง 6 ข้อ):** `.claude/settings.json` และ `.claude/hooks/guard-files.mjs` (commit `2235350` (→ squash `e934840` บน `main`)) ต่างจากข้อเสนอด้านบนดังนี้
   1. `Bash(rm -rf *)` อยู่ใน **ask** แทน deny เพราะ deny บล็อกแม้ผู้พัฒนาอนุมัติในแชตแล้ว และหลบได้ด้วย `rm -r -f` อยู่ดี · **[F]** ask rule ยังถามแม้อยู่ใน auto mode (code.claude.com/docs/en/permissions, ตรวจ 2026-10-26)
   2. ใช้ `Read(.env)` และ `Read(.env.*)` แทน `Read(./.env)` และ `Read(./.env.*)` เพราะ **[F]** ชื่อไฟล์เปล่า match ทุกระดับโฟลเดอร์ ส่วน `./` match เฉพาะโฟลเดอร์ปัจจุบัน (แหล่งเดียวกัน)
   3. เพิ่ม `Read(!.env.example)` ต่อจาก `Read(.env.*)` เพื่อให้อ่านไฟล์ตัวอย่างได้

@@ -1,7 +1,7 @@
 # IMPLEMENTATION STATUS — Khamang Wet
 
 - **Snapshot:** 2026-10-26 · **ตรวจโดย:** Claude Code (read-only checks)
-- **Repository state:** เป็น git repository ตั้งแต่ 2026-10-26 (M0-T02) · branch `main` · baseline commit `ce6117d` · ยังไม่มี remote (DEC-039 รอผู้พัฒนาสร้าง repo)
+- **Repository state:** เป็น git repository ตั้งแต่ 2026-10-26 (M0-T02) · branch `main` · baseline commit `2ab369f` · ~~ยังไม่มี remote (DEC-039 รอผู้พัฒนาสร้าง repo)~~ **DEC-061 (2026-10-26):** ผู้พัฒนาสร้าง GitHub repo `mixagent42/KhamangWet` แบบ public แล้ว แต่ยังไม่ได้เพิ่ม remote และยังไม่ได้ push · ประวัติ git ถูกเขียนใหม่ให้ใช้อีเมล noreply (hash ทุกตัวเปลี่ยน ดูตารางเทียบใน §2.5)
 - **กฎของไฟล์นี้:** อัปเดตได้เฉพาะเมื่อมี**หลักฐานจริง** (คำสั่งที่รัน + ผลลัพธ์ + วันที่ หรือ path ของไฟล์และ test) ห้ามเปลี่ยนสถานะเป็น Implemented ตามที่เอกสารออกแบบเขียนไว้ หรือตามที่ AI รายงานโดยไม่มีผลรันประกอบ
 
 ### นิยามสถานะ
@@ -43,38 +43,38 @@
 | นับ CR bytes ทุกไฟล์ (`tr -cd '\r' \| wc -c`) | 0 = ทุกไฟล์ใช้ LF |
 | `ls .claude/` | มีแค่ `rules/` ไม่มี `settings.json`, `skills/`, `agents/` หรือ `hooks/` |
 | (รอบ 2, 2026-10-26) `find` หาไฟล์ที่ไม่ใช่ `.md` และไฟล์ asset (png, jpg, webp, psd, blend, glb, gltf, spine, json, ktx2) | ไม่พบ · `git status` ยังเป็น `fatal: not a git repository` · md5 ของไฟล์ต้นฉบับ 34/34 OK |
-| **(M0-T02, 2026-10-26)** `git init -b main` + `git config --local user.name/user.email` | สร้าง repo ที่ `E:/KhamangWet/KhamangWet_FullSystem/.git/` · `HEAD` = `refs/heads/main` · identity แบบ local = `mixza <[redacted]>` |
-| `git rev-list --count HEAD` + `git log` | 2 commit: `ce6117d` chore: import baseline design docs (unchanged) · `c8cbe36` docs: add onboarding report, foundation and art planning docs |
-| `git show ce6117d:<path> \| md5sum` เทียบกับ §2.4 ทั้ง 34 ไฟล์ | match=34, mismatch=0 · ใน commit มี 34 ไฟล์ · 1,882 insertions (เท่ากับจำนวนบรรทัดของไฟล์ต้นฉบับ) |
+| **(M0-T02, 2026-10-26)** `git init -b main` + `git config --local user.name/user.email` | สร้าง repo ที่ `E:/KhamangWet/KhamangWet_FullSystem/.git/` · `HEAD` = `refs/heads/main` · identity แบบ local = `mixza <[redacted]>` · **หมายเหตุ DEC-061 (2026-10-26):** อีเมลส่วนตัวที่ตั้งไว้ตอนนั้นถูกลบออกจากประวัติ git ทั้งหมดด้วยการเขียนประวัติใหม่ (§2.1 DEC-061, §2.5) · ตั้งแต่ M0-T10 ใช้ GitHub noreply `328789487+mixagent42@users.noreply.github.com` |
+| `git rev-list --count HEAD` + `git log` | 2 commit: `2ab369f` chore: import baseline design docs (unchanged) · `94b822b` docs: add onboarding report, foundation and art planning docs |
+| `git show 2ab369f:<path> \| md5sum` เทียบกับ §2.4 ทั้ง 34 ไฟล์ | match=34, mismatch=0 · ใน commit มี 34 ไฟล์ · 1,882 insertions (เท่ากับจำนวนบรรทัดของไฟล์ต้นฉบับ) |
 | `git status --porcelain` (หลัง commit 2) | ว่าง = clean |
 | `git ls-files --eol` | 44 ไฟล์ทั้งหมดเป็น `i/lf` · `git check-attr` ได้ `eol: lf` |
 | **(M0-T03, 2026-10-26)** `cmp` root กับ `docs/` ทั้ง 10 คู่ ก่อนลบ | IDENTICAL ครบ 10/10 |
-| `git rm` 10 ไฟล์ที่ root + `git mv PROJECT_ONBOARDING_REPORT.md docs/` | branch `m0/t03-dedupe-docs` commit `da1c627`: 13 files changed, 24 insertions, 778 deletions |
+| `git rm` 10 ไฟล์ที่ root + `git mv PROJECT_ONBOARDING_REPORT.md docs/` | branch `m0/t03-dedupe-docs` commit `da1c627` (→ squash `06f5219` บน `main`): 13 files changed, 24 insertions, 778 deletions |
 | ตรวจ blob ที่ซ้ำกันใน index (`git ls-files -s`) | ไม่มีเนื้อหาซ้ำแล้ว · เอกสารหลักทั้ง 10 มีแค่ใน `docs/` |
 | md5 ของไฟล์ต้นฉบับที่ไม่ได้ตั้งใจแก้ | `docs/` 9 ไฟล์ + prompts + rules + CLAUDE_TEMPLATE ตรง baseline · ที่เปลี่ยนตามที่อนุมัติคือ `README.md` และ `docs/TECHNICAL_ARCHITECTURE.md` (ยังมี 147 บรรทัด) |
-| `git log --follow docs/PROJECT_ONBOARDING_REPORT.md` | ประวัติตามมาครบ (`c8cbe36` ถึง `da1c627`) |
+| `git log --follow docs/PROJECT_ONBOARDING_REPORT.md` | ประวัติตามมาครบ (`94b822b` ถึง `da1c627` บน branch · บน `main` คือ `94b822b` ถึง `06f5219`) |
 | สแกนการอ้างอิง `*.md` ทุกไฟล์ | ไม่มีการอ้างอิงที่เสีย ที่หาไม่เจอเป็นไฟล์ที่ยังไม่ได้สร้างตามแผน (`CLAUDE.md`, rule `shared.md` และ `docs.md`, ADR, `QUEST_AND_INTERACTION_SPEC.md`) |
 | **(M0-T04, 2026-10-26)** `wc -l` / `wc -c` ของ `CLAUDE.md` | 66 บรรทัด, 5,724 bytes (เกณฑ์ ≤ 200 บรรทัด) · `git ls-files --eol` = `i/lf` |
 | ค้นหา `@` นอก code span (ตัด `` `…` `` ออกก่อนแล้ว grep) | ไม่พบ จึงไม่มี `@import` ที่จะโหลดไฟล์ใหญ่เข้า context |
 | ค้นหาบรรทัดคำสั่ง (`pnpm`, `npm`, `npx`, `node`, `git`) และ `package.json` | ไม่มีบรรทัดคำสั่ง · ไม่มี `package.json` (ส่วน Commands จึงเขียนว่ายังไม่มี) |
 | ตรวจ path, section และ DEC ที่อ้างใน `CLAUDE.md` | path มีจริงทุกตัว ยกเว้น `database/` ที่วางแผนไว้ใน M4 · GDD §7, ART_BIBLE §3.4, DoD §8 และ TECH L117 ตรงกับที่อ้าง · DEC ที่อ้างทั้ง 10 ตัวมีในทะเบียน |
 | เทียบกับ `.claude/rules/*` | ไม่ขัดกัน · rule 10 ปรับให้ตรงกับ `database.md` (migration ที่ทำลายข้อมูลต้องได้รับอนุมัติ + มี backup) |
-| `git commit` บน branch `m0/t04-claude-md` | `fd3749a` · ผู้พัฒนาอนุมัติเนื้อหาก่อน commit |
+| `git commit` บน branch `m0/t04-claude-md` | `fd3749a` (→ squash `ead01b9` บน `main`) · ผู้พัฒนาอนุมัติเนื้อหาก่อน commit |
 | **(M0-T05, 2026-10-26)** ตรวจโครงสร้าง frontmatter ของ `shared.md` และ `docs.md` | บรรทัดที่ 1 = `---`, บรรทัดที่ 2 = `paths:`, ปิดที่บรรทัดที่ 4 · glob = `"packages/**/*"` และ `"docs/**/*"` (รูปแบบเดียวกับ rule เดิม) |
 | md5 ของ `client.md`, `server.md`, `database.md` เทียบกับ §2.4 | ตรงทั้ง 3 ไฟล์ (ไม่ได้แก้) |
 | path ของ schema ตาม DEC-008 (`database/schema.prisma`) เทียบกับ glob ของ `database.md` | match ทั้ง `database/**/*` และ `**/*schema.prisma` **จึงไม่ต้องแก้** `database.md` |
 | ตรวจการอ้างอิงใน rule ใหม่ | DEC-013, `docs/DECISIONS.md`, `docs/IMPLEMENTATION_STATUS.md` และชื่อเอกสารต้นฉบับทั้ง 10 มีอยู่จริง |
 | `wc -l` และ `git ls-files --eol .claude/rules/` | `shared.md` 13 บรรทัด, `docs.md` 12 บรรทัด · ทั้ง 5 ไฟล์เป็น `i/lf` |
-| `git commit` บน branch `m0/t05-rules` | `52c44ac` · ผู้พัฒนาอนุมัติเนื้อหาก่อน commit |
-| **(M0-T06, 2026-10-26)** spike 2 ชุด (TS 7.0.2 กับ TS 6.0.3) ด้วย pnpm 12.15.0 | tag `spike/m0-t06` → `9d43ddf` (spike `c4bf28e` + log ดิบ 24 ไฟล์ · ไม่ merge) · log จริงอยู่ใน `spike/m0-t06/logs/` และ `RESULTS.md` ภายใน tag · สรุปอยู่ใน `docs/adr/001-stack-and-versions.md` |
+| `git commit` บน branch `m0/t05-rules` | `52c44ac` (→ squash `71da7db` บน `main`) · ผู้พัฒนาอนุมัติเนื้อหาก่อน commit |
+| **(M0-T06, 2026-10-26)** spike 2 ชุด (TS 7.0.2 กับ TS 6.0.3) ด้วย pnpm 12.15.0 | tag `spike/m0-t06` → `ce3eed4` (spike `15a0b05` + log ดิบ 24 ไฟล์ · ไม่ merge) · log จริงอยู่ใน `spike/m0-t06/logs/` และ `RESULTS.md` ภายใน tag · สรุปอยู่ใน `docs/adr/001-stack-and-versions.md` |
 | T1 install + `--frozen-lockfile` จาก clean, T9 `engineStrict` | exit 0 ทั้งสองชุด (หลังกำหนด `allowBuilds`) · engines `>=99` ถูกบล็อกด้วย `ERR_PNPM_UNSUPPORTED_ENGINE` |
 | T2 ถึง T7 (Colyseus schema และ room, Vite + React, Babylon, Prisma generate, Zod + Vitest) | ผ่านทั้งสองชุด · Vitest 8/8 · ตัวเลขอยู่ใน ADR-001 |
 | T8 lint | TS 7: typescript-eslint error "does not support TS 7.0" · TS 6.0.3: ESLint ทำงานได้และพบ `any` รั่ว 13 จุด · Biome ผ่านทั้งสองชุด |
 | ผลข้างเคียงนอกแผน | Prisma CLI ดาวน์โหลด Schema Engine 20 MB และสร้าง `%APPDATA%\prisma` (DEC-059 Open) · ยังไม่ได้ลบ |
 | ขนาดบนดิสก์ของ spike (ignored, ไม่อยู่ใน git) | `spike/m0-t06/` เคยใช้ 785 MB (store 633 MB, corepack 55 MB) และเคยซ่อนจาก `git status` บน `main` ด้วย `.git/info/exclude` · **ลบแล้ว 2026-10-26** (ดูแถว cleanup ด้านล่าง) |
-| **(M0-T06 cleanup, 2026-10-26)** ตรวจก่อนลบ: `git ls-tree` ของ `c4bf28e` เทียบกับไฟล์บนดิสก์ | พบว่า log 24 ไฟล์**ไม่อยู่ใน `c4bf28e`** เพราะ root `.gitignore` มี `*.log` (ADR-001 อ้างผิด) |
-| `git add -f` log 24 ไฟล์ → commit `9d43ddf` · `git tag -a spike/m0-t06 9d43ddf` | tag มี 97 ไฟล์ (log 24 ไฟล์ + ไฟล์ของ `c4bf28e` ครบ) · เนื้อหา log ใน tag ตรงกับบนดิสก์ 24/24 (เทียบโดยไม่สน CR; มี 1 ไฟล์ที่ถูก normalize จาก CRLF เป็น LF) |
-| `git branch -D spike/m0-t06-versions` | ลบแล้ว (tip `9d43ddf` = commit ของ tag) |
+| **(M0-T06 cleanup, 2026-10-26)** ตรวจก่อนลบ: `git ls-tree` ของ `15a0b05` เทียบกับไฟล์บนดิสก์ | พบว่า log 24 ไฟล์**ไม่อยู่ใน `15a0b05`** เพราะ root `.gitignore` มี `*.log` (ADR-001 อ้างผิด) |
+| `git add -f` log 24 ไฟล์ → commit `ce3eed4` · `git tag -a spike/m0-t06 ce3eed4` | tag มี 97 ไฟล์ (log 24 ไฟล์ + ไฟล์ของ `15a0b05` ครบ) · เนื้อหา log ใน tag ตรงกับบนดิสก์ 24/24 (เทียบโดยไม่สน CR; มี 1 ไฟล์ที่ถูก normalize จาก CRLF เป็น LF) |
+| `git branch -D spike/m0-t06-versions` | ลบแล้ว (tip `ce3eed4` = commit ของ tag) |
 | `rm -rf spike/m0-t06` + `rmdir spike` | ลบแล้ว 842 MB · ก่อนลบตรวจว่า `main` ไม่ track ไฟล์ใดใน `spike/` (0 ไฟล์) |
 | แก้ `.git/info/exclude` | เอาบรรทัด `/spike/` และ comment ออก · ไฟล์กลับไปตรงกับ default template ของ git ทุกบรรทัด |
 | ไม่ได้แตะ | cache ของ Prisma ที่ `%APPDATA%\prisma` (DEC-059 ยัง Open) → **ลบแล้วในแถวถัดไป** |
@@ -90,13 +90,13 @@
 | ตรวจ path ที่ skill และ agent อ้างถึง, `git check-ignore`, นับ CR bytes, `wc -l CLAUDE.md` | path มีจริง 8/8 · `.claude/settings.local.json` ถูก ignore (`.gitignore:33`) ส่วนไฟล์ใหม่ 4 ไฟล์ไม่ถูก ignore · CR = 0 ทุกไฟล์ · `CLAUDE.md` 68 บรรทัด |
 | ทดสอบจริง: Write `.env` ลงใน scratchpad ของเซสชัน | **ไม่ถูกบล็อก** (ลบไฟล์ทดสอบแล้ว) เพราะเซสชันนี้เริ่มก่อนจะมี `.claude/settings.json` · **ยังไม่ผ่าน AC ข้อ hook** ต้องทดสอบซ้ำในเซสชันใหม่ที่เปิดที่ `E:\KhamangWet\KhamangWet_FullSystem` |
 | อ่านเอกสาร `code.claude.com/docs/en/permissions` (ตรวจ 2026-10-26) | ชื่อไฟล์เปล่าใช้ gitignore semantics และ match ทุกระดับ (`Read(.env)` = `Read(**/.env)`) ส่วน `./.env` match เฉพาะโฟลเดอร์ปัจจุบัน · `!` carve-out มีผลกับ rule ที่อยู่ก่อนหน้าใน list เดียวกัน · ask rule ยังถามแม้อยู่ใน auto mode |
-| `git commit` บน branch `m0/t14-claude-config` | `2235350` (5 files, +111 −1) · ผู้พัฒนาอนุมัติเนื้อหาและจุดที่ต่างจาก DECISIONS ภาคผนวก A.5 ทั้ง 6 ข้อก่อน commit |
+| `git commit` บน branch `m0/t14-claude-config` | `2235350` (→ squash `e934840` บน `main`) (5 files, +111 −1) · ผู้พัฒนาอนุมัติเนื้อหาและจุดที่ต่างจาก DECISIONS ภาคผนวก A.5 ทั้ง 6 ข้อก่อน commit |
 | **(M0-T07, 2026-10-26)** `corepack enable pnpm --install-directory "%APPDATA%\npm"` | exit 0 · เพิ่ม shim 6 ไฟล์ใน `%APPDATA%\npm` (`pnpm`, `pnpm.CMD`, `pnpm.ps1`, `pnpx`, `pnpx.CMD`, `pnpx.ps1`) ซึ่งชี้ไปที่ corepack ใน `C:\Program Files\nodejs` · ไฟล์ `claude*` และ `node_modules` เดิมไม่ถูกแตะ |
 | `pnpm --version` ครั้งแรก (Git Bash) | corepack ดาวน์โหลด `registry.npmjs.org/pnpm/-/pnpm-12.15.0.tgz` และไฟล์รันของ win32-x64 · ได้ `12.15.0`, exit 0, 3.3 วินาที |
 | `pnpm --version` ใน PowerShell และ cmd.exe | `12.15.0` ทั้งสองตัว (PowerShell ใช้ `pnpm.ps1` ภายใต้ execution policy `Bypass` ของเซสชัน Claude) |
 | ขนาด `%LOCALAPPDATA%\node\corepack` หลังดาวน์โหลด | 451 ไฟล์, 56,684,425 bytes (`v1\pnpm\12.15.0` + `lastKnownGood.json` 160 bytes) · ตรงกับ registry: `pnpm` 4.2 MB + `@pnpm/exe.win32-x64` 52.5 MB · ไม่มี store, `node_modules` หรือโฟลเดอร์ pnpm อื่นถูกสร้าง · `pnpm-cache` ไม่เปลี่ยน (424 ไฟล์) |
 | ผลนอกแผน: `pnpm --version` สร้าง `pnpm-lock.yaml` | 158 บรรทัด มีเฉพาะส่วน `packageManagerDependencies` (integrity 15 ตัว) · `cmp` 157 บรรทัดแรกกับ lockfile ของ spike set-b ใน tag `spike/m0-t06` แล้ว **IDENTICAL** · integrity ของ `pnpm@12.15.0` ตรงกับ registry และกับ sha512 ใน `packageManager` · ผู้พัฒนาอนุมัติให้ commit |
-| `git commit` บน branch `m0/t07-pnpm` | `d72e0cf` (4 files) · ผู้พัฒนาอนุมัติ diff ก่อน commit |
+| `git commit` บน branch `m0/t07-pnpm` | `d72e0cf` (→ squash `e7e4932` บน `main`) (4 files) · ผู้พัฒนาอนุมัติ diff ก่อน commit |
 | **(M0-T08, 2026-10-26)** `pnpm install` | exit 0 · 7 workspace projects · `Packages: +18` (resolved 18, downloaded 18) · store `E:\.pnpm-store\v11` แบบ hardlink · 616 ms |
 | เทียบ lockfile กับ spike (`closure.mjs` ใน scratchpad ของเซสชัน + `cmp`) | closure ของ win32-x64 ตรงกับ lockfile ของ spike set-b **ทุกตัว** (18 package; ไม่มี `jiti` ตามที่คาด) · ส่วน pnpm (157 บรรทัดแรก) ไม่เปลี่ยนจาก T07 · lockfile +521 −0 |
 | `pnpm -r build` และ `pnpm build` (script ที่ root) | exit 0 ทั้งสองคำสั่ง · ~~6 package: `tsc` ×5 และ `vite build` ของ web~~ **แก้ 2026-10-26 (M0-T09): 5 package ที่มี build script** (`packages/config` ไม่มี build) · `tsc` 5 ครั้ง (รวม typecheck ของ web) และ `vite build` 1 ครั้ง (29 ms, `dist/assets/index-*.js` 0.67 kB) · script ที่เรียก `pnpm` หา pnpm เจอผ่าน shim |
@@ -106,7 +106,7 @@
 | AC (3) ขอบเขต (`ls`, `pnpm -r ls --depth -1`, รวม dependency ตรง) | โฟลเดอร์: `apps/{web,game-server}`, `packages/{config,shared-contracts,game-rules,game-data}` เท่านั้น · dependency ตรง: `typescript`, `@types/node`, `vite` (ผ่าน `catalog:`) และ `@kw/config` (`workspace:*`) |
 | ไฟล์ระดับผู้ใช้หลัง install | `E:\.pnpm-store` 512 ไฟล์ 62,879,008 bytes · `pnpm-cache` +1,444 bytes · `pnpm-store-operation-locks` 2 ไฟล์ 0 bytes · นอกแผน: `pnpm-state\pnpm-state.json` 51 bytes (`lastUpdateCheck`) และ `pnpm-dir-locks\` (โฟลเดอร์ว่าง) |
 | `git diff --stat 360ac0f HEAD` | ต่างกันแค่ `CLAUDE.md` (แก้หลังทดสอบ) · ไฟล์อื่นตรงกับ tree ที่ทดสอบทุกไฟล์ |
-| `git commit` บน branch `m0/t08-monorepo-skeleton` | `00c3378` (24 files, +738 −1) · ผู้พัฒนาอนุมัติ diff ก่อน commit |
+| `git commit` บน branch `m0/t08-monorepo-skeleton` | `00c3378` (→ squash `ad2a544` บน `main`) (24 files, +738 −1) · ผู้พัฒนาอนุมัติ diff ก่อน commit |
 | **(M0-T09, 2026-10-26)** `pnpm install` (เพิ่ม `eslint` 10.13.0, `typescript-eslint` 8.72.0, `prettier` 3.9.10 ใน catalog) | exit 0 · `Packages: +92` ตามที่ประเมินไว้ · ไม่มี `jiti` และ `@eslint/js` · virtual store รวม 110 package · lockfile +823 −1 |
 | `eslint .` บนโค้ดปัจจุบัน | exit 0 · lint 7 ไฟล์ · `--print-config` ของไฟล์ใน game-rules มีกฎ 76 ข้อ รวม type-aware (`no-floating-promises`, `no-unsafe-call`) และกฎ boundary 3 ข้อ · `projectService: true` |
 | AC: `node --test tests/lint/*.test.mjs` | **9/9 ผ่าน** · ต้อง fail 7 กรณี: (a) game-server import Babylon (b) web import Prisma (c) game-rules import `node:fs` และใช้ `document` + `Math.random`, `Date.now`, `performance.now` · ต้องผ่าน 2 กรณี: web import Babylon และ game-rules รับ RNG เป็น parameter |
@@ -114,15 +114,24 @@
 | พิสูจน์ตาม DEC-010: ใส่ `export { Scene } from "@babylonjs/core/scene"` ใน `apps/game-server/src/main.ts` | `pnpm lint` **exit 1** (`no-restricted-imports`: "Babylon.js is rendering code; it belongs in apps/web only") · คืนไฟล์แล้ว `git diff` ว่าง |
 | `pnpm format:check` ก่อนจัดรูปแบบ | exit 1 · 3 ไฟล์: `eslint.config.js`, `tests/lint/import-boundaries.test.mjs` และ `.claude/hooks/guard-files.mjs` · ในขอบเขตมี 27 ไฟล์ ไม่มี `.md` และ lockfile |
 | `pnpm format` แล้วตรวจซ้ำ | ทั้ง 3 ไฟล์เปลี่ยนแค่การตัดบรรทัด · `format:check` exit 0 · pipe-test ของ hook ยังผ่าน 14/14 · `pnpm lint` exit 0 (9/9) · `pnpm build` exit 0 · `pnpm install --frozen-lockfile` = up to date |
-| `git commit` บน branch `m0/t09-lint-format-boundaries` | `108adea` (9 files, +1083 −4) · ผู้พัฒนาอนุมัติ diff ก่อน commit |
+| `git commit` บน branch `m0/t09-lint-format-boundaries` | `108adea` (→ squash `4829ccf` บน `main`) (9 files, +1083 −4) · ผู้พัฒนาอนุมัติ diff ก่อน commit |
 | **(M0-T10, 2026-10-26)** `pnpm install` (เพิ่ม `vitest` 5.0.5 ใน catalog และเป็น devDep ของ `game-rules`) | exit 0 · `Packages: +19` ตามที่ประเมินไว้ · ไม่มี `jiti` · Vitest ใช้ `vite@8.3.5(@types/node@24.19.2)` ตัวเดิม · virtual store รวม 129 package |
 | `vitest run` ใน `packages/game-rules` | Test Files 1 passed · **Tests 5 passed (5)**: ค่าในช่วง, ต่ำกว่า, สูงกว่า, เท่าขอบ และ `min > max` โยน `RangeError` |
 | ลบ `packages/game-rules/dist` แล้ว build ด้วย `tsconfig.build.json` | exit 0 · `dist/` มีแค่ `clamp.*` และ `index.*` (ไม่มีไฟล์ test) |
 | **AC:** `pnpm verify` | **exit 0** (3.9 วินาที) · log ยืนยันว่ารันครบ 5 ขั้น: `pnpm -r typecheck` (5 package) → `eslint .` + `node --test` (9/9) → `pnpm -r test` (5/5) → `pnpm -r build` (5 package) → `prettier --check .` |
 | **AC:** แก้ `toBe(5)` เป็น `toBe(6)` ใน `clamp.test.ts` ชั่วคราว | `pnpm verify` **exit 1** ("AssertionError: expected 5 to be 6", `Tests 1 failed \| 4 passed`) · ขั้น build และ format:check **ไม่ได้รัน** · คืนไฟล์แล้ว `cmp` ตรงกับต้นฉบับ · `pnpm verify` exit 0 อีกครั้ง |
 | `pnpm install --frozen-lockfile` | "Lockfile is up to date" |
-| **(A2, ผู้พัฒนาอนุมัติ 2026-10-26)** `git config --local user.email` | เปลี่ยนจากอีเมลส่วนตัวเป็น GitHub noreply `328789487+mixagent42@users.noreply.github.com` ก่อน commit ของ T10 · ไม่มี global `user.email` · การเขียนประวัติเก่าใหม่รอแผนที่ผู้พัฒนาจะอนุมัติ |
-| `git commit` บน branch `m0/t10-verify` | `4d9afb4` (14 files, +258 −12) · author/committer = noreply · ผู้พัฒนาอนุมัติ diff ก่อน commit |
+| **(A2, ผู้พัฒนาอนุมัติ 2026-10-26)** `git config --local user.email` | เปลี่ยนจากอีเมลส่วนตัวเป็น GitHub noreply `328789487+mixagent42@users.noreply.github.com` ก่อน commit ของ T10 · ไม่มี global `user.email` · ~~การเขียนประวัติเก่าใหม่รอแผนที่ผู้พัฒนาจะอนุมัติ~~ เขียนใหม่แล้ว (แถว DEC-061 ด้านล่าง) |
+| `git commit` บน branch `m0/t10-verify` | `4d9afb4` (→ squash `590fe6b` บน `main`) (14 files, +258 −12) · author/committer = noreply · ผู้พัฒนาอนุมัติ diff ก่อน commit |
+| **(DEC-061, 2026-10-26)** GitHub API `GET /repos/mixagent42/KhamangWet` (ไม่ใช้ credentials) + `git ls-remote` (ปิด credential prompt) | HTTP 200 · `"private": false, "visibility": "public"` · ขนาด 0 KB · `ls-remote` ไม่มี ref = repo ว่าง · ขัดกับ DEC-039 (private) จึงหยุดและถามผู้พัฒนา → ผู้พัฒนาเลือกเก็บเป็น public |
+| สแกนสิ่งที่จะเปิดเผยถ้า push (สคริปต์ node อ่าน `main` และ tag) | อีเมลส่วนตัวอยู่ใน author/committer ของ 15 commit, `tagger` ของ tag object และ STATUS 1 บรรทัด (12 blob ใน 14 commit) · ไม่มีใน commit message · path ในเครื่องและชื่อผู้ใช้ `mixza` อยู่ในเอกสารและ log ของ spike (ผู้พัฒนาเลือกเก็บไว้) · **ไม่พบ secret** และไม่มี `.env` ที่ถูก track |
+| Rewrite Phase 0: snapshot (`snapshot.mjs`) | 14 commit บน `main` + 2 commit เฉพาะ tag + tag object · `pnpm verify` exit 0 ก่อนเริ่ม |
+| Rewrite Phase 1: backup ที่ `E:\KhamangWet\_backup\pre-rewrite-20261026\` | `git bundle create --all` 276,379 bytes · `git bundle verify` = complete history (`main` + tag เดิม) · SHA-256 `c294eae3f6a5ce32336c110acaa3094336a8a73726ec5021b19fb7bd9af24d25` · สำเนา `.git` 340 ไฟล์ `diff -rq` ตรงกับต้นฉบับ · สคริปต์, snapshot และตารางเทียบเก็บไว้ใน `rewrite-record\` · backup นี้ยังมีอีเมลเดิมและอยู่ในเครื่องเท่านั้น |
+| Rewrite Phase 2: `git filter-branch --env-filter (env-filter.sh) --index-filter (redact-index.mjs) -- main tmp/spike` | exit 0 · เขียนใหม่ 16/16 commit · env-filter เปลี่ยน email ของ author/committer ที่เป็นอีเมลเดิมเป็น noreply · index-filter แทน `mixza <อีเมลเดิม>` ใน STATUS ด้วย `mixza <[redacted]>` ระดับ byte · สร้าง annotated tag `spike/m0-t06` ใหม่ (`bdbf62c`) ด้วย message และวันที่เดิม (`1792953892 +0700`) และ tagger เป็น noreply (tag เดิมไม่มีลายเซ็น) · ลบ `tmp/spike` |
+| Rewrite Phase 3: `verify-rewrite.mjs` + `pnpm verify` | ผ่านครบ 7 ข้อ: (1) commit object ทุกตัวตรงกับเดิมยกเว้น tree/parent/email (16/16) (2) ไม่พบอีเมลเดิมใน 279 object + tag (3) 14 commit ต่างแค่ STATUS −1 +1 บรรทัด และ 2 commit tree เหมือนเดิม (4) md5 baseline 34 ไฟล์ตรง §2.4 และ root tree ไม่เปลี่ยน (5) tip เดิมกับใหม่ต่างแค่ 1 บรรทัด (6) `pnpm verify` exit 0 (7) tag ตรงกับที่คาด และเปิด `RESULTS.md` ได้ · **ข้อ 4 รอบแรก FAIL** เพราะสคริปต์คาดว่า §2.4 มี md5 34 บรรทัด แต่จริงมี 24 บรรทัด + 10 ไฟล์ใน `docs/` ที่ระบุว่าตรงกับคู่ที่ root · ตรวจใหม่ครอบคลุม 34 ไฟล์แล้วผ่าน |
+| Rewrite Phase 4: ลบ `refs/original/*` และโฟลเดอร์ว่าง | ref ที่เหลือมีแค่ `refs/heads/main` (`590fe6b`) และ `refs/tags/spike/m0-t06` (`bdbf62c`) · `git rev-list --all --objects` 279 object ไม่พบอีเมลเดิม · ไม่ได้รัน `gc` หรือ `prune`: reflog (80 รายการ) และ object เดิมยังอยู่ใน `.git` แต่ไม่มี ref ชี้ถึง จึงไม่ถูก push ถ้า push เฉพาะ `main` และ tag แบบระบุชื่อ |
+| Phase 5: แก้เอกสาร (`update-citations.mjs` + แก้ทีละจุด) | hash ของ commit ที่ถูกเขียนใหม่ 29/29 จุดเป็นค่าใหม่ · ข้อ C: 8 commit บน branch ระบุ squash commit บน `main` · `git grep` อีเมลเดิมใน working tree = 0 ไฟล์ · hash ทุกตัวที่อ้างมีอยู่จริง · ตารางทุกไฟล์มีจำนวนคอลัมน์ถูกต้อง · `pnpm verify` exit 0 · **พลาด 1 ครั้ง:** รอบแรกแทนที่ได้ 0 จุดเพราะ shell ยุบ `\\b` ในโค้ดที่ส่งผ่าน heredoc จึงย้ายโค้ดไปเป็นไฟล์แล้วรันใหม่ |
+| `git commit` บน branch `m0/dec-061-public-repo` | `ed517b2` (8 files, +99 −33) · author = noreply · ผู้พัฒนาอนุมัติ diff ก่อน commit · squash commit บน `main` คือ "docs: record the public repo decision and the history rewrite (DEC-061)" |
 
 ### 2.2 Build / Typecheck / Lint / Test
 > **[F] ไม่มีคำสั่ง build, typecheck, lint หรือ test ใน repository** ผลด้านล่างคือการลองรันจริง ซึ่ง**ล้มเหลวทั้งหมด** ไม่มีผลสำเร็จใดที่จะรายงานได้
@@ -188,7 +197,34 @@ ec7a390099d9467f1cada7beedbdad10  prompts/06_TEST_PLAN.md
 154550e59d992d1ad8e00ebbed34ea35  prompts/08_DOC_SYNC.md
 ```
 (ไฟล์ใน `docs/` อีก 10 ไฟล์มี md5 ตรงกับคู่ที่ root ตามที่ระบุในวงเล็บ)
-**หมายเหตุ M0-T03 (2026-10-26):** สำเนาที่ root ถูกลบแล้วแต่ดูได้ใน commit `ce6117d` · `README.md` และ `docs/TECHNICAL_ARCHITECTURE.md` ถูกแก้ตามที่อนุมัติ จึงมี md5 ต่างจากรายการข้างบน ซึ่งเป็นค่าของ baseline
+**หมายเหตุ M0-T03 (2026-10-26):** สำเนาที่ root ถูกลบแล้วแต่ดูได้ใน commit `2ab369f` (เดิม `ce6117d` ดู §2.5) · `README.md` และ `docs/TECHNICAL_ARCHITECTURE.md` ถูกแก้ตามที่อนุมัติ จึงมี md5 ต่างจากรายการข้างบน ซึ่งเป็นค่าของ baseline
+
+### 2.5 ตารางเทียบ hash หลังเขียนประวัติใหม่ (DEC-061, 2026-10-26)
+การเขียนประวัติใหม่เพื่อลบอีเมลส่วนตัว (§2.1 แถว DEC-061) ทำให้ hash ของทุก commit บน `main` และ tag `spike/m0-t06` เปลี่ยน · การอ้างอิงในเอกสารทั้ง 29 จุดเปลี่ยนเป็น hash ใหม่แล้ว · commit message ยังมี hash เดิมอยู่ (เช่น "Squashed from branch … (tip)") ให้ใช้ตารางนี้แทน
+
+| เดิม | ใหม่ | commit |
+|---|---|---|
+| `ce6117d` | `2ab369f` | chore: import baseline design docs (unchanged) |
+| `c8cbe36` | `94b822b` | docs: add onboarding report, foundation and art planning docs |
+| `d8d090f` | `f9feed1` | docs: record M0-T02 evidence (git repo initialized) |
+| `1349c25` | `06f5219` | docs: make docs/ canonical and remove root duplicates (M0-T03) |
+| `e281cc6` | `ead01b9` | docs: add CLAUDE.md project instructions (M0-T04) |
+| `2a28ef5` | `71da7db` | chore: add path-scoped rules for packages/ and docs/ (M0-T05) |
+| `7a806c9` | `70f3f73` | docs: add ADR-001 stack and pinned versions (M0-T06) |
+| `71bd2ca` | `79f3d23` | docs: point M0-T06 evidence at tag spike/m0-t06 after cleanup |
+| `0f2ae10` | `f548436` | docs: record spike leftover cleanup outside the repo (DEC-059, DEC-060) |
+| `b202f69` | `e934840` | chore(claude): add Claude Code settings, guard hook, reviewer and implement-task (M0-T14 part 1) |
+| `0325603` | `e7e4932` | chore: pin pnpm 12.15.0 through corepack (M0-T07) |
+| `1d6ddd8` | `ad2a544` | chore: add pnpm workspace skeleton (M0-T08) |
+| `45c0ee0` | `4829ccf` | chore: add type-aware lint, import boundaries and Prettier (M0-T09) |
+| `87b4087` | `590fe6b` | chore: add pnpm verify and the first unit test (M0-T10) |
+| `c4bf28e` | `15a0b05` | spike: M0-T06 version compatibility spike (เฉพาะใน tag) |
+| `9d43ddf` | `ce3eed4` | spike: add raw M0-T06 command logs (commit ที่ tag ชี้) |
+| `4013203` | `bdbf62c` | tag object `spike/m0-t06` |
+
+- **commit บน branch ที่ squash แล้ว** (เช่น `2235350`, `d72e0cf`) ไม่อยู่บน `main` และไม่ถูก push · ในเอกสารจึงระบุ squash commit บน `main` ไว้ข้างกัน · ตัว commit เองมีอยู่แค่ใน `.git` ของเครื่องนี้และใน backup
+- tree ชั่วคราว `360ac0f` (§2.1 M0-T08) มีอยู่แค่ใน `.git` ของเครื่องนี้ ไม่ถูก push
+- ตารางฉบับเต็ม (hash 40 ตัว) อยู่ใน `E:\KhamangWet\_backup\pre-rewrite-20261026\rewrite-record\mapping.json`
 
 ---
 
@@ -203,7 +239,7 @@ ec7a390099d9467f1cada7beedbdad10  prompts/06_TEST_PLAN.md
 | Foundation docs (`DECISIONS`, `IMPLEMENTATION_STATUS`, `DEFINITION_OF_DONE`, `IMPLEMENTATION_BACKLOG`) | **Partial** | สร้างแล้ว 2026-10-26 แต่ยังเป็น Draft ที่รอผู้พัฒนาอนุมัติ | M0-T01 |
 | Art docs (`ART_BIBLE`, `ASSET_PIPELINE`, `VISUAL_PROTOTYPE_PLAN`) | **Partial** | Draft (ART_BIBLE v0.2, ASSET_PIPELINE v0.4, VISUAL_PROTOTYPE_PLAN v0.4, 2026-10-26) · มาตรฐานตัวเลขรอ VP0 · Art Direction (DEC-040) และ paper-doll (DEC-045) เป็น Accepted · ไม่มีโค้ดหรือ asset ที่ทำตามเอกสารนี้ | M1 (VP0) |
 | Art assets (ตัวละคร, ฉาก, VFX, UI) | **Missing** | ไม่พบไฟล์ asset ใด (§2.1 รอบ 2) · ภาพอ้างอิง 2 ภาพอยู่ในโฟลเดอร์ชั่วคราวนอก repo และยังไม่ได้คัดลอกเข้า repo | M1-T03, T13–T16 |
-| Git repository, `.gitignore`, `.gitattributes` | **Implemented** | `ce6117d` (baseline 34 ไฟล์ md5 ตรงครบ) + `c8cbe36` (docs + `.gitattributes` + `.gitignore`) · clean · LF ทุกไฟล์ (§2.1, M0-T02) · ยังไม่มี remote | M0-T02 ✔ |
+| Git repository, `.gitignore`, `.gitattributes` | **Implemented** | `2ab369f` (baseline 34 ไฟล์ md5 ตรงครบ) + `94b822b` (docs + `.gitattributes` + `.gitignore`) · clean · LF ทุกไฟล์ (§2.1, M0-T02) · ยังไม่มี remote · **DEC-061:** ประวัติเขียนใหม่ให้ใช้อีเมล noreply แล้ว (ตารางเทียบ hash ใน §2.5) และ GitHub repo แบบ public สร้างแล้วแต่ยังไม่ได้ push | M0-T02 ✔ |
 | `CLAUDE.md` | **Implemented** | 66 บรรทัด สร้างจาก template และผู้พัฒนาอนุมัติเนื้อหาแล้ว · ไม่มี `@import` · ยังไม่มีส่วน Commands เพราะยังไม่มีคำสั่ง (§2.1 M0-T04) | M0-T04 ✔ |
 | `.claude/settings.json`, skills, agents, hooks | **Partial** | `settings.json` (deny 11, ask 9, ยังไม่มี allow), hook `guard-files.mjs`, subagent `reviewer` และ skill `implement-task` · pipe-test ผ่าน 14/14 แต่ยังไม่เห็น hook บล็อกจริงในเซสชัน · ขาด skill `verify` และ allow list ซึ่งรอ M0-T10 (§2.1 M0-T14 part 1) | M0-T14 (part 1 ✔) |
 | `docs/adr/` | **Partial** | มี ADR-001 (stack และเวอร์ชัน) จากผล spike M0-T06 · ADR-003 ถึง 007 ยังไม่ได้เขียน (M0-T12) · ADR-002 เลื่อนไปหลัง VP0-c | M0-T06 ✔, M0-T12 |
@@ -258,12 +294,12 @@ ec7a390099d9467f1cada7beedbdad10  prompts/06_TEST_PLAN.md
 | 2026-10-26 | เพิ่ม A3-B ใน VP0-c และบันทึกผลตรวจ license ของ Spine, PixelLab และ Blender (`DECISIONS.md` ภาคผนวก C) · สถานะ implementation ไม่เปลี่ยน | — |
 | 2026-10-26 | DEC-058: VP0-c เทียบ A3-B กับ A1-L และพัก A3-S ไว้ · สถานะ implementation ไม่เปลี่ยน | — |
 | 2026-10-26 | M0-T01 Done: ผู้พัฒนามอบอำนาจ และ DEC-001 ถึง 008, 011, 012, 013, 033, 034, 039 เป็น Accepted (delegated) · สถานะ implementation ไม่เปลี่ยน (ยังไม่มี git หรือโค้ด) | `DECISIONS.md §4.0` |
-| 2026-10-26 | M0-T02 Done: git repository = Implemented (`ce6117d`, `c8cbe36`) แล้วบันทึกหลักฐานใน commit ถัดไป | §2.1 (M0-T02) |
+| 2026-10-26 | M0-T02 Done: git repository = Implemented (`2ab369f`, `94b822b`) แล้วบันทึกหลักฐานใน commit ถัดไป | §2.1 (M0-T02) |
 | 2026-10-26 | M0-T03 Done: `docs/` เป็นต้นฉบับเดียวและลบไฟล์ซ้ำแล้ว แล้ว squash merge เข้า `main` | §2.1 (M0-T03) |
 | 2026-10-26 | M0-T04 Done: `CLAUDE.md` = Implemented (66 บรรทัด) แล้ว squash merge เข้า `main` | §2.1 (M0-T04) |
 | 2026-10-26 | M0-T05 Done: `.claude/rules/` = Implemented (5 ไฟล์) แล้ว squash merge เข้า `main` | §2.1 (M0-T05) |
 | 2026-10-26 | M0-T06 Done: spike ผ่าน · ADR-001 เขียนแล้ว · `docs/adr/` = Partial · DEC-059 เปิดใหม่ | §2.1 (M0-T06) |
-| 2026-10-26 | M0-T06 cleanup: log ดิบเก็บใน tag `spike/m0-t06` (`9d43ddf`) · ลบ branch และโฟลเดอร์ spike · คืนค่า `.git/info/exclude` · แก้การอ้างอิงหลักฐานใน ADR-001 | §2.1 (M0-T06 cleanup) |
+| 2026-10-26 | M0-T06 cleanup: log ดิบเก็บใน tag `spike/m0-t06` (`ce3eed4`) · ลบ branch และโฟลเดอร์ spike · คืนค่า `.git/info/exclude` · แก้การอ้างอิงหลักฐานใน ADR-001 | §2.1 (M0-T06 cleanup) |
 | 2026-10-26 | DEC-059 (1): ลบ `%APPDATA%\prisma` แล้ว · พบไฟล์ระดับผู้ใช้อื่นที่ spike สร้าง 4 รายการ (DEC-060 Open) | §2.1 (DEC-059 (1)) |
 | 2026-10-26 | DEC-060 = B: ลบ `pnpm-store-operation-locks`, `biomejs` และ `prisma-nodejs` · เก็บ `pnpm-cache` · ไม่แตะ `vitest` | §2.1 (DEC-060) |
 | 2026-10-26 | M0-T14 part 1: `.claude/settings.json`, guard hook, `reviewer` และ `implement-task` = Partial · รอทดสอบ hook จริงในเซสชันใหม่ และรอ skill `verify` หลัง T10 | §2.1 (M0-T14 part 1) |
@@ -271,3 +307,4 @@ ec7a390099d9467f1cada7beedbdad10  prompts/06_TEST_PLAN.md
 | 2026-10-26 | M0-T08 Done: pnpm workspace + lockfile = Implemented (7 projects, 18 packages) · มี `pnpm build` แล้ว · convention 4–6 ใน ADR-001 | §2.1 (M0-T08), §2.2 |
 | 2026-10-26 | M0-T09 Done: lint/format/import boundary = Implemented · DEC-010 ปิดครบ (Prettier + ESLint core rules) · แก้ตัวเลขในแถว build ของ M0-T08 จาก 6 เป็น 5 package | §2.1 (M0-T08, M0-T09), §2.2 |
 | 2026-10-26 | M0-T10 Done: `pnpm verify` = Implemented · unit test แรก (`clamp`) · git email ของ repo เปลี่ยนเป็น noreply (A2) | §2.1 (M0-T10), §2.2 |
+| 2026-10-26 | DEC-061: repo เป็น public · เขียนประวัติ git ใหม่ให้ใช้อีเมล noreply (backup ไว้นอก repo) · hash ในเอกสาร 29 จุดเปลี่ยนเป็นค่าใหม่ · เพิ่ม §2.5 ตารางเทียบ hash · หลักฐานที่อ้าง commit บน branch ระบุ squash commit บน `main` ไว้ข้างกัน | §2.1 (DEC-061), §2.5 |
