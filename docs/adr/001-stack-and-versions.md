@@ -18,7 +18,7 @@
 ### Runtime และเครื่องมือ
 | ส่วน | เวอร์ชันที่ pin (exact) | หมายเหตุ |
 |---|---|---|
-| Node.js | `^24.19.0` (`engines.node`), สาย 24 LTS | เครื่องพัฒนามี 24.19.0 |
+| Node.js | ~~`^24.19.0`~~ **`^24.22.1`** (`engines.node`), สาย 24 LTS | ~~เครื่องพัฒนามี 24.19.0~~ **อัปเดต 2026-10-26 (follow-up ของ M0 gate):** เครื่องพัฒนาและ CI ใช้ 24.22.1 ซึ่งเป็น security release ของ 2026-10-20 · ขยับ `engines` ตาม เพื่อให้ `engineStrict` ปฏิเสธ Node ที่เก่ากว่า |
 | pnpm | **12.15.0** (`packageManager: "pnpm@12.15.0+sha512.…"`) | เรียกผ่าน `corepack pnpm@12.15.0` ได้โดยไม่ต้อง `corepack enable` (การติดตั้งถาวรอยู่ใน M0-T07) · **M0-T07 (2026-10-26):** ใช้ corepack shim ใน `%APPDATA%\npm` (`corepack enable pnpm --install-directory "%APPDATA%\npm"`, ไม่ต้องใช้สิทธิ์ admin) · pnpm อยู่ที่ `%LOCALAPPDATA%\node\corepack` (56.7 MB รวมไฟล์รันสำหรับ win32-x64) · `packageManager` มี sha512 ของ tarball ตามที่ corepack แนะนำ · pnpm 12 บันทึกตัวเองใน `pnpm-lock.yaml` (`packageManagerDependencies`) |
 | TypeScript | **6.0.3** | ผู้พัฒนาเลือก (DEC-006) เพื่อให้ใช้ type-aware lint ได้ |
 | ESLint | **10.13.0** | DEC-010 |

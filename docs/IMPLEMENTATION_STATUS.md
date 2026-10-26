@@ -151,6 +151,9 @@
 | `DECISIONS.md` (สคริปต์ที่ทุกการแทนที่ต้อง match 1 ครั้งพอดี) | 24/24 จุด: header · index ของ DEC-009 และ 016 ถึง 022 · status ในแต่ละ entry พร้อมลิงก์ ADR · DEC-017 (แก้ L15 แล้ว) · DEC-021 (แก้ GDD §7 แล้ว) · ปิด C-04, C-05, C-06, C-13 ถึง 15 · C-23 รอ ADR-005 Accept |
 | **(M0 gate follow-ups, 2026-10-26)** ป้องกันไฟล์ `*.env` | `.gitignore` เพิ่ม `*.env` (`git check-ignore`: `prod.env`, `secrets.env` ถูก ignore · `.env.example`, `env.ts`, `env.md` ยัง track) · guard hook บล็อกชื่อไฟล์ที่ลงท้ายด้วย `.env` หรือขึ้นต้นด้วย `.env.` (ยกเว้น `.env.example`) · `settings.json` deny เพิ่ม `Read(*.env)` · classifier ยอมให้แก้ทั้งสามจุดเพราะเป็นการจำกัดสิทธิ์เพิ่ม |
 | regression test ของ guard hook: `tests/hooks/guard-files.test.mjs` (`node --test`) | **18/18 ผ่าน** (บล็อก 8 กรณีรวม `prod.env` และ `secrets.env` · ปล่อยผ่าน 10 กรณีรวม `.env.example`, JSON เสีย และ stdin ว่าง) · mutation test: เอาเงื่อนไข `*.env` ออกชั่วคราวแล้ว fail 2 กรณี exit 1 · คืนไฟล์แล้ว (`cmp`) · `pnpm lint` รัน `tests/*/*.test.mjs` แล้ว 27/27 · `pnpm verify` exit 0 (รอบแรก exit 1 ที่ format:check เพราะเงื่อนไขใหม่ยาวเกิน 80 ตัว จึงรัน Prettier แล้ว test ยังผ่าน 18/18) |
+| อัปเดต Node: ดาวน์โหลด `node-v24.22.1-x64.msi` จาก nodejs.org | 33,333,248 bytes · SHA-256 `3bda4baf1ee709b33cf920dd633106ddb23951e322bff9c03ec9f64ab8981b01` ตรงกับ `SHASUMS256.txt` ทางการ · Authenticode = Valid (OpenJS Foundation) |
+| `msiexec /i … /passive /norestart` (ผู้พัฒนากด UAC) | exit 0 · MSI = Node.js 24.22.1 · `node` v24.22.1, npm 11.19.1, corepack 0.36.0, `pnpm` 12.15.0 ผ่าน shim เดิม · `pnpm install --frozen-lockfile` up to date · `pnpm verify` exit 0 (typecheck 5, tooling test 27/27, test 5/5, build 5, format) |
+| `engines.node` `^24.19.0` → `^24.22.1` (ตัดสินตาม DEC-062) | เครื่องพัฒนาและ CI ใช้ 24.22.1 · `engineStrict` จะปฏิเสธ Node ที่เก่ากว่า |
 
 ### 2.2 Build / Typecheck / Lint / Test
 > **[F] ไม่มีคำสั่ง build, typecheck, lint หรือ test ใน repository** ผลด้านล่างคือการลองรันจริง ซึ่ง**ล้มเหลวทั้งหมด** ไม่มีผลสำเร็จใดที่จะรายงานได้
@@ -173,9 +176,9 @@
 | รายการ | ผลตรวจ | ใช้ใน |
 |---|---|---|
 | git | 2.55.0.windows.5 | DEC-001 |
-| node | v24.19.0 (สาย LTS ล่าสุด 24.22.1 ตาม nodejs.org index) | DEC-004 |
+| node | ~~v24.19.0~~ **v24.22.1** (อัปเดต 2026-10-26 ผ่าน MSI ทางการ · ตรวจ SHA-256 และ Authenticode แล้ว) · npm 11.19.1 | DEC-004 |
 | npm | 11.17.0 | — |
-| corepack | 0.35.0 | DEC-005 |
+| corepack | ~~0.35.0~~ **0.36.0** (มากับ Node 24.22.1 · shim ของ `pnpm` ยังใช้ได้) | DEC-005 |
 | pnpm | ~~ไม่พบใน PATH~~ · เรียก `corepack pnpm@12.15.0` ได้โดยไม่ต้อง `corepack enable` (M0-T06) · **M0-T07:** `pnpm` 12.15.0 ผ่าน corepack shim ใน `%APPDATA%\npm` (ตัว pnpm อยู่ที่ `%LOCALAPPDATA%\node\corepack`) | DEC-005 |
 | docker | ไม่พบ | DEC-009 |
 | psql | ไม่พบ | DEC-009 |
@@ -382,3 +385,4 @@ Gate ของ ROADMAP M0 ("no unknown critical constraint before prototype"): �
 | 2026-10-26 | M0-T12 Done: ADR-003, 004, 006, 007 Accepted และ ADR-005 Draft · แก้ NETWORK_PROTOCOL L15 และ GDD §7 · M0-T13 เลื่อนไป M3 (DEC-009) | §2.1 (M0-T12) |
 | 2026-10-26 | M0-T15 Done: **M0 gate ผ่าน** (ผู้ตัดสิน: Claude ตาม DEC-062) · tag `m0-gate` · code review Critical 0, High 0 · follow-ups 3 ข้อใน BACKLOG M1 | §2.6 |
 | 2026-10-26 | M0 gate follow-ups: ป้องกัน `*.env` (gitignore, hook, Read deny) และมี regression test ของ guard hook ใน `pnpm lint` · เหลือ follow-up เรื่อง Node | §2.1 (M0 gate follow-ups) |
+| 2026-10-26 | Node 24.22.1 บนเครื่องพัฒนา (follow-up ข้อสุดท้ายของ M0 gate) · `engines.node` = `^24.22.1` | §2.1, §2.3 |

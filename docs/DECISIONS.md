@@ -229,6 +229,7 @@
 ### DEC-004 — Node.js runtime line
 - **Status:** **Accepted (delegated, 2026-10-26)** → ดู §4.0 · ~~Proposed~~ · **Context [F]:** เครื่องนี้มี `v24.19.0` · จาก nodejs.org index: 24.x = LTS "Krypton" (ล่าสุด 24.22.1), 22.x = LTS "Jod" (22.23.4), 26.x = 26.12.1 (`lts=false` ณ วันตรวจ) · `engines` ของ colyseus ต้องการ `>= 22.x` ส่วน prisma 8 RC ต้องการ `^24.11.0` และ vitest 5 ต้องการ `^24.0.0`
 - **Recommendation [R]:** Node 24 LTS โดยอัปเดตเป็น patch ล่าสุดก่อนเริ่ม M0-T06 · **Open:** จะย้ายไป 26 เมื่อเข้า LTS หรือไม่ (ให้ทบทวนตอนจบ M4)
+- **อัปเดต 2026-10-26 (follow-up ของ M0 gate, ตัดสินตาม DEC-062):** เครื่องพัฒนาอัปเดตเป็น 24.22.1 (security release) ให้ตรงกับ CI · `engines.node` ขยับเป็น `^24.22.1`
 
 ### DEC-005 — pnpm major และนโยบาย build script
 - **Status:** **Accepted** — pnpm 12.15.0 ยืนยันโดย spike M0-T06 (ADR-001) · เดิมเป็น Accepted (delegated, conditional) ใน §4.0 · ~~Open~~ · **Context [F]:** ยังไม่ได้ติดตั้ง pnpm แต่มี `corepack 0.35.0` · registry มี `latest` = 12.15.0 และสาย 10.x, 11.x
