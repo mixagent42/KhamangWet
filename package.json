@@ -10,7 +10,7 @@
   "scripts": {
     "build": "pnpm -r build",
     "typecheck": "pnpm -r typecheck",
-    "lint": "eslint . && node --test tests/lint/*.test.mjs",
+    "lint": "eslint . && node --test tests/*/*.test.mjs",
     "test": "pnpm -r test",
     "format": "prettier --write .",
     "format:check": "prettier --check .",

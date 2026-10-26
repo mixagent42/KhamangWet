@@ -134,8 +134,8 @@ M4  T01(DB) ─► T02(auth) ─► T03(lease) ─► T04(loot txn) ─► T05(X
 
 ## M1 — Visual / Movement Prototype
 **Follow-ups จาก M0 gate (2026-10-26, `IMPLEMENTATION_STATUS.md §2.6`):** ทำเป็น task เล็กก่อนหรือระหว่าง M1
-- (Medium) เพิ่ม regression test ของ `.claude/hooks/guard-files.mjs` เข้า repo และรันใน `pnpm lint`
-- (Medium) ป้องกันไฟล์ชื่อแบบ `*.env` (เช่น `prod.env`) ใน `.gitignore`, guard hook และ `Read` deny
+- ✔ ~~(Medium) เพิ่ม regression test ของ `.claude/hooks/guard-files.mjs` เข้า repo และรันใน `pnpm lint`~~ **Done (2026-10-26):** `tests/hooks/guard-files.test.mjs` 18/18
+- ✔ ~~(Medium) ป้องกันไฟล์ชื่อแบบ `*.env` (เช่น `prod.env`) ใน `.gitignore`, guard hook และ `Read` deny~~ **Done (2026-10-26):** ครบทั้งสามจุด
 - (Medium) อัปเดต Node ในเครื่องจาก 24.19.0 เป็น 24.22.1 ให้ตรงกับ CI (ต้องให้ผู้พัฒนากด UAC)
 **Exit criteria:**
 1. ตัวละครเดินและ sort ถูกต้องกับ occluder 3 แบบ ผ่าน visual QA checklist พร้อมภาพหน้าจอ

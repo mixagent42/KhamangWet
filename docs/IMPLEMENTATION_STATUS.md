@@ -149,6 +149,8 @@
 | ตรวจบรรทัดที่ ADR อ้างถึง (`sed -n`) | 12/12 ตรงกับเนื้อหาที่อ้าง: TECH L81, L115, L126 · ART_ANIMATION L26, L27 · SECURITY L21 · ROADMAP L69 · COMBAT L35, L43 · DATABASE L41 · GDD L4 · NETWORK_PROTOCOL L15 |
 | แก้เอกสารต้นฉบับแบบในบรรทัดเดิม | `NETWORK_PROTOCOL.md` L15: ตัด "input duration or movement intent" ออก และให้ server คำนวณระยะจาก tick (ADR-004) · `GAME_VISION_GDD.md` L44: "Large-scale guild wars." → "PvP of any kind, including large-scale guild wars (MVP is PvE only, ADR-007)." · จำนวนบรรทัดไม่เปลี่ยน (50 และ 104) จึงไม่กระทบเลขบรรทัดที่เอกสารอื่นอ้าง |
 | `DECISIONS.md` (สคริปต์ที่ทุกการแทนที่ต้อง match 1 ครั้งพอดี) | 24/24 จุด: header · index ของ DEC-009 และ 016 ถึง 022 · status ในแต่ละ entry พร้อมลิงก์ ADR · DEC-017 (แก้ L15 แล้ว) · DEC-021 (แก้ GDD §7 แล้ว) · ปิด C-04, C-05, C-06, C-13 ถึง 15 · C-23 รอ ADR-005 Accept |
+| **(M0 gate follow-ups, 2026-10-26)** ป้องกันไฟล์ `*.env` | `.gitignore` เพิ่ม `*.env` (`git check-ignore`: `prod.env`, `secrets.env` ถูก ignore · `.env.example`, `env.ts`, `env.md` ยัง track) · guard hook บล็อกชื่อไฟล์ที่ลงท้ายด้วย `.env` หรือขึ้นต้นด้วย `.env.` (ยกเว้น `.env.example`) · `settings.json` deny เพิ่ม `Read(*.env)` · classifier ยอมให้แก้ทั้งสามจุดเพราะเป็นการจำกัดสิทธิ์เพิ่ม |
+| regression test ของ guard hook: `tests/hooks/guard-files.test.mjs` (`node --test`) | **18/18 ผ่าน** (บล็อก 8 กรณีรวม `prod.env` และ `secrets.env` · ปล่อยผ่าน 10 กรณีรวม `.env.example`, JSON เสีย และ stdin ว่าง) · mutation test: เอาเงื่อนไข `*.env` ออกชั่วคราวแล้ว fail 2 กรณี exit 1 · คืนไฟล์แล้ว (`cmp`) · `pnpm lint` รัน `tests/*/*.test.mjs` แล้ว 27/27 · `pnpm verify` exit 0 (รอบแรก exit 1 ที่ format:check เพราะเงื่อนไขใหม่ยาวเกิน 80 ตัว จึงรัน Prettier แล้ว test ยังผ่าน 18/18) |
 
 ### 2.2 Build / Typecheck / Lint / Test
 > **[F] ไม่มีคำสั่ง build, typecheck, lint หรือ test ใน repository** ผลด้านล่างคือการลองรันจริง ซึ่ง**ล้มเหลวทั้งหมด** ไม่มีผลสำเร็จใดที่จะรายงานได้
@@ -379,3 +381,4 @@ Gate ของ ROADMAP M0 ("no unknown critical constraint before prototype"): �
 | 2026-10-26 | DEC-062: ผู้พัฒนามอบอำนาจการตัดสินใจให้ Claude ยกเว้นเรื่องที่มีค่าใช้จ่าย · ไฟล์คำสั่งของ Claude ยังไม่ได้แก้ตาม | §2.1 (DEC-062) |
 | 2026-10-26 | M0-T12 Done: ADR-003, 004, 006, 007 Accepted และ ADR-005 Draft · แก้ NETWORK_PROTOCOL L15 และ GDD §7 · M0-T13 เลื่อนไป M3 (DEC-009) | §2.1 (M0-T12) |
 | 2026-10-26 | M0-T15 Done: **M0 gate ผ่าน** (ผู้ตัดสิน: Claude ตาม DEC-062) · tag `m0-gate` · code review Critical 0, High 0 · follow-ups 3 ข้อใน BACKLOG M1 | §2.6 |
+| 2026-10-26 | M0 gate follow-ups: ป้องกัน `*.env` (gitignore, hook, Read deny) และมี regression test ของ guard hook ใน `pnpm lint` · เหลือ follow-up เรื่อง Node | §2.1 (M0 gate follow-ups) |

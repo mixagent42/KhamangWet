@@ -17,6 +17,7 @@ blob-report/
 # Environment and secrets (never commit; see CLAUDE_TEMPLATE.md)
 .env
 .env.*
+*.env
 !.env.example
 
 # Logs

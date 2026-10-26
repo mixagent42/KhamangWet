@@ -1,5 +1,5 @@
 // PreToolUse guard for Edit|Write (DEC-033 A.5).
-// Blocks edits to secret files (.env, .env.*) and to pnpm-lock.yaml, which must change only through pnpm.
+// Blocks edits to secret files (.env, .env.*, *.env) and to pnpm-lock.yaml, which must change only through pnpm.
 // Exit 2 blocks the tool call and shows stderr to Claude. Unreadable input exits 0 (fail-open).
 import { posix } from "node:path";
 
@@ -16,7 +16,10 @@ try {
 
 const name = posix.basename(filePath.replaceAll("\\", "/"));
 
-if ((name === ".env" || name.startsWith(".env.")) && name !== ".env.example") {
+if (
+  (name.endsWith(".env") || name.startsWith(".env.")) &&
+  name !== ".env.example"
+) {
   console.error(
     `Blocked by .claude/hooks/guard-files.mjs: ${name} may hold secrets. Ask the developer to edit it; document variables in .env.example instead.`,
   );

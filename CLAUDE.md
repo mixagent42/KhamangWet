@@ -27,7 +27,7 @@ Thai Occult & Sorcery MMORPG for Web PC. Art direction is locked to 2.5D HD-2D: 
 - `pnpm install`: install workspace dependencies. On a fresh clone and in CI use `pnpm install --frozen-lockfile`, which fails if `pnpm-lock.yaml` is out of date.
 - `pnpm verify`: typecheck → lint → test → build → format:check, stopping at the first failure. Run it before every commit; CI runs the same command.
 - `pnpm typecheck`: `tsc --noEmit` in every workspace package, test files included.
-- `pnpm lint`: type-aware ESLint on the whole repo, then the import-boundary fixture tests in `tests/lint/` (`node --test`).
+- `pnpm lint`: type-aware ESLint on the whole repo, then the tooling tests in `tests/` (`node --test`): import-boundary fixtures in `tests/lint/` and the guard hook in `tests/hooks/`.
 - `pnpm test`: unit tests with Vitest, per package (`pnpm -r test`). Tests sit next to the source as `*.test.ts`; `tsconfig.build.json` keeps them out of `dist`.
 - `pnpm build`: build every workspace package (runs `pnpm -r build`).
 - `pnpm format` / `pnpm format:check`: Prettier for code and config only; Markdown, `docs/`, `prompts/` and `pnpm-lock.yaml` are never reformatted (`.prettierignore`).
