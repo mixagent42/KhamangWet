@@ -33,7 +33,7 @@
 | | `@colyseus/schema` | 5.0.42 |
 | | `express` (peer ของ ws-transport) | 5.3.0 |
 | Client | `@colyseus/sdk` | 0.18.6 |
-| | `@babylonjs/core`, `@babylonjs/loaders` | 9.32.0 |
+| | `@babylonjs/core`, `@babylonjs/loaders` | 9.32.0 (`@babylonjs/core` ติดตั้งแล้วใน M1-T01 ผ่าน catalog) |
 | | `react`, `react-dom` | 19.3.1 |
 | | `@types/react`, `@types/react-dom` | 19.3.0 |
 | Shared | `zod` | 4.6.7 |

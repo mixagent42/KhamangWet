@@ -30,6 +30,7 @@ Thai Occult & Sorcery MMORPG for Web PC. Art direction is locked to 2.5D HD-2D: 
 - `pnpm lint`: type-aware ESLint on the whole repo, then the tooling tests in `tests/` (`node --test`): import-boundary fixtures in `tests/lint/` and the guard hook in `tests/hooks/`.
 - `pnpm test`: unit tests with Vitest, per package (`pnpm -r test`). Tests sit next to the source as `*.test.ts`; `tsconfig.build.json` keeps them out of `dist`.
 - `pnpm build`: build every workspace package (runs `pnpm -r build`).
+- `pnpm --filter @kw/web dev`: Vite dev server for the web client on port 5173 (the `web` entry in `.claude/launch.json` runs it for the browser preview).
 - `pnpm format` / `pnpm format:check`: Prettier for code and config only; Markdown, `docs/`, `prompts/` and `pnpm-lock.yaml` are never reformatted (`.prettierignore`).
 
 Add a command here only after it has run successfully. Never claim a build, typecheck, lint or test passed unless it was actually run.

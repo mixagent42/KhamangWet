@@ -19,8 +19,8 @@
 | สถานะ | จำนวนรายการ (ตาราง §3) |
 |---|---|
 | Implemented | 10 (เอกสาร 2 รายการ + git repository + `CLAUDE.md` + `.claude/rules/` + Claude Code config + pnpm workspace + lint/format + `pnpm verify` + CI tier 1 · ยังไม่มีโค้ดเกม) |
-| Partial | 3 |
-| Missing | 24 (infrastructure 1 + game systems 22 + art assets 1) |
+| Partial | 4 |
+| Missing | 23 (infrastructure 1 + game systems 21 + art assets 1) |
 | Unknown | 4 |
 
 **[F]** ยังไม่มีโค้ดเกม, ยังไม่มี build system และยังไม่มี test · เอกสารทั้งหมดเป็นแผนและข้อเสนอ ไม่ใช่สิ่งที่ทำไปแล้ว (README L5)
@@ -154,6 +154,10 @@
 | อัปเดต Node: ดาวน์โหลด `node-v24.22.1-x64.msi` จาก nodejs.org | 33,333,248 bytes · SHA-256 `3bda4baf1ee709b33cf920dd633106ddb23951e322bff9c03ec9f64ab8981b01` ตรงกับ `SHASUMS256.txt` ทางการ · Authenticode = Valid (OpenJS Foundation) |
 | `msiexec /i … /passive /norestart` (ผู้พัฒนากด UAC) | exit 0 · MSI = Node.js 24.22.1 · `node` v24.22.1, npm 11.19.1, corepack 0.36.0, `pnpm` 12.15.0 ผ่าน shim เดิม · `pnpm install --frozen-lockfile` up to date · `pnpm verify` exit 0 (typecheck 5, tooling test 27/27, test 5/5, build 5, format) |
 | `engines.node` `^24.19.0` → `^24.22.1` (ตัดสินตาม DEC-062) | เครื่องพัฒนาและ CI ใช้ 24.22.1 · `engineStrict` จะปฏิเสธ Node ที่เก่ากว่า |
+| **(M1-T01, 2026-10-26)** `pnpm install` (`@babylonjs/core` 9.32.0 ผ่าน catalog + `vitest` ใน `apps/web`) | exit 0 · `Packages: +1` · Apache-2.0, ไม่มี dependency และไม่มี install script · ออก 2026-10-22 และเป็นเวอร์ชันที่ ADR-001 pin ไว้ |
+| `pnpm verify` | exit 0 · typecheck 5 package · tooling test 27/27 · test: game-rules 5/5 และ web 9/9 (`iso-camera-math.test.ts`: ทิศ yaw 45°, ความสูงแบบ true isometric, ระยะ, ortho bounds, ซูมในช่วง และปฏิเสธ NaN/Infinity) · build 5 package · format |
+| `vite build` ของ `apps/web` | chunk หลัก 1,004 kB raw / **239 kB gzip** (spike แบบ import ทีละ module ได้ 315 kB gzip) · texture loader ของ Babylon แยกเป็น chunk ที่โหลดทีหลัง · Vite เตือนว่า chunk ใหญ่กว่า 500 kB (บันทึกไว้ ยังไม่แก้) |
+| เปิดใน browser pane (`.claude/launch.json` config `web` → `pnpm --filter @kw/web dev`) | scene แสดงพื้นแบบ isometric และ occluder ครบ 3 แบบ · canvas เป็น `webgl2` ("WebGL 2.0 (OpenGL ES 3.0 Chromium)") · console: "Babylon.js v9.32.0 - WebGL2" ไม่มี error · scroll wheel ซูมได้ · ลากเมาส์แล้วภาพไม่เปลี่ยน (กล้องหมุนไม่ได้) |
 
 ### 2.2 Build / Typecheck / Lint / Test
 > **[F] ไม่มีคำสั่ง build, typecheck, lint หรือ test ใน repository** ผลด้านล่างคือการลองรันจริง ซึ่ง**ล้มเหลวทั้งหมด** ไม่มีผลสำเร็จใดที่จะรายงานได้
@@ -322,7 +326,7 @@ Gate ของ ROADMAP M0 ("no unknown critical constraint before prototype"): �
 ### 3.2 Game systems (เทียบกับ GDD §6 MVP Scope และ TECH §4)
 | ระบบ | สถานะ | หมายเหตุ | Milestone |
 |---|---|---|---|
-| `apps/web` — Babylon scene, iso camera | **Missing** | — | M1 |
+| `apps/web` — Babylon scene, iso camera | **Partial** | graybox scene (พื้น 20 × 20 m + occluder กำแพง ต้นไม้ ชายคา) และกล้อง orthographic iso ที่หมุนไม่ได้ พร้อมซูม · pitch สุดท้ายรอ ADR-009 (M1-T11) (§2.1 M1-T01) | M1 |
 | 2D character renderer + animation | **Missing** | runtime ยังไม่ตัดสิน (DEC-014) | M1 |
 | Walkable / collision data ที่ใช้ร่วมกัน | **Missing** | DEC-016 | M1 |
 | Input + movement (local) | **Missing** | — | M1 |
@@ -386,3 +390,4 @@ Gate ของ ROADMAP M0 ("no unknown critical constraint before prototype"): �
 | 2026-10-26 | M0-T15 Done: **M0 gate ผ่าน** (ผู้ตัดสิน: Claude ตาม DEC-062) · tag `m0-gate` · code review Critical 0, High 0 · follow-ups 3 ข้อใน BACKLOG M1 | §2.6 |
 | 2026-10-26 | M0 gate follow-ups: ป้องกัน `*.env` (gitignore, hook, Read deny) และมี regression test ของ guard hook ใน `pnpm lint` · เหลือ follow-up เรื่อง Node | §2.1 (M0 gate follow-ups) |
 | 2026-10-26 | Node 24.22.1 บนเครื่องพัฒนา (follow-up ข้อสุดท้ายของ M0 gate) · `engines.node` = `^24.22.1` | §2.1, §2.3 |
+| 2026-10-26 | M1-T01 Done: Babylon scene + iso camera = Partial (pitch รอ ADR-009) · DEC-027 และ DEC-036 Accepted (delegated) | §2.1 (M1-T01) |

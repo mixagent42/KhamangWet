@@ -148,7 +148,7 @@ M4  T01(DB) ─► T02(auth) ─► T03(lease) ─► T04(loot txn) ─► T05(X
 > **VP0 (Visual Prototype) อยู่ใน M1:** VP0-a = T01–T04, T06, T07, T09, T11, T12 → VP0-b1 = T13 → VP0-c = T19 → VP0-b2 = T20, T14–T18 (T14, T16, T17 ทำคู่ขนานกับ T19 ได้) · ลำดับนี้ปรับหลัง DEC-045 (2026-10-26) · ทั้งหมดยังไม่ได้รับอนุมัติให้เริ่ม
 
 #### M1-T01 — Scene, orthographic iso camera และ world-unit convention
-- **Type:** code · **Size:** S · **Decisions:** DEC-027, DEC-036
+- **Type:** code · **Size:** S · **Decisions:** DEC-027 ✔, DEC-036 ✔ · **Status:** ✔ **Done (2026-10-26)** · ตัดสินตาม DEC-062 · scene graybox + กล้อง iso ที่หมุนไม่ได้ · หน่วย แกน มุมกล้อง และช่วงซูมอยู่ใน `ASSET_PIPELINE.md §4` (v0.5) (`IMPLEMENTATION_STATUS.md §2.1 M1-T01`)
 - **AC:** เอกสารกำหนดหน่วย (1 unit = ? เมตร), แกน, มุมกล้อง และช่วงซูม · scene มีพื้น + occluder 3 แบบ (กำแพง ต้นไม้ ชายคา) · กล้องหมุนไม่ได้
 - **Risks:** R-03
 

@@ -164,6 +164,9 @@ settings:
 
 catalogs:
   default:
+    '@babylonjs/core':
+      specifier: 9.32.0
+      version: 9.32.0
     '@types/node':
       specifier: 24.19.2
       version: 24.19.2
@@ -216,6 +219,10 @@ importers:
         version: 6.0.3
 
   apps/web:
+    dependencies:
+      '@babylonjs/core':
+        specifier: 'catalog:'
+        version: 9.32.0
     devDependencies:
       '@kw/config':
         specifier: workspace:*
@@ -226,6 +233,9 @@ importers:
       vite:
         specifier: 'catalog:'
         version: 8.3.5(@types/node@24.19.2)
+      vitest:
+        specifier: 'catalog:'
+        version: 5.0.5(@types/node@24.19.2)(vite@8.3.5(@types/node@24.19.2))
 
   packages/config: {}
 
@@ -260,6 +270,9 @@ importers:
         version: 6.0.3
 
 packages:
+
+  '@babylonjs/core@9.32.0':
+    resolution: {integrity: sha512-mHBsyKJuQHbs97Rb/1qxMRg6Ru79+0BjLhGLTa34s6U/fkBCtOh+xKTQDqFpFtPqgBw9TLFcIEvFHy01vnJxwA==}
 
   '@cacheable/memory@2.2.0':
     resolution: {integrity: sha512-CTLKqLItRCEixEAewD3/j9DB3/o96gpTPD4eJ1v+DGOlxZRZncRQkGYqqnAGCscYd6RNeXfGeiuCphsPtqyIfQ==}
@@ -1039,6 +1052,8 @@ packages:
     engines: {node: '>=10'}
 
 snapshots:
+
+  '@babylonjs/core@9.32.0': {}
 
   '@cacheable/memory@2.2.0':
     dependencies:

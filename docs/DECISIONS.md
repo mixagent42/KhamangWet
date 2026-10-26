@@ -52,7 +52,7 @@
 | DEC-024 | Death และ respawn ใน VS0 | Proposed | M2 | D-04 |
 | DEC-025 | จุดเริ่มนับ cooldown | Proposed | M2 | D-20 |
 | DEC-026 | Control scheme การเดิน | Proposed | M1 | D-15 |
-| DEC-027 | ล็อกกล้องไม่ให้หมุนตลอด MVP | Proposed | M1 | C-16 |
+| DEC-027 | ล็อกกล้องไม่ให้หมุนตลอด MVP | **Accepted (delegated, DEC-062, 2026-10-26)** · ใช้ใน M1-T01 | M1 | C-16 |
 | DEC-028 | ~~ไม่มี paper-doll ใน MVP~~ | **Superseded by DEC-045** (ผู้พัฒนา, 2026-10-26) | — | D-07, R-04 |
 | DEC-029 | เป้าหมาย performance และวิธีวัด | Proposed (ตัวเลขเป็นสมมติฐาน) | M1 | TEST §7 |
 | DEC-030 | รูปแบบ game-data และ content versioning | Proposed | M2 | D-26, R-14 |
@@ -61,12 +61,12 @@
 | DEC-033 | การตั้งค่า Claude Code สำหรับ M0–M1 | **Accepted (delegated)** · A.1 `CLAUDE.md` ทำแล้วใน M0-T04 · A.2 rules ทำแล้วใน M0-T05 · A.3 ถึง A.5 ทำครบแล้วใน M0-T14 (ต่างจาก A.5 ใน 6 ข้อที่ผู้พัฒนาอนุมัติ) · ~~skill `verify` และ allow list รอ M0-T10~~ ทำแล้วใน M0-T14 part 2 | M0 | C-19, C-20, C-21 |
 | DEC-034 | ลำดับชั้นเอกสาร Definition of Done | **Accepted (delegated)** | M0 | ภาคผนวก B |
 | DEC-035 | Asset provenance รวมถึง asset ที่ AI สร้าง | Open | M1 (placeholder), M6 | D-24 |
-| DEC-036 | Browser support matrix | Proposed | M1 | D-31 |
+| DEC-036 | Browser support matrix | **Accepted (delegated, DEC-062, 2026-10-26)** — Chromium + WebGL2 | M1 | D-31 |
 | DEC-037 | Observability ขั้นต่ำ | Proposed | M3 | D-30 |
 | DEC-038 | Class model (archetype หรือ build path) | Open (ไม่บล็อก VS0) | M5 | D-02, C-07 |
 | DEC-039 | Remote repository และ backup นอกเครื่อง | ~~**Accepted (delegated)** — GitHub private repo~~ **Superseded by DEC-061 (2026-10-26)** (สร้าง repo และ push ครั้งแรกต้องให้ผู้พัฒนาทำหรืออนุมัติ) | M0 | — |
 | **DEC-040** | **Art Direction: 2.5D HD-2D** | **Accepted (ผู้พัฒนา, 2026-10-26)** | — | ART_BIBLE §0 |
-| DEC-041 | Pitch ของกล้องและช่วงซูม | Open (VP0-a) | ก่อน M1-T13 | VP0 §6 |
+| DEC-041 | Pitch ของกล้องและช่วงซูม | Open (VP0-a) · ค่าชั่วคราวของ graybox ใน M1-T01: pitch 35.26°, view height 16 m, zoom 8–24 m | ก่อน M1-T13 | VP0 §6 |
 | DEC-042 | 4 หรือ 8 ทิศ + นโยบาย mirror | Open (VP0-b) | ก่อนผลิตจำนวนมาก | VP0 §6 |
 | DEC-043 | วิธีผลิตตัวละครและเครื่องมือ (Blender สำหรับ rig ตาม DEC-058 และ texture packer) | Open (VP0-c) | ก่อน M1-T20 | VP0 §2.3, ภาคผนวก C |
 | DEC-044 | เครื่องมือช่วยความอ่านง่าย (rim, hero light, ring, lighting floor) | Open (VP0-a/b) | ก่อนผลิตจำนวนมาก | ART_BIBLE §3.3 |
@@ -395,7 +395,7 @@
 - **Status:** Proposed · **[R]:** WASD + mouse aim ใน VS0 เพราะเข้ากับ directional combat และไม่ต้องมี pathfinding ฝั่ง server · click-to-move ทบทวนหลัง VS0
 
 ### DEC-027 — ล็อกกล้องไม่ให้หมุน
-- **Status:** Proposed · **[R]:** กล้องหมุนไม่ได้ตลอด MVP (GDD L8 ระบุว่าเลื่อนไปอยู่แล้ว) ทิศของ sprite จึงคงที่ตาม world · aim indicator แยกจาก sprite (C-16)
+- **Status:** ~~Proposed~~ **Accepted (delegated, DEC-062, 2026-10-26)**: ทำตามข้อเสนอ · M1-T01 ใช้ `TargetCamera` ที่ไม่มี input จึงหมุนไม่ได้ (ตรวจด้วยการลากเมาส์ในเบราว์เซอร์แล้วภาพไม่เปลี่ยน) · **[R]:** กล้องหมุนไม่ได้ตลอด MVP (GDD L8 ระบุว่าเลื่อนไปอยู่แล้ว) ทิศของ sprite จึงคงที่ตาม world · aim indicator แยกจาก sprite (C-16)
 
 ### DEC-028 — ~~ไม่มี paper-doll ใน MVP~~ (Superseded)
 - **Status:** ~~Proposed~~ → **Superseded by DEC-045** (ผู้พัฒนา, 2026-10-26) · ข้อเสนอเดิมที่เก็บไว้เป็นประวัติ: **[R]:** อุปกรณ์ไม่เปลี่ยนรูปลักษณ์ตัวละคร แสดงผลผ่านไอคอนหรือ VFX แทน ซึ่งลดงาน art และ texture memory (R-04)
@@ -440,7 +440,7 @@
 - **อัปเดต 2026-10-26:** ประเมิน PixelLab แล้ว ผล: **ไม่ใช้สำหรับตัวละครหรือ asset ในเกม และไม่ใช้เป็น placeholder ของ VP0** เพราะสร้างแต่ pixel art ซึ่งขัดกับ DEC-040 (รายละเอียดและเงื่อนไข ToS อยู่ในภาคผนวก C.2) · นโยบาย AI โดยรวมยังเป็น Open
 
 ### DEC-036 — Browser support matrix
-- **Status:** Proposed · **[R]:** VS0 ใช้ Chromium (Chrome/Edge บน Windows) และ WebGL2 เป็น baseline **[?]** (ตรวจว่า Babylon 9 ใช้ WebGL2 หรือ WebGPU เป็น default) · Firefox และ Safari ทบทวนก่อน M7
+- **Status:** ~~Proposed~~ **Accepted (delegated, DEC-062, 2026-10-26)**: ทำตามข้อเสนอ · **[F] M1-T01:** `new Engine(canvas)` ของ Babylon 9.32.0 ใช้ WebGL2 เป็นค่าเริ่มต้น (console: "Babylon.js v9.32.0 - WebGL2 - Parallel shader compilation") ข้อ [?] ด้านล่างจึงตอบแล้ว · **[R]:** VS0 ใช้ Chromium (Chrome/Edge บน Windows) และ WebGL2 เป็น baseline **[?]** (ตรวจว่า Babylon 9 ใช้ WebGL2 หรือ WebGPU เป็น default) · Firefox และ Safari ทบทวนก่อน M7
 
 ### DEC-037 — Observability ขั้นต่ำ
 - **Status:** Proposed · **[R]:** structured JSON log ไปที่ stdout พร้อม sessionId และ characterId (ห้ามมี token ตาม NETWORK L50), metric ที่ระบุใน TECH L143 และ NETWORK §7, endpoint metrics เฉพาะ dev · การเลือก logger library ต้องขออนุมัติ
