@@ -6,7 +6,7 @@ Estimates are planning ranges for a solo developer and can vary substantially. M
 Deliverables:
 - repo map and build/test commands
 - stack/version compatibility check
-- ADRs for rendering, animation runtime, networking and database
+- ADRs for rendering, animation runtime, networking and database (M0 gate: networking ADR-004 accepted, database ADR-005 draft until M3; rendering and animation runtime ADRs moved to M1/VP0 by DEC-014 and DEC-040)
 - risk register
 Gate: no unknown critical constraint before prototype.
 

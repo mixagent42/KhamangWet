@@ -243,6 +243,54 @@ ec7a390099d9467f1cada7beedbdad10  prompts/06_TEST_PLAN.md
 - tree ชั่วคราว `360ac0f` (§2.1 M0-T08) มีอยู่แค่ใน `.git` ของเครื่องนี้ ไม่ถูก push
 - ตารางฉบับเต็ม (hash 40 ตัว) อยู่ใน `E:\KhamangWet\_backup\pre-rewrite-20261026\rewrite-record\mapping.json`
 
+### 2.6 M0 gate review (M0-T15, 2026-10-26)
+- **ผู้ตัดสิน:** Claude ตาม DEC-062 ตามคำสั่งของผู้พัฒนา "เริ่ม M0-T15 gate review ได้เลย ตาม DoD §7 ตัดสินเองตาม DEC-062 แล้วรายงานผล" (ต่างจาก DoD §7 ข้อ 7 ที่ให้ผู้พัฒนาประกาศเอง โดยผู้พัฒนาเป็นผู้สั่ง)
+- **ผล: ผ่าน** · tag `m0-gate` อยู่ที่ squash commit ของ M0-T15 บน `main`
+
+**DoD §7**
+| ข้อ | เกณฑ์ | ผล | หลักฐาน |
+|---|---|---|---|
+| 1 | task ทุกตัวเป็น Done หรือย้ายออกพร้อมเหตุผล | ✔ | T01–T12, T14, T15 Done · T13 Deferred → M3 (DEC-009) |
+| 2 | exit criteria ของ M0 มีหลักฐานครบ | ✔ | ตารางถัดไป |
+| 3 | decision ที่ต้องปิดก่อน M0 เป็น Accepted | ✔ | ทั้ง 16 entry ที่มีป้าย M0 ใน DECISIONS §1 · DEC-039 เป็น Superseded by DEC-061 ซึ่ง Accepted |
+| 4 | prompts/03 และ prompts/08 ไม่มี Critical หรือ High ค้าง | ✔ | Critical 0 · High 0 · Medium 3 · Low 5 (ตาราง finding) |
+| 5 | อัปเดต STATUS และ risk register | ✔ | section นี้ และหมายเหตุหลัง M0 gate ใน `PROJECT_ONBOARDING_REPORT.md` §5 |
+| 6 | tag `m0-gate` | ✔ | annotated tag ที่ squash commit ของ T15 |
+| 7 | ผู้พัฒนาประกาศผ่าน | ⚠ | ผู้พัฒนามอบให้ Claude ตัดสิน (คำสั่ง T15 + DEC-062) |
+
+**Exit criteria ของ M0**
+| # | Criterion | ผล | หลักฐาน (รัน 2026-10-26) |
+|---|---|---|---|
+| 1 | baseline commit และ md5 ตรงกับ §2.4 | ✔ | root `2ab369f` มี 34 ไฟล์ · 24/24 บรรทัดใน §2.4 + สำเนา `docs/` 10/10 ตรง |
+| 2 | `pnpm install --frozen-lockfile` บน clone ใหม่ | ✔ | `git clone` จาก GitHub (HEAD `ff45dc4` = `main`) → exit 0 · 129 package (reuse จาก store) |
+| 3 | `pnpm verify` ผ่านทั้ง local และ CI | ✔ | clone ใหม่: exit 0 (typecheck 5 package, lint fixture 9/9, test 5/5, build 5 package, format) · CI run `40263688557` บน `ff45dc4` = success |
+| 4 | lint fixture ที่ import ผิดกฎทำให้ lint ล้ม | ✔ | fixture 9/9 ใน `pnpm lint` · mutation test และ import ผิดกฎจริงทำให้ exit 1 (§2.1 M0-T09) |
+| 5 | ADR ตามข้อที่แก้แล้ว | ✔ | ADR-001, 003, 004, 006, 007 Accepted · ADR-005 Draft · ADR-002 หลัง VP0-c |
+| 6 | ไม่มี decision ที่ต้องปิดก่อน M0 ค้าง | ✔ | เหมือน DoD ข้อ 3 |
+
+Gate ของ ROADMAP M0 ("no unknown critical constraint before prototype"): ✔ ความเสี่ยงระดับ Critical คือ R-01 (M4) และ R-02 (M1) รู้แล้วและมีแนวทางใน ADR-005 และ ADR-003
+
+**Code review (prompts/03) ของ diff ทั้ง M0** (ตรวจกับไฟล์จริงแล้ว)
+| ระดับ | ไฟล์ | ปัญหา | ผลกระทบ | แนวทางแก้ | test ที่ควรมี |
+|---|---|---|---|---|---|
+| Medium | `.claude/hooks/guard-files.mjs` | ไม่มี regression test ใน repo มีแค่ pipe-test ชั่วคราวใน scratchpad | ถ้าแก้ hook ผิด (เช่นตอน Prettier จัดรูปแบบ) จะไม่มีอะไรจับได้ และไฟล์ `.env` อาจถูกแก้ | เพิ่ม test ของ hook ใน `tests/` และรันใน `pnpm lint` | 14 กรณีแบบที่ pipe-test ใช้ |
+| Medium | `.gitignore`, guard hook, `Read` deny | ไฟล์ชื่อแบบ `*.env` เช่น `prod.env` ไม่ถูก ignore ไม่ถูกบล็อกและอ่านได้ (ตรวจแล้ว: hook exit 0, `git check-ignore` ไม่ match) | secret อาจหลุดขึ้น repo ที่เป็น public | เพิ่ม `*.env` ในทั้งสามจุด โดยยกเว้น `.env.example` | กรณี `prod.env` ใน test ของ hook |
+| Medium | เครื่องพัฒนา | Node ในเครื่องเป็น 24.19.0 ส่วน CI เป็น 24.22.1 ซึ่งเป็น security release | เครื่องพัฒนาขาด security fix และ local กับ CI ต่างกัน | อัปเดต Node ในเครื่อง (ผู้พัฒนากด UAC) | `node --version` |
+| Low | `.claude/settings.json` | `Bash(git diff *)` และ `Bash(git log *)` ครอบ `--output=<file>` ซึ่งเขียนไฟล์ได้ (ตามเอกสารของ git) | เขียนไฟล์ได้โดยไม่ถาม | เพิ่ม ask rule สำหรับ `--output` หรือยอมรับความเสี่ยง | — |
+| Low | `eslint.config.js` | รายการ DOM และ Node globals ยังไม่ครบ และยังไม่ห้าม `new Date()` ใน game-rules | logic ที่ไม่ deterministic อาจหลุดเข้า game-rules | เพิ่มเมื่อเริ่มเขียน game-rules จริง · `tsc` ไม่มี DOM lib อยู่แล้ว | fixture เพิ่ม |
+| Low | `.github/workflows/ci.yml` | `cancel-in-progress` อาจยกเลิก run ของ push ก่อนหน้าบน `main` | commit นั้นจะไม่มีผล CI | ยอมรับได้ตอนนี้ (push ห่างกัน) | — |
+| Low | `README.md` | ส่วน "วิธีใช้" ยังเขียนว่า "แตก ZIP" และ Contents ยังไม่มี `docs/adr/` กับ `.github/` | ผู้อ่านใหม่สับสน | แก้เมื่อปรับ README ครั้งถัดไป | — |
+| Low | foundation docs | DECISIONS, BACKLOG และ DoD ยังเขียนว่า "Draft ที่รออนุมัติ" | สถานะเอกสารไม่ตรงกับการใช้งานจริง | ตัดสินสถานะเอกสารใน task ถัดไป | — |
+
+**Doc sync (prompts/08) ที่แก้ใน task นี้:** `ROADMAP.md` L9 (ADR ที่ย้ายไป M1 และ M3, แก้ในบรรทัดเดิม) · หัวของ BACKLOG · `CLAUDE.md` ส่วน Current state · หมายเหตุใน DoD §7 ข้อ 7 · risk register
+
+**Known issues และ evidence bundle**
+- ไม่มี test tier 2–3, Playwright report, perf JSON และ visual QA เพราะ M0 ยังไม่มีโค้ดเกม
+- ไฟล์คำสั่งของ Claude (`CLAUDE.md` ส่วน approvals, `.claude/rules/docs.md`, skill `implement-task`) ยังไม่ได้แก้ตาม DEC-062 เพราะ auto mode classifier ปฏิเสธ
+- ruleset ไม่บังคับ status check ตามที่ออกแบบไว้ (DoD §6.2)
+- `.git` ในเครื่องและ backup ยังมี object เดิมที่มีอีเมลส่วนตัว แต่ไม่มี ref ชี้ถึงจึงไม่ถูก push
+- Follow-ups ทั้ง 3 ข้อ (Medium) อยู่หัวส่วน M1 ของ BACKLOG
+
 ---
 
 ## 3. สถานะรายส่วน
@@ -330,3 +378,4 @@ ec7a390099d9467f1cada7beedbdad10  prompts/06_TEST_PLAN.md
 | 2026-10-26 | M0-T11 Done: push ครั้งแรก (`main` + tag) · CI บน `main` เขียว · branch ทดสอบขึ้นแดงแล้วลบทิ้ง · ruleset `main-protection` · CI pipeline = Implemented (tier 1) | §2.1 (M0-T11) |
 | 2026-10-26 | DEC-062: ผู้พัฒนามอบอำนาจการตัดสินใจให้ Claude ยกเว้นเรื่องที่มีค่าใช้จ่าย · ไฟล์คำสั่งของ Claude ยังไม่ได้แก้ตาม | §2.1 (DEC-062) |
 | 2026-10-26 | M0-T12 Done: ADR-003, 004, 006, 007 Accepted และ ADR-005 Draft · แก้ NETWORK_PROTOCOL L15 และ GDD §7 · M0-T13 เลื่อนไป M3 (DEC-009) | §2.1 (M0-T12) |
+| 2026-10-26 | M0-T15 Done: **M0 gate ผ่าน** (ผู้ตัดสิน: Claude ตาม DEC-062) · tag `m0-gate` · code review Critical 0, High 0 · follow-ups 3 ข้อใน BACKLOG M1 | §2.6 |

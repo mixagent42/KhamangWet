@@ -127,7 +127,7 @@ Milestone ผ่านได้เมื่อ:
 4. รัน `prompts/03_CODE_REVIEW.md` บน diff ของทั้ง milestone และ `prompts/08_DOC_SYNC.md` แล้ว และไม่มี finding ระดับ Critical หรือ High ค้าง
 5. อัปเดต `IMPLEMENTATION_STATUS.md` และ risk register แล้ว
 6. tag `mN-gate` ที่ commit ที่ผ่าน (DEC-012)
-7. ผู้พัฒนาประกาศผ่านด้วยตัวเอง โดย AI ไม่ประกาศแทน
+7. ผู้พัฒนาประกาศผ่านด้วยตัวเอง โดย AI ไม่ประกาศแทน · **หมายเหตุ M0 (2026-10-26):** ผู้พัฒนาสั่งให้ Claude ตัดสิน gate ของ M0 เอง ("เริ่ม M0-T15 gate review ได้เลย ตาม DoD §7 ตัดสินเองตาม DEC-062 แล้วรายงานผล")
 
 **Evidence bundle ต่อ gate:** output ของ `pnpm verify` และ test tier 2–3 · Playwright report · perf JSON และเงื่อนไขการวัด · screenshot ของ visual QA · รายการ decision ที่ปิดแล้ว · รายการ known issue
 

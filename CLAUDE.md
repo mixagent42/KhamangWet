@@ -4,8 +4,8 @@
 Thai Occult & Sorcery MMORPG for Web PC. Art direction is locked to 2.5D HD-2D: 2D HD characters on a 3D isometric world (DEC-040). Combat is hybrid: target lock plus directional/area attacks. Solo developer with AI assistance. Planned architecture: TypeScript monorepo, modular monolith, authoritative server.
 
 ## Current state — verify, never assume
-- There is no game code yet: docs, a git repo and an empty pnpm workspace skeleton (M0-T08). Check `docs/IMPLEMENTATION_STATUS.md` before claiming anything exists.
-- Current milestone is M0 (repository foundation). The next task is in `docs/IMPLEMENTATION_BACKLOG.md`.
+- There is no game code yet: docs, the pnpm workspace with lint, test, build and CI tooling, and one example rule (`clamp`). Check `docs/IMPLEMENTATION_STATUS.md` before claiming anything exists.
+- M0 passed its gate (tag `m0-gate`, 2026-10-26). The current milestone is M1 (visual / movement prototype); the next task is in `docs/IMPLEMENTATION_BACKLOG.md`.
 - The remote `origin` is https://github.com/mixagent42/KhamangWet.git (public, DEC-061). CI tier 1 (`.github/workflows/ci.yml`) runs `pnpm verify` on every push, and the `main-protection` ruleset blocks deleting or force-pushing `main`. Never push without explicit approval.
 
 ## Where things are

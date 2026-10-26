@@ -251,6 +251,12 @@ Shared packages: shared-contracts (DTO, schemas) · game-data (definitions) ·
 | R-23 | Ops | Medium | เครื่องนี้ไม่มี Docker และ `psql` จึงยังไม่มีทางรัน PostgreSQL ใน local | ผลตรวจ toolchain | เลือกระหว่างติดตั้ง Docker Desktop หรือ PostgreSQL แบบ native (D-28) | M0 |
 | R-24 | Legal / Cultural | Medium | เนื้อหาไสยเวทไทย (ยันต์ รอยสัก ลวดลายทางศาสนา) อ่อนไหวทางวัฒนธรรม, ชื่อเกมยังเป็น working title ที่ยังไม่ได้ตรวจเครื่องหมายการค้า และข้อมูลบัญชีผู้เล่นไทยต้องคำนึงถึง PDPA | GDD L1, L13; ROADMAP L61 | ทำ cultural review checklist, ตรวจชื่อ และเก็บข้อมูลส่วนบุคคลเท่าที่จำเป็น | M6–M7 |
 
+**สถานะหลัง M0 gate (2026-10-26) [F]** (`IMPLEMENTATION_STATUS.md §2.6`):
+- **ลดลงแล้ว:** R-17 (pin แบบ exact + catalog + ADR-001 และ `CLAUDE.md` เตือนเรื่อง tag `latest` · ยังไม่ได้ติดตั้ง Prisma) · R-18 (ADR-001 บันทึกเวอร์ชันและผลของ spike) · R-20 (1 task = 1 branch, `pnpm verify` + CI tier 1, ruleset และ doc sync ทุก gate) · R-19 ส่วนของ M0 (Spine เลื่อนไว้ใน DEC-058 และ ADR-002 ทำหลัง VP0-c)
+- **เลื่อนไป:** R-23 → M3 (DEC-009: ลอง PGlite ก่อน)
+- **ตัดสินแนวทางแล้วแต่ยังต้อง implement:** R-02 (ADR-003) · R-05 และ R-08 (ADR-004) · R-01 และ R-07 (ADR-005 Draft) · R-10 (ADR-006)
+- **ใหม่จาก gate review:** ไฟล์ชื่อแบบ `*.env` ยังไม่ได้ป้องกันใน repo ที่เป็น public (Medium, follow-up ใน BACKLOG M1)
+
 ---
 
 ## 6. Missing Decisions

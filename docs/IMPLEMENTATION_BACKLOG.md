@@ -1,6 +1,6 @@
 # IMPLEMENTATION BACKLOG — Khamang Wet
 
-- **สร้างเมื่อ:** 2026-10-26 · **สถานะ:** Draft ที่รออนุมัติ · **Task ทั้งหมดยังไม่เริ่ม**
+- **สร้างเมื่อ:** 2026-10-26 · **สถานะ:** Draft ที่รออนุมัติ · ~~**Task ทั้งหมดยังไม่เริ่ม**~~ **M0 ผ่าน gate แล้ว (2026-10-26, tag `m0-gate`) · M1 ยังไม่เริ่ม**
 - **ที่มา:** `ROADMAP.md` (M0–M8), `PROJECT_ONBOARDING_REPORT.md §9–10`, `DECISIONS.md`
 - **เป้าหมายระยะใกล้:** จบ M4 แล้วได้ **VS0** ตามนิยามใน onboarding report §10 · M5–M8 แตกไว้แค่ระดับ epic และจะแตกเป็น task ก่อนเริ่ม milestone นั้น
 - **ทั้งไฟล์นี้เป็นข้อเสนอ [R]** ยกเว้นส่วนที่ระบุว่าเป็น **[F]**
@@ -127,12 +127,16 @@ M4  T01(DB) ─► T02(auth) ─► T03(lease) ─► T04(loot txn) ─► T05(X
 - **Risks:** deny rule ไม่ครอบคลุมทุกรูปแบบของคำสั่ง จึงต้องพึ่ง branch protection ด้วย
 
 #### M0-T15 — M0 gate review
-- **Type:** test/doc · **Size:** S · **Depends:** T01–T12, T14
+- **Type:** test/doc · **Size:** S · **Depends:** T01–T12 ✔, T14 ✔ · **Status:** ✔ **Done (2026-10-26)** · ผ่านครบตาม DoD §7 และ exit criteria ทั้ง 6 ข้อ · code review ไม่มี Critical หรือ High · tag `m0-gate` · Claude เป็นผู้ตัดสินตามคำสั่งของผู้พัฒนา (DEC-062) (`IMPLEMENTATION_STATUS.md §2.6`)
 - **AC:** ครบตาม `DEFINITION_OF_DONE.md §7` และ tag `m0-gate`
 
 ---
 
 ## M1 — Visual / Movement Prototype
+**Follow-ups จาก M0 gate (2026-10-26, `IMPLEMENTATION_STATUS.md §2.6`):** ทำเป็น task เล็กก่อนหรือระหว่าง M1
+- (Medium) เพิ่ม regression test ของ `.claude/hooks/guard-files.mjs` เข้า repo และรันใน `pnpm lint`
+- (Medium) ป้องกันไฟล์ชื่อแบบ `*.env` (เช่น `prod.env`) ใน `.gitignore`, guard hook และ `Read` deny
+- (Medium) อัปเดต Node ในเครื่องจาก 24.19.0 เป็น 24.22.1 ให้ตรงกับ CI (ต้องให้ผู้พัฒนากด UAC)
 **Exit criteria:**
 1. ตัวละครเดินและ sort ถูกต้องกับ occluder 3 แบบ ผ่าน visual QA checklist พร้อมภาพหน้าจอ
 2. walkable data ไฟล์เดียวกันใช้ได้ทั้ง browser และ Node test โดยไม่ import Babylon
