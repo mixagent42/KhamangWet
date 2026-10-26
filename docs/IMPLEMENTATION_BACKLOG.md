@@ -106,7 +106,7 @@ M4  T01(DB) ─► T02(auth) ─► T03(lease) ─► T04(loot txn) ─► T05(X
 - **AC:** `pnpm verify` = typecheck + lint + test + build และ exit 0 · มี unit test ตัวอย่าง 1 ตัวใน `game-rules` (เช่น pure function `clamp`) ซึ่งไม่ใช่ฟีเจอร์ · ทดลองทำให้ test fail แล้ว `pnpm verify` ต้อง exit ≠ 0 (บันทึกผล)
 
 #### M0-T11 — CI pipeline (tier 1)
-- **Type:** infra · **Size:** S · **Depends:** T10 ✔ · **Decisions:** DEC-011, ~~DEC-039~~ DEC-061 · ⚠ การ push ไปยัง remote ต้องได้รับอนุมัติ · **อัปเดต DEC-061 (2026-10-26):** repo `mixagent42/KhamangWet` เป็น public จึงตั้ง branch ruleset บน `main` ได้บน GitHub Free · workflow ต้อง harden ตาม DEC-011 · push เฉพาะ `main` และ `refs/tags/spike/m0-t06` แบบระบุชื่อ
+- **Type:** infra · **Size:** S · **Depends:** T10 ✔ · **Decisions:** DEC-011, ~~DEC-039~~ DEC-061 · **Status:** **In progress** (workflow merge ในเครื่องแล้ว 2026-10-26 · รอ push ครั้งแรก, ผลรันบน GitHub, การทดสอบ branch ที่ต้องแดง และ ruleset) · ⚠ การ push ไปยัง remote ต้องได้รับอนุมัติ · **อัปเดต DEC-061 (2026-10-26):** repo `mixagent42/KhamangWet` เป็น public จึงตั้ง branch ruleset บน `main` ได้บน GitHub Free · workflow ต้อง harden ตาม DEC-011 · push เฉพาะ `main` และ `refs/tags/spike/m0-t06` แบบระบุชื่อ
 - **AC:** CI เขียวบน `main` · branch ทดสอบที่ตั้งใจให้ fail ต้องแดง · ตั้ง branch protection แล้ว (ถ้ามี remote)
 
 #### M0-T12 — เขียน ADR-001 ถึง ADR-007

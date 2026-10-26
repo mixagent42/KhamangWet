@@ -1,0 +1,36 @@
+# CI tier 1 (DEC-011, docs/DEFINITION_OF_DONE.md §6.2): every push runs the same
+# gate as local work. The repo is public (DEC-061), so the token is read-only,
+# actions are pinned by commit SHA and no secrets are used.
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: verify
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24.22.1
+          package-manager-cache: false
+      - name: Enable pnpm through corepack
+        run: corepack enable pnpm
+      - run: pnpm --version
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm verify

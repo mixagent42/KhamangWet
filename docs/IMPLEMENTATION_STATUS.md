@@ -19,8 +19,8 @@
 | สถานะ | จำนวนรายการ (ตาราง §3) |
 |---|---|
 | Implemented | 9 (เอกสาร 2 รายการ + git repository + `CLAUDE.md` + `.claude/rules/` + Claude Code config + pnpm workspace + lint/format + `pnpm verify` · ยังไม่มีโค้ดเกม) |
-| Partial | 3 |
-| Missing | 25 (infrastructure 2 + game systems 22 + art assets 1) |
+| Partial | 4 |
+| Missing | 24 (infrastructure 1 + game systems 22 + art assets 1) |
 | Unknown | 4 |
 
 **[F]** ยังไม่มีโค้ดเกม, ยังไม่มี build system และยังไม่มี test · เอกสารทั้งหมดเป็นแผนและข้อเสนอ ไม่ใช่สิ่งที่ทำไปแล้ว (README L5)
@@ -135,7 +135,9 @@
 | **(M0-T14 part 2, 2026-10-26)** ทดสอบ hook จริงในเซสชันที่เริ่มที่ root ของ repo: Write `.env` และ `pnpm-lock.yaml` ลงใน scratchpad ของเซสชัน | **ถูกบล็อกทั้งสองไฟล์** · `PreToolUse:Write hook error: … Blocked by .claude/hooks/guard-files.mjs: .env may hold secrets…` และ `… pnpm-lock.yaml changes only through pnpm (install, add, remove, update).` · `test -e` ยืนยันว่าไม่มีไฟล์ถูกสร้าง · สองครั้งก่อนหน้าไม่ถูกบล็อก เพราะครั้งแรกเซสชันเริ่มก่อนจะมี `.claude/settings.json` และครั้งที่สองแค่ย้าย working directory ซึ่งไม่ทำให้ hook โหลด |
 | `allow` list ใน `.claude/settings.json` | 20 rule (Bash 10 + PowerShell 10) เฉพาะคำสั่งที่มีจริง: `pnpm verify`, `typecheck`, `lint`, `test *`, `build`, `format:check`, `--version`, `git status *`, `git diff *`, `git log *` · `JSON.parse` ผ่าน · ไม่มี rule ที่ซ้ำกับ deny หรือ ask · ยังไม่ได้ทดสอบว่าไม่ถามสิทธิ์ เพราะเซสชันนี้อยู่ใน auto mode |
 | skill `verify` (`.claude/skills/verify/SKILL.md`) | Claude Code โหลด skill ทันทีที่สร้างไฟล์ (ปรากฏในรายการ skill) · เรียกผ่าน Skill tool แล้วรัน `pnpm verify`: exit 0 · typecheck 5 package · lint fixture 9/9 · test 5/5 · build 5 package · format:check ผ่าน |
-| `git commit` บน branch `m0/t14-claude-config-part2` | `b5e611e` (6 files, +45 −9) · author = noreply · ผู้พัฒนาอนุมัติ diff ก่อน commit · squash commit บน `main` คือ "chore(claude): add the verify skill and an allow list; prove the guard hook (M0-T14 part 2)" |
+| `git commit` บน branch `m0/t14-claude-config-part2` | `b5e611e` (→ squash `3821a23` บน `main`) (6 files, +45 −9) · author = noreply · ผู้พัฒนาอนุมัติ diff ก่อน commit · squash commit บน `main` คือ "chore(claude): add the verify skill and an allow list; prove the guard hook (M0-T14 part 2)" |
+| **(M0-T11, 2026-10-26)** เขียน `.github/workflows/ci.yml` ตามร่างที่ผู้พัฒนาอนุมัติ | `cmp` ตรงกับร่าง · 36 บรรทัด LF · `prettier --check` ผ่าน (Prettier parse YAML ได้และจัดรูปแบบแล้วไม่เปลี่ยน) · `pnpm verify` exit 0 · checkout `3d3c42e5…` (v7.0.1) และ setup-node `949feb24…` (v7.1.0) ตาม SHA ที่ GitHub API ให้ · lockfile มี binding ของ linux-x64 ครบ (`@rolldown/binding-linux-x64-gnu`, `lightningcss-linux-x64-gnu`, `@pnpm/exe.linux-x64`) · **ยังไม่ได้ push จึงยังไม่มีผลรันบน GitHub** |
+| `git commit` บน branch `m0/t11-ci` | `6a0af3d` · author = noreply · ผู้พัฒนาอนุมัติ workflow ก่อน commit · squash commit บน `main` คือ "ci: add the tier 1 GitHub Actions workflow (M0-T11)" |
 
 ### 2.2 Build / Typecheck / Lint / Test
 > **[F] ไม่มีคำสั่ง build, typecheck, lint หรือ test ใน repository** ผลด้านล่างคือการลองรันจริง ซึ่ง**ล้มเหลวทั้งหมด** ไม่มีผลสำเร็จใดที่จะรายงานได้
@@ -250,7 +252,7 @@ ec7a390099d9467f1cada7beedbdad10  prompts/06_TEST_PLAN.md
 | pnpm workspace + lockfile | **Implemented** | `pnpm-workspace.yaml` (catalog + `engineStrict`), 7 workspace projects (`@kw/*`) ที่มีแค่ entry point ว่าง, `pnpm-lock.yaml` · `pnpm install --frozen-lockfile` และ `pnpm -r build` ผ่านบนสำเนาใหม่ (§2.1 M0-T08) · ยังไม่มีโค้ดเกม | M0-T07 ✔, M0-T08 ✔ |
 | Lint / format / import boundary | **Implemented** | `eslint.config.js` (type-aware + กฎ boundary ด้วย ESLint core rules), `tests/lint/import-boundaries.test.mjs` (9/9), Prettier 3.9.10 สำหรับ code และ config (`.prettierignore`) · `pnpm lint` และ `pnpm format:check` exit 0 · import ผิดกฎทำให้ `pnpm lint` exit 1 (§2.1 M0-T09) | M0-T09 ✔ |
 | `pnpm verify` (typecheck + lint + test + build) | **Implemented** | `pnpm verify` = typecheck → lint → test → build → format:check, exit 0 · unit test ตัวอย่าง `clamp` ใน `game-rules` (Vitest 5/5) · test ที่ fail ทำให้ verify exit 1 และหยุดที่ขั้น test (§2.1 M0-T10) | M0-T10 ✔ |
-| CI pipeline | **Missing** | ไม่พบ `.github` หรือ `.gitlab-ci.yml` | M0-T11 |
+| CI pipeline | **Partial** | มี `.github/workflows/ci.yml` (tier 1) และ Prettier/YAML ผ่านในเครื่อง · **ยังไม่ได้ push จึงยังไม่เคยรันบน GitHub** (§2.1 M0-T11) | M0-T11 |
 | Local PostgreSQL | **Missing** | ไม่พบ docker หรือ psql | M0-T13 |
 
 ### 3.2 Game systems (เทียบกับ GDD §6 MVP Scope และ TECH §4)
@@ -313,3 +315,4 @@ ec7a390099d9467f1cada7beedbdad10  prompts/06_TEST_PLAN.md
 | 2026-10-26 | M0-T10 Done: `pnpm verify` = Implemented · unit test แรก (`clamp`) · git email ของ repo เปลี่ยนเป็น noreply (A2) | §2.1 (M0-T10), §2.2 |
 | 2026-10-26 | DEC-061: repo เป็น public · เขียนประวัติ git ใหม่ให้ใช้อีเมล noreply (backup ไว้นอก repo) · hash ในเอกสาร 29 จุดเปลี่ยนเป็นค่าใหม่ · เพิ่ม §2.5 ตารางเทียบ hash · หลักฐานที่อ้าง commit บน branch ระบุ squash commit บน `main` ไว้ข้างกัน | §2.1 (DEC-061), §2.5 |
 | 2026-10-26 | M0-T14 Done: hook บล็อกได้จริงในเซสชัน · เพิ่ม `allow` list และ skill `verify` · Claude Code config = Implemented | §2.1 (M0-T14 part 2) |
+| 2026-10-26 | M0-T11 (ส่วนในเครื่อง): เพิ่ม workflow CI tier 1 · CI pipeline = Partial จนกว่าจะ push และเห็นผลรันจริง | §2.1 (M0-T11) |
