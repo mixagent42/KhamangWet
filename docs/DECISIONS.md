@@ -267,6 +267,7 @@
   - **หลักสำคัญสำหรับ solo dev:** CI และ local เรียกคำสั่งเดียวกัน (`pnpm verify`) จึงมีที่มาของ gate เพียงที่เดียว
 - **Impact:** ไม่มี CI = gate ขึ้นกับวินัยของคนอย่างเดียว ซึ่ง AI ข้ามได้ง่าย
 - **อัปเดต 2026-10-26 (DEC-061):** repo เป็น public จึงต้อง harden workflow: `permissions: contents: read`, pin action ด้วย commit SHA, ไม่ใช้ `pull_request_target`, ไม่ใช้ secret ใน tier 1 และตั้งให้ fork PR จากคนนอกต้องอนุมัติก่อนรัน · Actions ฟรีสำหรับ public repo
+- **อัปเดต 2026-10-26 (M0-T11):** tier 1 ทำแล้ว (`.github/workflows/ci.yml`: `ubuntu-24.04`, Node 24.22.1, pnpm ผ่าน corepack, `pnpm install --frozen-lockfile` + `pnpm verify`, action pin ด้วย SHA) · run บน `main` เขียวและ branch ที่ test fail ขึ้นแดง · ruleset `main-protection` ห้ามลบและห้าม force push ยังไม่บังคับ status check (`DEFINITION_OF_DONE.md §6.2`)
 
 ### DEC-012 — Branching, rollback และ recovery
 - **Status:** **Accepted (delegated, 2026-10-26)** → ดู §4.0 · ~~Proposed~~ · **Recommendation [R]:**
@@ -536,6 +537,7 @@
   - CI ต้อง harden สำหรับ public repo (DEC-011, M0-T11)
   - push เฉพาะ `main` และ `refs/tags/spike/m0-t06` แบบระบุชื่อ ห้าม `git push --all` หรือ `--mirror` เพราะ object เดิมที่มีอีเมลยังอยู่ในเครื่อง · push ครั้งแรกยังต้องได้รับอนุมัติ
   - branch protection หรือ ruleset บน `main` ทำได้บน GitHub Free แล้ว (M0-T11)
+- **อัปเดต 2026-10-26 (M0-T11):** push ครั้งแรกแล้วตามที่ผู้พัฒนาอนุมัติ: `main` (`6af21d5`) และ tag `spike/m0-t06` · สแกนก่อน push ไม่พบอีเมลเดิมและไม่พบไฟล์ที่ดูเหมือน secret · ruleset `main-protection` ใช้งานแล้ว
 - **ข้อจำกัด [F]:** commit message ที่อ้าง hash เดิมคงข้อความเดิมไว้ · commit บน branch ที่ squash แล้วไม่อยู่บน `main` และไม่ถูก push · backup ที่ `E:\KhamangWet\_backup\pre-rewrite-20261026\` ยังมีอีเมลเดิมและเก็บไว้ในเครื่องเท่านั้น
 
 ### DEC-041 ถึง DEC-056 — การตัดสินใจด้าน art ก่อนผลิต asset จำนวนมาก

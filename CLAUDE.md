@@ -6,7 +6,7 @@ Thai Occult & Sorcery MMORPG for Web PC. Art direction is locked to 2.5D HD-2D: 
 ## Current state — verify, never assume
 - There is no game code yet: docs, a git repo and an empty pnpm workspace skeleton (M0-T08). Check `docs/IMPLEMENTATION_STATUS.md` before claiming anything exists.
 - Current milestone is M0 (repository foundation). The next task is in `docs/IMPLEMENTATION_BACKLOG.md`.
-- There is no git remote yet. Never push or create a remote without explicit approval.
+- The remote `origin` is https://github.com/mixagent42/KhamangWet.git (public, DEC-061). CI tier 1 (`.github/workflows/ci.yml`) runs `pnpm verify` on every push, and the `main-protection` ruleset blocks deleting or force-pushing `main`. Never push without explicit approval.
 
 ## Where things are
 - Workspace packages (`@kw/*`): `apps/web` (Vite client), `apps/game-server` (Node server), `packages/shared-contracts`, `packages/game-rules` and `packages/game-data` (run in both browser and Node), `packages/config` (shared tsconfig). Exact shared versions are in the `catalog` of `pnpm-workspace.yaml`; packages reference them as `"catalog:"`.

@@ -111,7 +111,8 @@
 | 2 | PR หรือ merge เข้า `main` | tier 1 + `test:integration` (PostgreSQL service container) + E2E smoke | ≤ 20 นาที |
 | 3 | nightly หรือสั่งเอง | E2E เต็ม + load test (หลัง M3) + dependency audit + build จาก clone ใหม่ | ไม่จำกัด |
 
-- ป้องกัน `main` ด้วย branch protection ให้ merge ได้เมื่อ tier 1–2 เขียวเท่านั้น (ต้องมี remote ตาม DEC-039)
+- ป้องกัน `main` ด้วย branch protection ให้ merge ได้เมื่อ tier 1–2 เขียวเท่านั้น (ต้องมี remote ตาม ~~DEC-039~~ DEC-061)
+- **อัปเดต 2026-10-26 (M0-T11):** tier 1 ทำแล้วใน `.github/workflows/ci.yml` และรันจริงแล้ว (เขียวบน `main` และแดงเมื่อ test fail) · ตอนนี้ `main` มี ruleset `main-protection` ที่ห้ามลบและห้าม force push แต่**ยังไม่บังคับ status check** เพราะ flow ของ DEC-012 คือ squash merge ในเครื่องแล้ว push `main` ตรง ๆ และ GitHub จะปฏิเสธ commit ที่ยังไม่ผ่าน check (ผู้พัฒนาอนุมัติ) · ให้เปิด required check เมื่อเปลี่ยนไปใช้ PR บน GitHub · tier 2–3 ยังไม่มี
 - เก็บ Playwright trace, screenshot และ perf JSON เป็น CI artifact
 - **ห้าม** ปิด test ที่ fail เพื่อให้ CI ผ่าน ถ้า test ไม่เสถียร ให้ทำตาม §9.3
 
