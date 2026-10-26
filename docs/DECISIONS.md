@@ -1,6 +1,6 @@
 # DECISIONS — Khamang Wet Decision Log
 
-- **สร้างเมื่อ:** 2026-10-26 · **สถานะเอกสาร:** Draft · **การตัดสินใจที่ผู้พัฒนาอนุมัติแล้ว:** DEC-040 (Art Direction 2.5D HD-2D, 2026-10-26) · DEC-045 (paper-doll ตาม equipment, 2026-10-26) · DEC-058 (VP0-c เทียบ A3-B กับ A1-L และยังไม่ซื้อ Spine, 2026-10-26) · **มอบอำนาจให้ผู้ตรวจตัดสิน (2026-10-26):** DEC-001 ถึง 008, 011, 012, 013, 033, 034, 039 (ดู §4.0) · **DEC-006 และ DEC-010 (TypeScript 6.0.3 + ESLint/typescript-eslint, ผู้พัฒนา 2026-10-26)** · **DEC-061 (GitHub repo แบบ public + เขียนประวัติใหม่ให้ใช้อีเมล noreply, ผู้พัฒนา 2026-10-26; แทน DEC-039)** · **DEC-062 (มอบอำนาจการตัดสินใจทั้งหมดให้ Claude ยกเว้นเรื่องที่มีค่าใช้จ่าย, ผู้พัฒนา 2026-10-26)** · เวอร์ชันที่ pin ทั้งหมดอยู่ใน `docs/adr/001-stack-and-versions.md`
+- **สร้างเมื่อ:** 2026-10-26 · **สถานะเอกสาร:** Draft · **การตัดสินใจที่ผู้พัฒนาอนุมัติแล้ว:** DEC-040 (Art Direction 2.5D HD-2D, 2026-10-26) · DEC-045 (paper-doll ตาม equipment, 2026-10-26) · DEC-058 (VP0-c เทียบ A3-B กับ A1-L และยังไม่ซื้อ Spine, 2026-10-26) · **มอบอำนาจให้ผู้ตรวจตัดสิน (2026-10-26):** DEC-001 ถึง 008, 011, 012, 013, 033, 034, 039 (ดู §4.0) · **DEC-006 และ DEC-010 (TypeScript 6.0.3 + ESLint/typescript-eslint, ผู้พัฒนา 2026-10-26)** · **DEC-061 (GitHub repo แบบ public + เขียนประวัติใหม่ให้ใช้อีเมล noreply, ผู้พัฒนา 2026-10-26; แทน DEC-039)** · **DEC-009 และ DEC-016 ถึง 022 (ตามคำแนะนำ, ผู้พัฒนา 2026-10-26; ADR-003 ถึง 007)** · **DEC-062 (มอบอำนาจการตัดสินใจทั้งหมดให้ Claude ยกเว้นเรื่องที่มีค่าใช้จ่าย, ผู้พัฒนา 2026-10-26)** · เวอร์ชันที่ pin ทั้งหมดอยู่ใน `docs/adr/001-stack-and-versions.md`
 - **ที่มา:** `PROJECT_ONBOARDING_REPORT.md` (รหัส C-xx = ข้อขัดแย้ง, D-xx = การตัดสินใจที่ขาด, R-xx = ความเสี่ยง) และเอกสารต้นฉบับ
 - **ความสัมพันธ์กับ ADR:** `TECHNICAL_ARCHITECTURE.md §10` (L146–147) กำหนดให้ใช้ `docs/adr/NNN-title.md` ไฟล์นี้จึงทำหน้าที่เป็น**ทะเบียนกลาง (register)** ของทุกการตัดสินใจ เมื่อ entry ใดได้สถานะ **Accepted** และมีผลระยะยาว ให้เขียน ADR เต็มแล้วลิงก์กลับมาที่นี่ โดยเก็บไว้ที่นี่แค่บทสรุป เพื่อไม่ให้เนื้อหาซ้ำกัน
 
@@ -34,20 +34,20 @@
 | DEC-006 | TypeScript major | **Accepted (ผู้พัฒนา, 2026-10-26)** — **TS 6.0.3** และทบทวน TS 7 เมื่อ typescript-eslint รองรับ (ADR-001) | M0 | R-18 |
 | DEC-007 | Colyseus 0.18 / schema 5 / sdk | **Accepted** — core 0.18.23, schema 5.0.42, sdk 0.18.6 (spike ยืนยัน, ADR-001) | M0 | R-18 |
 | DEC-008 | Prisma major และ path ของ schema/migrations | **Accepted (delegated)** — 7.10.1 ผ่าน spike แล้ว (ADR-001) · เรื่องการดาวน์โหลด engine ดู DEC-059 | M0 | R-17, C-18 |
-| DEC-009 | PostgreSQL ใน local (เครื่องมือและเวอร์ชัน) | Open | M3 | D-28, R-23 |
+| DEC-009 | PostgreSQL ใน local (เครื่องมือและเวอร์ชัน) | **Accepted (ผู้พัฒนา, 2026-10-26)** — เลื่อน M0-T13 ไป M3 · ลอง PGlite ก่อน แล้วค่อยใช้ Docker | M3 | D-28, R-23 |
 | DEC-010 | Lint, format และ import boundary | **Accepted (ผู้พัฒนา, 2026-10-26)** ส่วน lint — **ESLint 10.13.0 + typescript-eslint 8.72.0 (type-aware)** · ~~formatter และเครื่องมือ import boundary เลือกใน M0-T09~~ **formatter = Prettier 3.9.10 · boundary = ESLint core rules (M0-T09)** | M0 | D-27 |
 | DEC-011 | CI provider และ pipeline | **Accepted (delegated)** — GitHub Actions | M0 | D-27 |
 | DEC-012 | Branching, rollback และ recovery | **Accepted (delegated)** | M0 | R-20 |
 | DEC-013 | Automated test stack และ determinism | **Accepted (delegated)** | M0 | R-22 |
 | DEC-014 | Animation runtime: A3-B (Blender → glTF) · A1-L (สำรอง) · ~~A3-S (Spine)~~ พักไว้ตาม DEC-058 | **Open** (เปิดใหม่เพราะ DEC-040 และตัดสินจาก VP0-c · **ให้น้ำหนัก runtime skeletal** ตาม DEC-045) | ก่อนผลิต animation ชุดเต็ม (M1-T20) | D-23, R-19, ภาคผนวก C |
 | DEC-015 | วิธีทำ depth sorting และ occlusion | Open (ตัดสินจาก spike) | M1 gate | R-03 |
-| DEC-016 | รูปแบบ collision/walkable data ที่ใช้ร่วมกัน | Proposed | M1 | D-17, R-02 |
-| DEC-017 | Multiplayer authority และ netcode model | Proposed | M2 (contracts), M3 | D-16, D-18, C-14, C-15 |
-| DEC-018 | Lag compensation และ i-frames | Proposed | M2 | D-19, R-05 |
-| DEC-019 | Persistence write strategy และ character lease | Proposed | M3 (ออกแบบ) | D-21, C-23, R-01, R-07 |
-| DEC-020 | Auth ใน M3 (dev) และ M4 (test) | Proposed / Open | M3 | C-04, D-22 |
-| DEC-021 | MVP เป็น PvE เท่านั้น | Proposed | M2 | D-01, C-06 |
-| DEC-022 | กติกา loot และ credit | Proposed | M3 | D-05, C-05 |
+| DEC-016 | รูปแบบ collision/walkable data ที่ใช้ร่วมกัน | **Accepted (ผู้พัฒนา, 2026-10-26)** → ADR-003 | M1 | D-17, R-02 |
+| DEC-017 | Multiplayer authority และ netcode model | **Accepted (ผู้พัฒนา, 2026-10-26)** → ADR-004 | M2 (contracts), M3 | D-16, D-18, C-14, C-15 |
+| DEC-018 | Lag compensation และ i-frames | **Accepted (ผู้พัฒนา, 2026-10-26)** → ADR-004 | M2 | D-19, R-05 |
+| DEC-019 | Persistence write strategy และ character lease | **Accepted ในหลักการ (ผู้พัฒนา, 2026-10-26)** → ADR-005 (Draft, Accept ใน M3-T12) | M3 (ออกแบบ) | D-21, C-23, R-01, R-07 |
+| DEC-020 | Auth ใน M3 (dev) และ M4 (test) | M3: **Accepted (ผู้พัฒนา, 2026-10-26)** → ADR-006 · M4: Open | M3 | C-04, D-22 |
+| DEC-021 | MVP เป็น PvE เท่านั้น | **Accepted (ผู้พัฒนา, 2026-10-26)** → ADR-007 | M2 | D-01, C-06 |
+| DEC-022 | กติกา loot และ credit | **Accepted (ผู้พัฒนา, 2026-10-26)** → ADR-007 | M3 | D-05, C-05 |
 | DEC-023 | Stat model ขั้นต่ำสำหรับ VS0 | Proposed (ชื่อยัง Open) | M2 | D-03 |
 | DEC-024 | Death และ respawn ใน VS0 | Proposed | M2 | D-04 |
 | DEC-025 | จุดเริ่มนับ cooldown | Proposed | M2 | D-20 |
@@ -253,7 +253,7 @@
 - **Impact:** ถ้า CLI กับ client ต่าง major กัน generate หรือ migrate อาจล้มเหลวหรือได้ type ที่ไม่ตรงกัน
 
 ### DEC-009 — PostgreSQL ใน local
-- **Status:** Open · **Context [F]:** ไม่พบ `docker` และ `psql` ใน PATH · **[F] จาก spike M0-T06:** `prisma` 7.10.1 มี dependency `@prisma/dev` + `@electric-sql/pglite` (Postgres แบบ WASM) ซึ่ง**อาจ**เป็นทางเลือก D ที่ไม่ต้องติดตั้ง Docker หรือ PostgreSQL **[?]** ต้องตรวจความสามารถและข้อจำกัดก่อน
+- **Status:** ~~Open~~ **Accepted (ผู้พัฒนา, 2026-10-26)**: เลื่อน M0-T13 ไป M3 · ลองตัวเลือก D (PGlite ที่มากับ Prisma) ก่อน ถ้าไม่พอใช้ตัวเลือก A (Docker Desktop + compose) · ถ้าเครื่องมือที่เลือกมีค่าใช้จ่าย ต้องถามผู้พัฒนาก่อน (DEC-062) · **Context [F]:** ไม่พบ `docker` และ `psql` ใน PATH · **[F] จาก spike M0-T06:** `prisma` 7.10.1 มี dependency `@prisma/dev` + `@electric-sql/pglite` (Postgres แบบ WASM) ซึ่ง**อาจ**เป็นทางเลือก D ที่ไม่ต้องติดตั้ง Docker หรือ PostgreSQL **[?]** ต้องตรวจความสามารถและข้อจำกัดก่อน
 - **Options:** **A.** Docker Desktop + compose (ใกล้เคียง CI และ production) · **B.** ติดตั้ง PostgreSQL บน Windows (เบากว่า แต่ต่างจาก CI) · **C.** Postgres บน cloud สำหรับ dev (ต้องใช้เน็ตและอาจมีค่าใช้จ่าย)
 - **Recommendation [R]:** A ถ้าเครื่องรองรับ เพราะ CI ก็ใช้ container แต่ต้องให้ผู้พัฒนาเลือก · major version ของ PostgreSQL ต้องตรงกับ support matrix ของ Prisma ที่เลือก **[?]**
 
@@ -318,7 +318,7 @@
 - **ห้าม:** เลือกวิธีก่อนมีผล spike
 
 ### DEC-016 — Collision/walkable data ที่ใช้ร่วมกัน
-- **Status:** Proposed · **ต้องปิดก่อน:** M1 · **Ref:** D-17, R-02
+- **Status:** ~~Proposed~~ **Accepted (ผู้พัฒนา, 2026-10-26)** → `docs/adr/003-walkable-data.md` · **ต้องปิดก่อน:** M1 · **Ref:** D-17, R-02
 - **Context [F]:** TECH L81 ห้าม server import Babylon · ART L26–27 ให้แยก collision proxy และระบุ walkable data ให้ชัด · ไม่พบ `blender` ใน PATH **[?]**
 - **Recommendation [R]:**
   - ใช้รูปแบบเดียวที่ไม่ผูกกับ engine: polygon หรือ grid บน XZ plane เป็น JSON ใน `packages/game-data` พร้อม Zod schema และ `formatVersion`
@@ -328,7 +328,7 @@
 - **Impact ถ้าไม่ทำ:** rubber-banding และ server ปฏิเสธการเดินที่ถูกต้อง ทำให้ต้องรื้อ movement
 
 ### DEC-017 — Multiplayer authority และ netcode model
-- **Status:** Proposed · **Ref:** D-16, D-18, C-14, C-15
+- **Status:** ~~Proposed~~ **Accepted (ผู้พัฒนา, 2026-10-26)** → `docs/adr/004-netcode-model.md` · **Ref:** D-16, D-18, C-14, C-15
 - **[F] จาก spike M0-T06 (ADR-001):**
   - `onMessage(type, zodSchema, handler)` ของ Colyseus 0.18.23 ใช้ Zod 4 ได้ตรง ๆ แต่ถ้า payload ไม่ผ่าน จะ**ตัดการเชื่อมต่อ client** (code 4002) ส่วนการ `safeParse` เองใน handler ทิ้ง message โดยไม่ตัดการเชื่อมต่อ (ต้องเลือกนโยบายใน M3-T04)
   - Colyseus 0.18 มี `InputBufferImpl` และ `setSimulationInterval` สำหรับรับ input และ tick และ `StateView` / `@view` ใน schema สำหรับกรองข้อมูลต่อ client (R-11) **[?]** ยังไม่ได้ทดสอบ
@@ -339,11 +339,11 @@
   4. ตำแหน่งอยู่ใน room state ที่ sync อัตโนมัติ ส่วน `MoveState` ใช้เป็น ack ของ client เจ้าของตัวละครถ้าจำเป็น (แก้ C-14)
   5. Combat events เป็น discriminated union เดียวใน `shared-contracts` (แก้ C-13)
   6. Tick rate และ patch rate เป็นค่า config ที่เลือกค่าเริ่มต้นใน spike M0-T06 หรือ M3-T05 แล้ววัดผล โดยยังไม่ล็อกตัวเลข (TECH L126)
-- **Conflict ที่ต้องบันทึก:** ข้อ 3 ขัดกับข้อความใน `NETWORK_PROTOCOL.md` L15 ถ้าอนุมัติ ต้องแก้ L15 และแสดง diff ให้ผู้พัฒนาดูก่อน
+- **Conflict ที่ต้องบันทึก:** ข้อ 3 ขัดกับข้อความใน `NETWORK_PROTOCOL.md` L15 ถ้าอนุมัติ ต้องแก้ L15 และแสดง diff ให้ผู้พัฒนาดูก่อน · **แก้ L15 แล้วใน M0-T12 (2026-10-26)**
 
 ### DEC-018 — Lag compensation และ i-frames
 - **[F] จาก spike M0-T06:** Colyseus 0.18 export `Rewind` และ `RewindView` (lag compensation ในตัว) **[?]** ยังไม่ได้ทดสอบ ต้องพิจารณาก่อนยืนยันข้อเสนอ "ไม่ rewind ใน VS0"
-- **Status:** Proposed · **Recommendation [R]:**
+- **Status:** ~~Proposed~~ **Accepted (ผู้พัฒนา, 2026-10-26)** → `docs/adr/004-netcode-model.md` · **Recommendation [R]:**
   - VS0 **ไม่ rewind** ให้ server resolve ตามตำแหน่ง ณ tick ที่ resolve (นิยาม "defined simulation moment" ของ COMBAT L35)
   - windup ของ telegraph ต้องนานพอให้ผู้เล่นมีเวลาตอบสนองแม้มี latency (ตัวเลขอยู่ใน game-data และ tune จาก playtest)
   - i-frame ของ `ward_step` มีช่วงที่ server กำหนดบวก grace สั้น ๆ เป็น config
@@ -351,7 +351,7 @@
 - **Trade-off:** ผู้เล่นที่ ping สูงจะเสียเปรียบ แลกกับความเรียบง่ายและการโกงที่ยากขึ้น
 
 ### DEC-019 — Persistence write strategy และ character lease
-- **Status:** Proposed · **ต้องปิดก่อน:** M3 gate · **Ref:** C-23, R-01, R-07
+- **Status:** ~~Proposed~~ **Accepted ในหลักการ (ผู้พัฒนา, 2026-10-26)** → `docs/adr/005-persistence-strategy.md` (**Draft**, Accept ใน M3-T12) · **ต้องปิดก่อน:** M3 gate · **Ref:** C-23, R-01, R-07
 - **Context [F]:** DATABASE §5 L41 บอกให้ "persist on important state transitions and periodically" ส่วน DATABASE §3 บอกให้ใช้ transaction กับรางวัลและการซื้อขาย แต่ไม่ได้กำหนดว่าข้อมูลมีต้นฉบับอยู่ที่ไหน
 - **Recommendation [R]:**
   - **ข้อมูลที่มีมูลค่า** (item, currency, XP ที่ได้, การจบ quest): DB transaction + idempotency key ที่เป็น unique (`sourceEventId`) commit ก่อน แล้วจึงแก้ room state เมื่อ commit สำเร็จ ถ้าล้มเหลวจะไม่มีอะไรเกิดขึ้น
@@ -361,19 +361,19 @@
 - **Impact ถ้าไม่ตัดสิน:** เสี่ยง item dupe ซึ่งเป็นความเสี่ยงระดับ Critical (R-01)
 
 ### DEC-020 — Auth
-- **Status:** M3 = Proposed · M4 = Open · **Ref:** C-04
+- **Status:** M3 = ~~Proposed~~ **Accepted (ผู้พัฒนา, 2026-10-26)** → `docs/adr/006-dev-auth.md` · M4 = Open · **Ref:** C-04
 - **Recommendation [R]:**
   - **M3:** `AuthProvider` interface + dev token provider ที่ทำงานเฉพาะ `NODE_ENV=development` และ server ต้องปฏิเสธ provider นี้ใน env อื่น (มี test)
   - **M4:** เลือก library หรือบริการ auth ที่ใช้แพร่หลาย ผ่าน ADR (ห้ามเขียน crypto เอง ตาม SECURITY L21) พร้อมกำหนดรูปแบบ token สำหรับ WebSocket
   - **Open:** library ที่จะใช้, ต้องยืนยันอีเมลหรือไม่ในช่วง closed test
 
 ### DEC-021 — MVP เป็น PvE เท่านั้น
-- **Status:** Proposed · **Conflict [F]:** GDD §1 L4 "cooperate or compete" และ COMBAT §5 L43 "PvP scaling" ขัดกับ GDD §6 ที่ไม่มี PvP
-- **Recommendation [R]:** MVP เป็น PvE เท่านั้น แล้วเพิ่ม "PvP" ในรายการ deferred ของ GDD §7 (ต้องแก้เอกสารต้นฉบับหลังอนุมัติ)
+- **Status:** ~~Proposed~~ **Accepted (ผู้พัฒนา, 2026-10-26)** → `docs/adr/007-mvp-scope-pve-loot.md` · **Conflict [F]:** GDD §1 L4 "cooperate or compete" และ COMBAT §5 L43 "PvP scaling" ขัดกับ GDD §6 ที่ไม่มี PvP
+- **Recommendation [R]:** MVP เป็น PvE เท่านั้น แล้วเพิ่ม "PvP" ในรายการ deferred ของ GDD §7 (ต้องแก้เอกสารต้นฉบับหลังอนุมัติ) · **แก้ GDD §7 แล้วใน M0-T12 (2026-10-26)**
 - **ผลกระทบ:** ขอบเขตงาน anti-cheat และ balance ลดลงมาก แต่ถ้ามีแผนทำ PvP ภายหลัง ต้องออกแบบ damage formula ให้รองรับ scaling ได้
 
 ### DEC-022 — Loot และ credit
-- **Status:** Proposed · **Recommendation [R]:** personal loot ผู้เล่นทุกคนที่มีส่วนร่วม (เช่น ทำ damage ≥ X% หรือโดนโจมตีจาก enemy ภายในช่วงเวลา) ได้ roll ของตัวเอง ไม่มีการแย่ง loot ส่วน party ไว้ M8 ตาม ROADMAP L69 · ค่า X เป็น config
+- **Status:** ~~Proposed~~ **Accepted (ผู้พัฒนา, 2026-10-26)** → `docs/adr/007-mvp-scope-pve-loot.md` · **Recommendation [R]:** personal loot ผู้เล่นทุกคนที่มีส่วนร่วม (เช่น ทำ damage ≥ X% หรือโดนโจมตีจาก enemy ภายในช่วงเวลา) ได้ roll ของตัวเอง ไม่มีการแย่ง loot ส่วน party ไว้ M8 ตาม ROADMAP L69 · ค่า X เป็น config
 
 ### DEC-023 — Stat model ขั้นต่ำสำหรับ VS0
 - **Status:** Proposed (ชื่อ resource ยัง Open)
@@ -568,16 +568,16 @@
 |---|---|---|
 | ~~C-01, C-02~~ | เอกสารซ้ำและชื่อไฟล์ไม่ตรง | **ปิดแล้ว 2026-10-26:** DEC-002 ทำแล้วใน M0-T03 (ลบไฟล์ซ้ำ และแก้ `GDD.md` เป็น `GAME_VISION_GDD.md` ใน TECH §5) |
 | ~~C-03, C-24~~ | repo root และไม่มี git | **ปิดแล้ว 2026-10-26:** DEC-001 ทำแล้วใน M0-T02 |
-| C-04 | auth อยู่ใน M4 แต่ M3 ต้องใช้ | DEC-020 |
-| C-05 | co-op โดยไม่มี party | DEC-022 |
-| C-06 | สถานะ PvP | DEC-021 |
+| ~~C-04~~ | auth อยู่ใน M4 แต่ M3 ต้องใช้ | **ปิดแล้ว 2026-10-26:** ADR-006 (dev auth ใน M3) |
+| ~~C-05~~ | co-op โดยไม่มี party | **ปิดแล้ว 2026-10-26:** ADR-007 (personal loot โดยไม่ต้องมี party) |
+| ~~C-06~~ | สถานะ PvP | **ปิดแล้ว 2026-10-26:** ADR-007 (MVP เป็น PvE และ PvP อยู่ใน GDD §7) |
 | C-07 | archetype หรือ build path | DEC-038 |
 | C-08 | การแบ่ง skill ตาม path และ summon | backlog M5-E01 |
 | C-09 | ไม่มี spec ของ ritual และ investigation | backlog M5-E00 |
 | C-10 | karma และ reputation ใน MVP | Open (ตัดสินก่อน M5) |
 | C-11 | shop, craft, currency ไม่อยู่ใน milestone ใด | backlog M5 |
 | C-12 | ตำแหน่งของ tutorial quest | backlog M6 |
-| C-13, C-14, C-15 | combat event, MoveState และ input duration | DEC-017 |
+| ~~C-13, C-14, C-15~~ | combat event, MoveState และ input duration | **ปิดแล้ว 2026-10-26:** ADR-004 และแก้ `NETWORK_PROTOCOL.md` L15 |
 | C-16 | sprite 4 ทิศกับ aim อิสระ | DEC-027, DEC-014 |
 | C-17 | definition อยู่ใน DB หรือ git | DEC-030 |
 | C-18 | path ของ Prisma กับ rule | DEC-008 ✔ ตัดสินแล้ว (schema อยู่ใต้ `database/`) และรอทำ M4-T01 |
@@ -585,7 +585,7 @@
 | ~~C-20~~ | skills ซ้ำกับ prompts | **ปิดแล้ว 2026-10-26:** skill `implement-task` เป็น wrapper บางที่ชี้ไปที่ `prompts/02` และ DoD โดยไม่คัดลอกเนื้อหา (M0-T14) · skill `verify` จะทำแบบเดียวกันหลัง T10 |
 | ~~C-21~~ | prompts/01 และ 02 อ้างถึง `CLAUDE.md` ที่ยังไม่มี | **ปิดแล้ว 2026-10-26:** สร้าง `CLAUDE.md` ใน M0-T04 |
 | C-22 | offline sandbox ขัดกับ authority | backlog M2-T09 (local sim) |
-| C-23 | ต้นฉบับของข้อมูลที่มีมูลค่า | DEC-019 |
+| C-23 | ต้นฉบับของข้อมูลที่มีมูลค่า | DEC-019 → ADR-005 (Draft) · ปิดเมื่อ Accept ใน M3-T12 |
 | ~~C-A1~~ | DEC-028 (ไม่มี paper-doll) ขัดกับมาตรฐานการเปลี่ยนชุดใน Art Lock §3 | **ปิดแล้ว 2026-10-26:** DEC-045 Accepted และ DEC-028 Superseded |
 | C-A2 (ใหม่) | ภาพอ้างอิงมีตัวละคร 4 แบบ แต่ GDD §6 มี 1 archetype กับ 2 paths | DEC-055, DEC-038 |
 | C-A3 (ใหม่) | ภาพอ้างอิงมี UI party/guild chat และ minimap แต่ ROADMAP L69 เลื่อน party/guild ไปไว้ M8 และ GDD L39 ไม่มี minimap | DEC-055 |

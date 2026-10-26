@@ -12,7 +12,7 @@
 These are conceptual examples; align to the chosen Colyseus version and actual schema implementation.
 
 ### Client -> Server
-- `MoveInput`: sequence, normalized direction, input duration or movement intent.
+- `MoveInput`: sequence and normalized direction. No input duration: the server derives distance from its own tick (ADR-004).
 - `SkillRequest`: requestId, skillId, optional targetEntityId, optional aimDirection/groundPoint.
 - `InteractRequest`: requestId, entityId, interactionType.
 - `InventoryActionRequest`: requestId, action, sourceSlot, destinationSlot, itemInstanceId.

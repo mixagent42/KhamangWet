@@ -41,7 +41,7 @@ Discover case -> investigate clues -> prepare equipment/arts -> enter zone -> co
 
 ## 7. Deferred Beyond MVP
 - Seamless continent/world.
-- Large-scale guild wars.
+- PvP of any kind, including large-scale guild wars (MVP is PvE only, ADR-007).
 - Player auction house and player-to-player currency trading.
 - Housing, mounts, pet collection, marriage/social systems.
 - Many classes, dozens of zones, large raids.

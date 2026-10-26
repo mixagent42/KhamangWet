@@ -46,7 +46,7 @@ M4  T01(DB) ─► T02(auth) ─► T03(lease) ─► T04(loot txn) ─► T05(X
 2. `pnpm install --frozen-lockfile` บน clone ใหม่สำเร็จ
 3. `pnpm verify` ผ่านทั้ง local และ CI
 4. lint fixture ที่ import ผิดกฎทำให้ lint ล้ม
-5. ADR-001 ถึง ADR-007 เป็น Accepted
+5. ~~ADR-001 ถึง ADR-007 เป็น Accepted~~ **แก้ 2026-10-26 (M0-T12, ผู้พัฒนาอนุมัติ):** ADR-001, 003, 004, 006 และ 007 เป็น Accepted · ADR-005 เป็น Draft (Accept ใน M3-T12) · ADR-002 ทำหลัง VP0-c (DEC-014) · เหตุผล: ข้อเดิมขัดกับ M0-T12 และ M3 exit criterion 6 ของ backlog เอง
 6. ไม่มี decision ที่มีป้าย "ต้องปิดก่อน M0" ค้าง
 
 #### M0-T01 — ประชุมตัดสินใจรอบแรก
@@ -110,12 +110,12 @@ M4  T01(DB) ─► T02(auth) ─► T03(lease) ─► T04(loot txn) ─► T05(X
 - **AC:** CI เขียวบน `main` · branch ทดสอบที่ตั้งใจให้ fail ต้องแดง · ตั้ง branch protection แล้ว (ถ้ามี remote)
 
 #### M0-T12 — เขียน ADR-001 ถึง ADR-007
-- **Type:** doc · **Size:** M · **Depends:** T06 และ DEC ที่เกี่ยวข้องเป็น Accepted
+- **Type:** doc · **Size:** M · **Depends:** T06 ✔ และ DEC ที่เกี่ยวข้องเป็น Accepted ✔ · **Status:** ✔ **Done (2026-10-26)** · ผู้พัฒนาอนุมัติ DEC-016 ถึง 022 ตามคำแนะนำ · เขียน ADR-003, 004, 006, 007 (Accepted) และ ADR-005 (Draft) · แก้ `NETWORK_PROTOCOL.md` L15 และ GDD §7 · แก้ M0 exit criterion 5 (`IMPLEMENTATION_STATUS.md §2.1 M0-T12`)
 - **ADR:** 001 stack + versions (✔ เขียนแล้วใน M0-T06: `docs/adr/001-stack-and-versions.md`) · ~~002 animation runtime~~ → **เลื่อนไปหลัง VP0-c** (DEC-014 เปิดใหม่เพราะ DEC-040, อัปเดต 2026-10-26) · 003 walkable data (DEC-016) · 004 netcode model (DEC-017, 018) · 005 persistence strategy (DEC-019, ร่างได้ แต่ Accept ใน M3-T12) · 006 dev auth (DEC-020) · 007 MVP scope: PvE และ loot (DEC-021, 022)
 - **AC:** ทุก ADR มี context, decision, alternatives, consequences, status และ date (TECH §10) และ DECISIONS.md ลิงก์ไปยัง ADR
 
 #### M0-T13 — Local PostgreSQL (ทำใน M0 หรือเลื่อนไป M3 ก็ได้)
-- **Type:** infra · **Size:** S · **Decisions:** DEC-009 · ⚠ ต้องได้รับอนุมัติก่อนติดตั้งซอฟต์แวร์
+- **Type:** infra · **Size:** S · **Decisions:** DEC-009 ✔ · ⚠ ต้องได้รับอนุมัติก่อนติดตั้งซอฟต์แวร์ · **Status:** **Deferred → M3 (DEC-009, ผู้พัฒนาอนุมัติ 2026-10-26)** · ลอง PGlite ก่อน แล้วค่อยใช้ Docker ถ้าไม่พอ · ไม่บล็อก M0 gate
 - **AC:** มี script ตรวจการเชื่อมต่อ (ไม่ใช่ migration) ที่ผ่าน และบันทึก version ของ PostgreSQL ใน ADR-001
 
 #### M0-T14 — Claude Code config ขั้นต่ำ
@@ -282,7 +282,7 @@ M4  T01(DB) ─► T02(auth) ─► T03(lease) ─► T04(loot txn) ─► T05(X
 #### M2-T08 — `shared-contracts` v0
 - **Type:** code · **Size:** M · **Decisions:** DEC-017 · **ควรทำก่อน T01–T05 หรือคู่ขนานกัน**
 - **AC:** มี `MoveInput{sequence,direction}` (ไม่มี duration), `SkillRequest`, `SkillAccepted/Rejected{reason}` และ `CombatEvent` union (แก้ C-13) พร้อม `protocolVersion` · contract test ทั้ง valid, invalid และ oversized
-- **หมายเหตุ:** ต้องแก้ `NETWORK_PROTOCOL.md` L15 ให้ตรงกับ DEC-017 หลังอนุมัติ โดยแสดง diff ก่อน
+- **หมายเหตุ:** ~~ต้องแก้ `NETWORK_PROTOCOL.md` L15 ให้ตรงกับ DEC-017 หลังอนุมัติ โดยแสดง diff ก่อน~~ แก้แล้วใน M0-T12 (2026-10-26, ADR-004)
 
 #### M2-T09 — Local sim harness
 - **Type:** code · **Size:** M · **Depends:** T01–T05, T07, T08
